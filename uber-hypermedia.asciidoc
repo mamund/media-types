@@ -1,0 +1,103 @@
+Uber Hypermedia
+===============
+:author: Mike Amundsen
+:email: mca@amundsen.com
+
+== Description
+Uber Hypermedia is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. The base format is XML and there is a JSON variant, too.
+
+Author::
+  {author} ({email})
+Dates::
+  2014-02-07
+Status::
+  Working Draft
+  
+== General Concepts
++++[TK text goes here]+++
+
+=== Uber Hypermedia Example
+Below is an example of Uber in XML:
+
++++[TK just a rough draft - nothing final yet]+++
+
+----
+<uber version="1.0">
+  <data name="people">
+    <data name="person">
+      <data name="givenName">Mildred</data>
+      <data name="familyName">Amundsen</data>
+      <data name="email">mildred@example.org</data>
+    </data>
+    <data name="person">
+      <data name="givenName">Mike</data>
+      <data name="familyName">Amundsen</data>
+      <data name="email">mike@example.org</data>
+    </data>
+  </people>
+  <data name="places">
+    <data name="place">
+      <data name="name">Home</data>
+      <data name="address">
+        <data name="streetAddress">123 Main</data>
+        <data name="addressLocality">Byteville</data>
+        <data name="addressRegion">MD</data>
+        <data name="postalCode">12345</data>
+      </data>
+    </data>
+    <data name="place">
+      <data name="name">Work</data>
+      <data name="address">
+        <data name="streetAddress">456 Grand Ave.</data>
+        <data name="addressLocality">Byteville</data>
+        <data name="addressRegion">MD</data>
+        <data name="postalCode">12345</data>
+      </data>
+    </data>
+  </places>
+  <transition 
+    name="search"
+    url="http://example.org/search" 
+    action="read|diff||append|replace|remove" <1>
+    transclude="true|false" <2>
+    model="lastName={%familyName}&location={%place.name}"
+    send-format="application/x-www-urlencoded" <3>
+    receive-format="application/vnd.uber-amundsen+xml" <4>
+    class="search collection" <5>
+   >
+</uber>
+----
+<1> Defaults to "read"
+<2> Defaults to "false"
+<3> Defaults to "appilcation/x-www-urlencoded"
+<4> Defaults to "appliation/vnd.uber-amundsen+xml"
+<5> This element contains one or more "link-rel-values"
+
+
+== The Uber Hypermedia Model
+High level points to elaborate:
+
+Data::
+  All data elements represented by the +<data>+ element. This element is nestable.
+Transitions::
+  All transitions represented by the +<transition>+ element. This element is NOT nestable.
+Other::
+  The +<transition>+ element MAY appear as child of the +<data>+ element.
+  
++++[TK text goes here]+++
+
+== Extensibility
+This document describes the Uber Hypermedia markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber Hypermedia document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber Hypermedia vocabulary SHOULD ignore them.
+
+The details of designing and implementing Uber Hypermedia extensions is beyond the scope of this document.
+
+[NOTE]
+====
+It is possible that future forward-compatible modifications to this specification will include new objects, arrays, properties, link-relations, and data types. Extension designers should take care to prevent future modifications from breaking or redefining those extensions.
+====
+
+
+
+== References 
++++[TK text goes here]+++
+
