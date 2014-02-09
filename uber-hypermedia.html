@@ -617,6 +617,61 @@ Status
 <div class="paragraph"><p>Below is an example of Uber in XML:</p></div>
 <div class="paragraph"><p>[TK just a rough draft - nothing final yet]</p></div>
 <div class="listingblock">
+<div class="title">Second sample (transitions wrapped into data element)</div>
+<div class="content">
+<pre><tt>&lt;uber version="1.0"&gt;
+  &lt;data rel="self" url="http://example.org/" /&gt;
+  &lt;data rel="profile" url="http://example.org/profiles/people-and-places/" /&gt;
+
+  &lt;data id="people" rel="collection" url="http://example.org/people/"&gt;
+    &lt;data name="create"
+      rel="http://example.org/people/create"
+      url="http://example.org/people/"
+      model="g={givenName}&amp;f={familyName}&amp;e={email}"
+      action="append" /&gt;
+    &lt;data name="search" rel="search"
+      url="http://example.org/search"
+      model="g={givenName}&amp;f={familyName}&amp;e={email}" /&gt;
+    &lt;data name="person" rel="item" url="http://example.org/people/1"&gt;
+      &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
+      &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
+      &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
+    &lt;/data&gt;
+    &lt;data name="person" rel="item" url="http://example.org/people/2"&gt;
+      &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
+      &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
+      &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
+    &lt;/data&gt;
+  &lt;/data&gt;
+
+  &lt;data id="places" rel="collection" url="http://example.org/places/"&gt;
+    &lt;data name="search" rel="search"
+      url="http://example.org/search"
+      model="r={addressRegion}&amp;l={addressLocality}&amp;p={postalCode}" /&gt;
+    &lt;data name="place" url="http://example.org/places/1"&gt;
+      &lt;data name="name"&gt;Home&lt;/data&gt;
+      &lt;data name="address"&gt;
+        &lt;data name="streetAddress"&gt;123 Main&lt;/data&gt;
+        &lt;data name="addressLocality"&gt;Byteville&lt;/data&gt;
+        &lt;data name="addressRegion"&gt;MD&lt;/data&gt;
+        &lt;data name="postalCode"&gt;12345&lt;/data&gt;
+      &lt;/data&gt;
+    &lt;/data&gt;
+    &lt;data name="place" url="http://example.org/places/2"&gt;
+      &lt;data name="name"&gt;Work&lt;/data&gt;
+      &lt;data name="address"&gt;
+        &lt;data name="streetAddress"&gt;456 Grand Ave.&lt;/data&gt;
+        &lt;data name="addressLocality"&gt;Byteville&lt;/data&gt;
+        &lt;data name="addressRegion"&gt;MD&lt;/data&gt;
+        &lt;data name="postalCode"&gt;12345&lt;/data&gt;
+      &lt;/data&gt;
+    &lt;/data&gt;
+  &lt;/data&gt;
+
+&lt;/uber&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">Initial Sample (separate transition element)</div>
 <div class="content">
 <pre><tt>&lt;uber version="1.0"&gt;
   &lt;data name="people"&gt;
@@ -696,34 +751,139 @@ This element contains one or more "link-rel-values"
 <div class="sect1">
 <h2 id="_the_uber_hypermedia_model">The Uber Hypermedia Model</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>High level points to elaborate:</p></div>
+<div class="paragraph"><p>[TK text goes here]</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_elements">Elements</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There are only three elements in the Uber Hypermedia message:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-Data
+<tt>&lt;uber&gt;</tt>
 </dt>
 <dd>
 <p>
-  All data elements represented by the <tt>&lt;data&gt;</tt> element. This element is nestable.
+  The root element of all Uber Hypermedia messages
 </p>
 </dd>
 <dt class="hdlist1">
-Transitions
+<tt>&lt;data&gt;</tt>
 </dt>
 <dd>
 <p>
-  All transitions represented by the <tt>&lt;transition&gt;</tt> element. This element is NOT nestable.
+  The main element in Uber Hypermedia messages.
 </p>
 </dd>
 <dt class="hdlist1">
-Other
+<tt>&lt;error&gt;</tt>
 </dt>
 <dd>
 <p>
-  The <tt>&lt;transition&gt;</tt> element MAY appear as child of the <tt>&lt;data&gt;</tt> element.
+  The element that carries error details from the previous request.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>[TK text goes here]</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_tt_lt_uber_gt_tt_element">The <tt>&lt;uber&gt;</tt> Element</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it&#8217;s root. It has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, then it can be assumed to be set to "1.0".</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_tt_lt_data_gt_tt_element">The <tt>&lt;data&gt;</tt> Element</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the main element in the message. It MUST appear as a child of the <tt>&lt;uber&gt;</tt> element and MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<tt>id</tt>
+</dt>
+<dd>
+<p>
+  The globally unique identifier for this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>name</tt>
+</dt>
+<dd>
+<p>
+  A non-unique identifer for this element (Similar to <tt>HTML.INPUT@name</tt>).
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>rel</tt>
+</dt>
+<dd>
+<p>
+  Contains a space-separated list of strings, each a link relation value.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>url</tt>
+</dt>
+<dd>
+<p>
+  A resolvable URL associated with this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>action</tt>
+</dt>
+<dd>
+<p>
+  The network request verb associated with this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>transclude</tt>
+</dt>
+<dd>
+<p>
+  Indicated whether the content that is returned from the URL should be embedded within the currently loaded document (<tt>transclude="true"</tt>) or treated as a <em>navigation</em> to a new document (<tt>transclude="false"</tt>).
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>model</tt>
+</dt>
+<dd>
+<p>
+  Contains a RFC6570-compliant [TK ref] string to be used to construct URL query strings or request bodies (depending on the value in the <tt>action</tt> attribute.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>send-format</tt>
+</dt>
+<dd>
+<p>
+  Contains the media type identifier of the format to use when sending request bodies. This is an OPTIONAL element. If it is missing the setting should be assumed to be <tt>application/x-www-urlencoded</tt> [TK ref]
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>receive-format</tt>
+</dt>
+<dd>
+<p>
+  Contains the media type identifier of the format to expect when recieving request bodies. This is an OPTIONAL element. IF it is missing, ther setting should be assumed to be <tt>application/vnf.uber-amundsen+xnl</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>value</tt>
+</dt>
+<dd>
+<p>
+  In the XML variant of Uber Hypermedia, <tt>innerText</tt> of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_tt_lt_error_gt_tt_element">The <tt>&lt;error&gt;</tt> Element</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. It SHOULD contain one or more <tt>&lt;data&gt;</tt> elements. It is the child <tt>&lt;data&gt;</tt> elements that contains error details.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -753,7 +913,7 @@ Other
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-08 14:54:01 EST
+Last updated 2014-02-08 19:40:13 EST
 </div>
 </div>
 </body>

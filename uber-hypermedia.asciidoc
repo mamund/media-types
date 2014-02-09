@@ -21,6 +21,61 @@ Below is an example of Uber in XML:
 
 +++[TK just a rough draft - nothing final yet]+++
 
+.Second sample (transitions wrapped into data element)
+----
+<uber version="1.0">
+  <data rel="self" url="http://example.org/" />
+  <data rel="profile" url="http://example.org/profiles/people-and-places/" />
+    
+  <data id="people" rel="collection" url="http://example.org/people/">
+    <data name="create" 
+      rel="http://example.org/people/create" 
+      url="http://example.org/people/" 
+      model="g={givenName}&f={familyName}&e={email}"
+      action="append" />
+    <data name="search" rel="search" 
+      url="http://example.org/search" 
+      model="g={givenName}&f={familyName}&e={email}" />
+    <data name="person" rel="item" url="http://example.org/people/1">
+      <data name="givenName">Mildred</data>
+      <data name="familyName">Amundsen</data>
+      <data name="email">mildred@example.org</data>
+    </data>
+    <data name="person" rel="item" url="http://example.org/people/2">
+      <data name="givenName">Mildred</data>
+      <data name="familyName">Amundsen</data>
+      <data name="email">mildred@example.org</data>
+    </data>
+  </data>
+  
+  <data id="places" rel="collection" url="http://example.org/places/">
+    <data name="search" rel="search" 
+      url="http://example.org/search" 
+      model="r={addressRegion}&l={addressLocality}&p={postalCode}" />
+    <data name="place" url="http://example.org/places/1">
+      <data name="name">Home</data>
+      <data name="address">
+        <data name="streetAddress">123 Main</data>
+        <data name="addressLocality">Byteville</data>
+        <data name="addressRegion">MD</data>
+        <data name="postalCode">12345</data>
+      </data>
+    </data>
+    <data name="place" url="http://example.org/places/2">
+      <data name="name">Work</data>
+      <data name="address">
+        <data name="streetAddress">456 Grand Ave.</data>
+        <data name="addressLocality">Byteville</data>
+        <data name="addressRegion">MD</data>
+        <data name="postalCode">12345</data>
+      </data>
+    </data>
+  </data>
+  
+</uber>
+----
+
+.Initial Sample (separate transition element)
 ----
 <uber version="1.0">
   <data name="people">
@@ -75,16 +130,48 @@ Below is an example of Uber in XML:
 
 
 == The Uber Hypermedia Model
-High level points to elaborate:
-
-Data::
-  All data elements represented by the +<data>+ element. This element is nestable.
-Transitions::
-  All transitions represented by the +<transition>+ element. This element is NOT nestable.
-Other::
-  The +<transition>+ element MAY appear as child of the +<data>+ element.
-  
 +++[TK text goes here]+++
+
+== Elements
+There are only three elements in the Uber Hypermedia message:
+
++<uber>+::
+  The root element of all Uber Hypermedia messages
++<data>+::
+  The main element in Uber Hypermedia messages. 
++<error>+::
+  The element that carries error details from the previous request.
+
+  
+== The +<uber>+ Element
+This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it's root. It has one optional attribute: +version+ which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, then it can be assumed to be set to "1.0".
+  
+== The +<data>+ Element
+The +<data>+ element is the main element in the message. It MUST appear as a child of the +<uber>+ element and MAY be nested as many times as needed. The +<data>+ element has the following attributes:
+
++id+::
+  The globally unique identifier for this element.
++name+::
+  A non-unique identifer for this element (Similar to +HTML.INPUT@name+).
++rel+::
+  Contains a space-separated list of strings, each a link relation value.
++url+::
+  A resolvable URL associated with this element.
++action+::
+  The network request verb associated with this element.
++transclude+::
+  Indicated whether the content that is returned from the URL should be embedded within the currently loaded document (+transclude="true"+) or treated as a 'navigation' to a new document (+transclude="false"+).
++model+::
+  Contains a RFC6570-compliant +++[TK ref]+++ string to be used to construct URL query strings or request bodies (depending on the value in the +action+ attribute. 
++send-format+::
+  Contains the media type identifier of the format to use when sending request bodies. This is an OPTIONAL element. If it is missing the setting should be assumed to be +application/x-www-urlencoded+ +++[TK ref]+++
++receive-format+::
+  Contains the media type identifier of the format to expect when recieving request bodies. This is an OPTIONAL element. IF it is missing, ther setting should be assumed to be +application/vnf.uber-amundsen+xnl+.
++value+::
+  In the XML variant of Uber Hypermedia, +innerText+ of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
+
+== The +<error>+ Element
+The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. It SHOULD contain one or more +<data>+ elements. It is the child +<data>+ elements that contains error details.
 
 == Extensibility
 This document describes the Uber Hypermedia markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber Hypermedia document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber Hypermedia vocabulary SHOULD ignore them.
@@ -95,8 +182,6 @@ The details of designing and implementing Uber Hypermedia extensions is beyond t
 ====
 It is possible that future forward-compatible modifications to this specification will include new objects, arrays, properties, link-relations, and data types. Extension designers should take care to prevent future modifications from breaking or redefining those extensions.
 ====
-
-
 
 == References 
 +++[TK text goes here]+++
