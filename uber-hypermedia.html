@@ -645,7 +645,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 <div class="sect2">
 <h3 id="_messages_not_code">Messages, Not Code</h3>
-<div class="paragraph"><p>The Uber message model was designed to be a <em>message</em> format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be blindly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model <em>was</em> designed to make it relatively easy to write a parser that can consistently tranform Uber messages into object models (and back again).</p></div>
+<div class="paragraph"><p>The Uber message model was designed to be a <em>message</em> format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model <em>was</em> designed to make it relatively easy to write a parser that can consistently transform Uber messages into object models (and back again).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_compliance">Compliance</h3>
@@ -939,7 +939,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 
   &lt;data id="people" rel="collection" url="http://example.org/people/"&gt;
     &lt;data name="create"
-      rel="http://example.org/people/create"
+      rel="http://example.org/rels/create"
       url="http://example.org/people/"
       model="g={givenName}&amp;f={familyName}&amp;e={email}&amp;a={avatarUrl}"
       action="append" /&gt;
@@ -1141,7 +1141,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-08 22:23:01 EST
+Last updated 2014-02-08 22:26:18 EST
 </div>
 </div>
 </body>

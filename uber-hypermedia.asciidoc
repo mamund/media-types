@@ -24,7 +24,7 @@ The Uber message model has a number of design goals:
  * Maintain fidelity for more than one base message format (XML, JSON, etc.)
 
 === Messages, Not Code
-The Uber message model was designed to be a 'message' format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be blindly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model 'was' designed to make it relatively easy to write a parser that can consistently tranform Uber messages into object models (and back again). 
+The Uber message model was designed to be a 'message' format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model 'was' designed to make it relatively easy to write a parser that can consistently transform Uber messages into object models (and back again). 
 
 === Compliance
 An implementation is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."
@@ -201,7 +201,7 @@ Uber messages may appear in XML or JSON formats. Below are examples of each.
     
   <data id="people" rel="collection" url="http://example.org/people/">
     <data name="create" 
-      rel="http://example.org/people/create" 
+      rel="http://example.org/rels/create" 
       url="http://example.org/people/" 
       model="g={givenName}&f={familyName}&e={email}&a={avatarUrl}"
       action="append" />
