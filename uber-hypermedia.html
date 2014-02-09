@@ -575,7 +575,7 @@ footnotes: function () {
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_document_status">Document Status</h2>
+<h2 id="_document_status">1. Document Status</h2>
 <div class="sectionbody">
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -591,9 +591,11 @@ Status
 </dt>
 <dd>
 <p>
-  Working Draft
+  <strong><span class="white red-background">Working Draft</span></strong>
 </p>
 </dd>
+</dl></div>
+<div class="dlist"><dl>
 <dt class="hdlist1">
 Last Updated
 </dt>
@@ -614,11 +616,11 @@ Proposed IANA Registrations
 </div>
 </div>
 <div class="sect1">
-<h2 id="_general">General</h2>
+<h2 id="_general">2. General</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Uber Hypermedia is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. The base format is XML and there is a JSON variant, too.</p></div>
 <div class="sect2">
-<h3 id="_design_goals">Design Goals</h3>
+<h3 id="_design_goals">2.1. Design Goals</h3>
 <div class="paragraph"><p>The Uber message model has a number of design goals:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -644,11 +646,11 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_messages_not_code">Messages, Not Code</h3>
+<h3 id="_messages_not_code">2.2. Messages, Not Code</h3>
 <div class="paragraph"><p>The Uber message model was designed to be a <em>message</em> format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model <em>was</em> designed to make it relatively easy to write a parser that can consistently transform Uber messages into object models (and back again).</p></div>
 </div>
 <div class="sect2">
-<h3 id="_compliance">Compliance</h3>
+<h3 id="_compliance">2.3. Compliance</h3>
 <div class="paragraph"><p>An implementation is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -664,7 +666,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_uber_hypermedia_model">The Uber Hypermedia Model</h2>
+<h2 id="_the_uber_hypermedia_model">3. The Uber Hypermedia Model</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>There are only three elements in the Uber Hypermedia message:</p></div>
 <div class="dlist"><dl>
@@ -694,7 +696,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dd>
 </dl></div>
 <div class="sect2">
-<h3 id="_the_tt_lt_uber_gt_tt_element">The <tt>&lt;uber&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_uber_gt_tt_element">3.1. The <tt>&lt;uber&gt;</tt> Element</h3>
 <div class="paragraph"><p>This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it&#8217;s root. It has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, then it can be assumed to be set to "1.0".</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;uber&gt;</tt> Elements</div>
@@ -709,7 +711,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_data_gt_tt_element">The <tt>&lt;data&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_data_gt_tt_element">3.2. The <tt>&lt;data&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the main element in the message. A valid Uber message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, it MUST appear as a child of the <tt>&lt;uber&gt;</tt> element. The <tt>&lt;data&gt;</tt> element AMY" also appear as the child element of the <tt>&lt;error&gt;</tt> element. The <tt>&lt;data&gt;</tt> element may be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -894,7 +896,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_error_gt_tt_element">The <tt>&lt;error&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_error_gt_tt_element">3.3. The <tt>&lt;error&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;error&gt;</tt> Elements</div>
@@ -927,7 +929,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_uber_message_examples">Uber Message Examples</h2>
+<h2 id="_uber_message_examples">4. Uber Message Examples</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Uber messages may appear in XML or JSON formats. Below are examples of each.</p></div>
 <div class="listingblock">
@@ -1093,7 +1095,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_extensibility">Extensibility</h2>
+<h2 id="_extensibility">5. Extensibility</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This document describes the Uber Hypermedia markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber Hypermedia document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber Hypermedia vocabulary SHOULD ignore them.</p></div>
 <div class="paragraph"><p>The details of designing and implementing Uber Hypermedia extensions is beyond the scope of this document.</p></div>
@@ -1110,29 +1112,29 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_iana_considerations">IANA Considerations</h2>
+<h2 id="_iana_considerations">6. IANA Considerations</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>[TK text goes here]</p></div>
 <div class="sect2">
-<h3 id="_xml_media_type_registration">XML Media Type Registration</h3>
+<h3 id="_xml_media_type_registration">6.1. XML Media Type Registration</h3>
 <div class="paragraph"><p>[TK text goes here]</p></div>
 </div>
 <div class="sect2">
-<h3 id="_json_media_type_registration">JSON Media Type Registration</h3>
+<h3 id="_json_media_type_registration">6.2. JSON Media Type Registration</h3>
 <div class="paragraph"><p>[TK text goes here]</p></div>
 </div>
 <div class="sect2">
-<h3 id="_security_considerations">Security Considerations</h3>
+<h3 id="_security_considerations">6.3. Security Considerations</h3>
 <div class="paragraph"><p>[TK text goes here]</p></div>
 </div>
 <div class="sect2">
-<h3 id="_internationalization_considerations">Internationalization Considerations</h3>
+<h3 id="_internationalization_considerations">6.4. Internationalization Considerations</h3>
 <div class="paragraph"><p>[TK text goes here]</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">References</h2>
+<h2 id="_references">7. References</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>[TK text goes here]</p></div>
 </div>
@@ -1141,7 +1143,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-08 22:26:18 EST
+Last updated 2014-02-08 22:33:29 EST
 </div>
 </div>
 </body>

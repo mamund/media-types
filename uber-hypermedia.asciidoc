@@ -1,11 +1,19 @@
 Uber Hypermedia
 ===============
+:toc:
+:numbered:
 
 == Document Status
 Author::
   Mike Amundsen, mca@amundsen.com
 Status::
-  Working Draft
+  *[white red-background]#Working Draft#*
+  
+////
+  *[white blue-background]#Submitted to IANA#*
+  *[white green-background]#Approved by IANA#*
+////
+  
 Last Updated::
   {docdate}
 Proposed IANA Registrations::
