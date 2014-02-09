@@ -1,27 +1,199 @@
 Uber Hypermedia
 ===============
-:author: Mike Amundsen
-:email: mca@amundsen.com
 
-== Description
-Uber Hypermedia is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. The base format is XML and there is a JSON variant, too.
-
+== Document Status
 Author::
-  {author} ({email})
-Dates::
-  2014-02-07
+  Mike Amundsen, mca@amundsen.com
 Status::
   Working Draft
+Last Updated::
+  {docdate}
+Proposed IANA Registrations::
+  +application/vnd.amundsen-uber+xml+, +application/vnd.amundsen-uber+json+
   
-== General Concepts
-+++[TK text goes here]+++
+== General
+Uber Hypermedia is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. The base format is XML and there is a JSON variant, too.
 
-=== Uber Hypermedia Example
-Below is an example of Uber in XML:
 
-+++[TK just a rough draft - nothing final yet]+++
+=== Design Goals
+The Uber message model has a number of design goals:
 
-.XMl Example
+ * Keep the number message structure as lean as possible.
+ * Support all the H-Factors +++[TK ref]+++ in hypermedia controls.
+ * Be compatible with multiple protocols (e.g. HTTP, CoAP, etc.)
+ * Maintain fidelity for more than one base message format (XML, JSON, etc.)
+
+=== Messages, Not Code
+The Uber message model was designed to be a 'message' format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be blindly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model 'was' designed to make it relatively easy to write a parser that can consistently tranform Uber messages into object models (and back again). 
+
+=== Compliance
+An implementation is not compliant if it fails to satisfy one or more of the MUST or REQUIRED elements. An implementation that satisfies all the MUST and REQUIRED elements as well as all the SHOULD and RECOMMENDED elements is said to be "unconditionally compliant"; one that satisfies all the MUST and REQUIRED elements but not all the SHOULD and RECOMMENDED elements is said to be "conditionally compliant."
+
+[NOTE]
+====
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119 +++[TK ref]+++.
+====
+
+== The Uber Hypermedia Model
+There are only three elements in the Uber Hypermedia message:
+
++<uber>+::
+  The root element of all Uber messages
++<data>+::
+  The main element in Uber messages. 
++<error>+::
+  The element that carries error details from the previous request.
+  
+=== The +<uber>+ Element
+This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it's root. It has one optional attribute: +version+ which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, then it can be assumed to be set to "1.0".
+
+.Example +<uber>+ Elements
+----
+<!-- XML format -->
+<uber version="1.0">
+...
+</uber>
+
+// JSON format
+{"uber" : {"version" : "1.0", ...} }
+----  
+
+=== The +<data>+ Element
+The +<data>+ element is the main element in the message. A valid Uber message SHOULD contain at least one +<data>+ element. If it does appear, it MUST appear as a child of the +<uber>+ element. The +<data>+ element AMY" also appear as the child element of the +<error>+ element. The +<data>+ element may be nested as many times as needed. The +<data>+ element has the following attributes (all attributes are OPTIONAL):
+
++id+::
+  The document-wide unique identifier for this element.
++name+::
+  A document-wide non-unique identifer for this element.
++rel+::
+  Contains a space-separated list of link relation values.
++url+::
+  A resolvable URL associated with this element.
++action+::
+  The network request verb associated with this element. The list of valid values for this element are:
+
+  * +read+ : A safe, idempotent request (e.g. +HTTP.GET+)
+  * +append+ : An unsafe, non-idempotent request to add a new item (e.g. +HTTP.POST+)
+  * +diff+ : An unsafe, non-idemponent request to modify parts of an existing item (e.g. +HTTP.PATCH+)
+  * +update+ : An unsafe, idemponent request to modify a complete existing item (e.g. +HTTP.PUT+)
+  * +remove+ : An unsafe, idempontent request to delete an existing item (e.g. +HTTP.DELETE+)
+
+When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SHOULD be assumed the +action+ attribute is set to +read+.
+  
++transclude+::
+  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (+transclude="true"+) or treated as a 'navigation' to a new document (+transclude="false"+).
++model+::
+  Contains a RFC6570-compliant +++[TK ref]+++ string to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. If the +action+ attribute is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +diff+, or +update+ then the +model+ is applied to the request body. +++TK add encoding details]+++
++send-format+::
+  Contains the media type identifier of the format to use when sending request bodies. If this attribute is missing the setting should be assumed to be +application/x-www-urlencoded+ +++[TK ref]+++. 
++receive-format+::
+  Contains the media type identifier of the format to expect when recieving request bodies. If this attribute is missing, the setting should be assumed to be +application/vnf.uber-amundsen+xnl+.
++value+::
+  In the XML variant of Uber Hypermedia, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
+
+.Example +<data>+ Elements
+----
+<!-- XML format -->
+<uber version="1.0">
+  <data id="root">
+    <data rel="self" url="http://example.org/" />
+    <data name="list" rel="collection" url="http://example.org/list/">
+      <data name="search" rel="search" url="http://example.org/search" model="{&title}" />
+      <data name="todo" rel="item" url="http://example.org/list/1">
+        <data name="title">Clean House</data>
+        <data name="dueDate">2014-05-01</data>
+      </data>
+      <data name="todo" rel="item" url="http://example.org/list/2">
+        <data name="title">Paint the fence</data>
+        <data name="dueDate">2014-06-01</data>
+      </data>
+    </data>
+  </data>
+</uber>
+
+// JSON format
+{
+  "uber" : 
+  {
+    "version" : "1.0", 
+    "data" :
+    [
+      {
+        "id" : "root", 
+        "data" :
+        [
+          {"rel" : "self", "url" : "http://example.org/"},
+          {"name" : "list", "rel" : "collection", "url" : "http://example.org/list/"},
+          "data" :
+          [
+            {
+              "name" : "search, 
+              "rel" : "search",
+              "url" : "http://example.org/search",
+              "model" : "{&title}"
+            },
+            {
+              "name" : "todo",
+              "rel" : "item",
+              "url" : "http://example.org/list/1",
+              "data" : 
+              [
+                {"name" : "title", "value" : "Clean house"},
+                {"name" : "dueDate", "value" : "2014-05-01"}
+              ]
+            },
+            {
+              "name" : "todo",
+              "rel" : "item",
+              "url" : "http://example.org/list/2",
+              "data" : 
+              [
+                {"name" : "title", "value" : "Paint the fence"},
+                {"name" : "dueDate", "value" : "2014-06-01"}
+              ]
+            }
+          ]  
+        ]
+      }    
+    ]
+  }
+}
+----
+
+=== The +<error>+ Element
+The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
+
+.Example +<error>+ Elements
+----
+<!-- XML format -->
+<uber version="1.0">
+  <error>
+    <data name="internal-error">q1w2e3</data>
+    <data name="debug-data" url="http://example.org/debug/1" />
+  </error>
+</uber>
+
+// JSON format
+{
+  "uber" :
+  {
+    "version" : "1.0",
+    "error" : 
+    {
+      "data" : 
+      [
+        {"name" : "internal-error", "value" : "q1w2e3"},
+        {"name" : "debug-data", "url" : "http://example.org/debug/1"}
+      ]
+    }
+  }
+}
+----
+
+== Uber Message Examples
+Uber messages may appear in XML or JSON formats. Below are examples of each.
+
+.XML Example
 ----
 <uber version="1.0">
   <data rel="self" url="http://example.org/" />
@@ -31,28 +203,32 @@ Below is an example of Uber in XML:
     <data name="create" 
       rel="http://example.org/people/create" 
       url="http://example.org/people/" 
-      model="g={givenName}&f={familyName}&e={email}"
+      model="g={givenName}&f={familyName}&e={email}&a={avatarUrl}"
       action="append" />
     <data name="search" 
       rel="search" 
       url="http://example.org/search" 
-      model="g={givenName}&f={familyName}&e={email}" />
+      model="?g={givenName}&f={familyName}&e={email}" />
+      
     <data name="person" rel="item" url="http://example.org/people/1">
       <data name="givenName">Mildred</data>
       <data name="familyName">Amundsen</data>
       <data name="email">mildred@example.org</data>
+      <data name="avatarUrl" transclude="true">http://example.org/avatars/1</data>
     </data>
     <data name="person" rel="item" url="http://example.org/people/2">
       <data name="givenName">Mildred</data>
       <data name="familyName">Amundsen</data>
       <data name="email">mildred@example.org</data>
+      <data name="avatarUrl" transclude="true">http://example.org/avatars/2</data>
     </data>
   </data>
   
   <data id="places" rel="collection" url="http://example.org/places/">
     <data name="search" rel="search" 
       url="http://example.org/search" 
-      model="r={addressRegion}&l={addressLocality}&p={postalCode}" />
+      model="?r={addressRegion}&l={addressLocality}&p={postalCode}" />
+      
     <data name="place" url="http://example.org/places/1">
       <data name="name">Home</data>
       <data name="address">
@@ -102,7 +278,7 @@ Below is an example of Uber in XML:
             "name" : "search",
             "rel" : "search",
             "url" : "http://example.org/people/search",
-            "model" : "g={givenName}&f={familyName}&e={email}"
+            "model" : "?g={givenName}&f={familyName}&e={email}"
           },
           {
             "name" : "person",
@@ -112,7 +288,8 @@ Below is an example of Uber in XML:
             [
               {"name" : "givenName", "value" : "Mike"},
               {"name" : "familyName", "value" : "Amundsen"},
-              {"name" : "email", "value" : "mike@example.org"}
+              {"name" : "email", "value" : "mike@example.org"},
+              {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1"}
             ]
           },
           {
@@ -123,7 +300,8 @@ Below is an example of Uber in XML:
             [
               {"name" : "givenName", "value" : "Mildred"},
               {"name" : "familyName", "value" : "Amundsen"},
-              {"name" : "email", "value" : "mildred@example.org"}
+              {"name" : "email", "value" : "mildred@example.org"},
+              {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2"}
             ]
           }
         ],
@@ -134,7 +312,7 @@ Below is an example of Uber in XML:
             "name" : "search",
             "rel" : "search",
             "url" : "http://example.org/places/search",
-            "model" : "r={addressRegion}&l={addressLocality}&p={postalCode}"
+            "model" : "?r={addressRegion}&l={addressLocality}&p={postalCode}"
           },
           {
             "name" : "place",
@@ -175,53 +353,6 @@ Below is an example of Uber in XML:
 }
 ----
 
-== The Uber Hypermedia Model
-+++[TK text goes here]+++
-
-== Elements
-There are only three elements in the Uber Hypermedia message:
-
-+<uber>+::
-  The root element of all Uber Hypermedia messages
-+<data>+::
-  The main element in Uber Hypermedia messages. 
-+<error>+::
-  The element that carries error details from the previous request.
-
-  
-=== The +<uber>+ Element
-This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it's root. It has one optional attribute: +version+ which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, then it can be assumed to be set to "1.0".
-  
-=== The +<data>+ Element
-The +<data>+ element is the main element in the message. It MUST appear as a child of the +<uber>+ element and MAY be nested as many times as needed. The +<data>+ element has the following attributes:
-
-+id+::
-  The globally unique identifier for this element.
-+name+::
-  A non-unique identifer for this element (Similar to +HTML.INPUT@name+).
-+rel+::
-  Contains a space-separated list of strings, each a link relation value.
-+url+::
-  A resolvable URL associated with this element.
-+action+::
-  The network request verb associated with this element.
-+transclude+::
-  Indicated whether the content that is returned from the URL should be embedded within the currently loaded document (+transclude="true"+) or treated as a 'navigation' to a new document (+transclude="false"+).
-+model+::
-  Contains a RFC6570-compliant +++[TK ref]+++ string to be used to construct URL query strings or request bodies (depending on the value in the +action+ attribute. 
-+send-format+::
-  Contains the media type identifier of the format to use when sending request bodies. This is an OPTIONAL element. If it is missing the setting should be assumed to be +application/x-www-urlencoded+ +++[TK ref]+++
-+receive-format+::
-  Contains the media type identifier of the format to expect when recieving request bodies. This is an OPTIONAL element. IF it is missing, ther setting should be assumed to be +application/vnf.uber-amundsen+xnl+.
-+value+::
-  In the XML variant of Uber Hypermedia, +innerText+ of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
-
-=== The +<error>+ Element
-The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
-
-=== Comments
-You can add comments to XML message bodies by enclosing the comment within +<!--+ and +-->+. 
-
 == Extensibility
 This document describes the Uber Hypermedia markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber Hypermedia document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber Hypermedia vocabulary SHOULD ignore them.
 
@@ -231,6 +362,21 @@ The details of designing and implementing Uber Hypermedia extensions is beyond t
 ====
 It is possible that future forward-compatible modifications to this specification will include new objects, arrays, properties, link-relations, and data types. Extension designers should take care to prevent future modifications from breaking or redefining those extensions.
 ====
+
+== IANA Considerations
++++[TK text goes here]+++
+
+=== XML Media Type Registration
++++[TK text goes here]+++
+
+=== JSON Media Type Registration
++++[TK text goes here]+++
+
+=== Security Considerations
++++[TK text goes here]+++
+
+=== Internationalization Considerations
++++[TK text goes here]+++
 
 == References 
 +++[TK text goes here]+++
