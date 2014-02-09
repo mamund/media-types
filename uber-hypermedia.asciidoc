@@ -21,7 +21,7 @@ Below is an example of Uber in XML:
 
 +++[TK just a rough draft - nothing final yet]+++
 
-.Second sample (transitions wrapped into data element)
+.XMl Example
 ----
 <uber version="1.0">
   <data rel="self" url="http://example.org/" />
@@ -33,7 +33,8 @@ Below is an example of Uber in XML:
       url="http://example.org/people/" 
       model="g={givenName}&f={familyName}&e={email}"
       action="append" />
-    <data name="search" rel="search" 
+    <data name="search" 
+      rel="search" 
       url="http://example.org/search" 
       model="g={givenName}&f={familyName}&e={email}" />
     <data name="person" rel="item" url="http://example.org/people/1">
@@ -75,59 +76,104 @@ Below is an example of Uber in XML:
 </uber>
 ----
 
-.Initial Sample (separate transition element)
+.Uber JSON Example
 ----
-<uber version="1.0">
-  <data name="people">
-    <data name="person">
-      <data name="givenName">Mildred</data>
-      <data name="familyName">Amundsen</data>
-      <data name="email">mildred@example.org</data>
-    </data>
-    <data name="person">
-      <data name="givenName">Mike</data>
-      <data name="familyName">Amundsen</data>
-      <data name="email">mike@example.org</data>
-    </data>
-  </people>
-  <data name="places">
-    <data name="place">
-      <data name="name">Home</data>
-      <data name="address">
-        <data name="streetAddress">123 Main</data>
-        <data name="addressLocality">Byteville</data>
-        <data name="addressRegion">MD</data>
-        <data name="postalCode">12345</data>
-      </data>
-    </data>
-    <data name="place">
-      <data name="name">Work</data>
-      <data name="address">
-        <data name="streetAddress">456 Grand Ave.</data>
-        <data name="addressLocality">Byteville</data>
-        <data name="addressRegion">MD</data>
-        <data name="postalCode">12345</data>
-      </data>
-    </data>
-  </places>
-  <transition 
-    name="search"
-    url="http://example.org/search" 
-    action="read|diff||append|replace|remove" <1>
-    transclude="true|false" <2>
-    model="lastName={%familyName}&location={%place.name}"
-    send-format="application/x-www-urlencoded" <3>
-    receive-format="application/vnd.uber-amundsen+xml" <4>
-    class="search collection" <5>
-   >
-</uber>
+{ 
+  "uber" :
+  {
+    "version" : " 1.0",
+    "data" :
+    [
+      {"rel" : "self", "url" : "http://example.org/"},
+      {"rel" : "profile", "url" : "http://example.org/profiles/people-and-places"},
+      "data" : 
+      [
+        {"id" : "people", "rel" : "collection", "url" : "http://example.org/people/"},
+        "data" : 
+        [
+          {
+            "name" : "create", 
+            "rel" : "http://example.org/rels/create", 
+            "url" : "http://example.org/people/",
+            "model" : "g={givenName}&f={familyName}&e={email}",
+            "action" : "append"
+          },
+          {
+            "name" : "search",
+            "rel" : "search",
+            "url" : "http://example.org/people/search",
+            "model" : "g={givenName}&f={familyName}&e={email}"
+          },
+          {
+            "name" : "person",
+            "rel" : "item",
+            "url" : "http://example.org/people/1",
+            "data" :
+            [
+              {"name" : "givenName", "value" : "Mike"},
+              {"name" : "familyName", "value" : "Amundsen"},
+              {"name" : "email", "value" : "mike@example.org"}
+            ]
+          },
+          {
+            "name" : "person",
+            "rel" : "item",
+            "url" : "http://example.org/people/2",
+            "data" :
+            [
+              {"name" : "givenName", "value" : "Mildred"},
+              {"name" : "familyName", "value" : "Amundsen"},
+              {"name" : "email", "value" : "mildred@example.org"}
+            ]
+          }
+        ],
+        {"id" : "places", "rel" : "collection", "url" : "http://example.org/places/"},
+        "data" :
+        [
+          {
+            "name" : "search",
+            "rel" : "search",
+            "url" : "http://example.org/places/search",
+            "model" : "r={addressRegion}&l={addressLocality}&p={postalCode}"
+          },
+          {
+            "name" : "place",
+            "rel" : "item",
+            "url" : "http://example.org/places/a",
+            "data" : 
+            [
+              {"name" : "name", "value" : "Home"},
+              "data" :
+              [
+                {"name" : "streetAddress", "value" : "123 Main Street"},
+                {"name" : "addressLocalitly", "value" : "Byteville"},
+                {"name" : "addressRegion", "value" : "MD"},
+                {"name" : "postalCode", "value" : "12345"}
+              ]
+            ]
+          },
+          {
+            "name" : "place",
+            "rel" : "item",
+            "url" : "http://example.org/places/b",
+            "data" : 
+            [
+              {"name" : "name", "value" : "Work"},
+              "data" : 
+              [
+                {"name" : "streetAddress", "value" : "1456 Grand Ave."},
+                {"name" : "addressLocalitly", "value" : "Byteville"},
+                {"name" : "addressRegion", "value" : "MD"},
+                {"name" : "postalCode", "value" : "12345"}
+              ]
+            ]
+          }
+        ]
+      ]
+    ]
+  }
+}
 ----
-<1> Defaults to "read"
-<2> Defaults to "false"
-<3> Defaults to "appilcation/x-www-urlencoded"
-<4> Defaults to "appliation/vnd.uber-amundsen+xml"
-<5> This element contains one or more "link-rel-values"
-
 
 == The Uber Hypermedia Model
 +++[TK text goes here]+++
@@ -143,10 +189,10 @@ There are only three elements in the Uber Hypermedia message:
   The element that carries error details from the previous request.
 
   
-== The +<uber>+ Element
+=== The +<uber>+ Element
 This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it's root. It has one optional attribute: +version+ which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, then it can be assumed to be set to "1.0".
   
-== The +<data>+ Element
+=== The +<data>+ Element
 The +<data>+ element is the main element in the message. It MUST appear as a child of the +<uber>+ element and MAY be nested as many times as needed. The +<data>+ element has the following attributes:
 
 +id+::
@@ -170,8 +216,11 @@ The +<data>+ element is the main element in the message. It MUST appear as a chi
 +value+::
   In the XML variant of Uber Hypermedia, +innerText+ of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
 
-== The +<error>+ Element
-The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. It SHOULD contain one or more +<data>+ elements. It is the child +<data>+ elements that contains error details.
+=== The +<error>+ Element
+The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
+
+=== Comments
+You can add comments to XML message bodies by enclosing the comment within +<!--+ and +-->+. 
 
 == Extensibility
 This document describes the Uber Hypermedia markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber Hypermedia document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber Hypermedia vocabulary SHOULD ignore them.

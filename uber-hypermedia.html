@@ -617,7 +617,7 @@ Status
 <div class="paragraph"><p>Below is an example of Uber in XML:</p></div>
 <div class="paragraph"><p>[TK just a rough draft - nothing final yet]</p></div>
 <div class="listingblock">
-<div class="title">Second sample (transitions wrapped into data element)</div>
+<div class="title">XMl Example</div>
 <div class="content">
 <pre><tt>&lt;uber version="1.0"&gt;
   &lt;data rel="self" url="http://example.org/" /&gt;
@@ -629,7 +629,8 @@ Status
       url="http://example.org/people/"
       model="g={givenName}&amp;f={familyName}&amp;e={email}"
       action="append" /&gt;
-    &lt;data name="search" rel="search"
+    &lt;data name="search"
+      rel="search"
       url="http://example.org/search"
       model="g={givenName}&amp;f={familyName}&amp;e={email}" /&gt;
     &lt;data name="person" rel="item" url="http://example.org/people/1"&gt;
@@ -671,80 +672,104 @@ Status
 &lt;/uber&gt;</tt></pre>
 </div></div>
 <div class="listingblock">
-<div class="title">Initial Sample (separate transition element)</div>
+<div class="title">Uber JSON Example</div>
 <div class="content">
-<pre><tt>&lt;uber version="1.0"&gt;
-  &lt;data name="people"&gt;
-    &lt;data name="person"&gt;
-      &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
-      &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
-      &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
-    &lt;/data&gt;
-    &lt;data name="person"&gt;
-      &lt;data name="givenName"&gt;Mike&lt;/data&gt;
-      &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
-      &lt;data name="email"&gt;mike@example.org&lt;/data&gt;
-    &lt;/data&gt;
-  &lt;/people&gt;
-  &lt;data name="places"&gt;
-    &lt;data name="place"&gt;
-      &lt;data name="name"&gt;Home&lt;/data&gt;
-      &lt;data name="address"&gt;
-        &lt;data name="streetAddress"&gt;123 Main&lt;/data&gt;
-        &lt;data name="addressLocality"&gt;Byteville&lt;/data&gt;
-        &lt;data name="addressRegion"&gt;MD&lt;/data&gt;
-        &lt;data name="postalCode"&gt;12345&lt;/data&gt;
-      &lt;/data&gt;
-    &lt;/data&gt;
-    &lt;data name="place"&gt;
-      &lt;data name="name"&gt;Work&lt;/data&gt;
-      &lt;data name="address"&gt;
-        &lt;data name="streetAddress"&gt;456 Grand Ave.&lt;/data&gt;
-        &lt;data name="addressLocality"&gt;Byteville&lt;/data&gt;
-        &lt;data name="addressRegion"&gt;MD&lt;/data&gt;
-        &lt;data name="postalCode"&gt;12345&lt;/data&gt;
-      &lt;/data&gt;
-    &lt;/data&gt;
-  &lt;/places&gt;
-  &lt;transition
-    name="search"
-    url="http://example.org/search"
-    action="read|diff||append|replace|remove" <b>&lt;1&gt;</b>
-    transclude="true|false" <b>&lt;2&gt;</b>
-    model="lastName={%familyName}&amp;location={%place.name}"
-    send-format="application/x-www-urlencoded" <b>&lt;3&gt;</b>
-    receive-format="application/vnd.uber-amundsen+xml" <b>&lt;4&gt;</b>
-    class="search collection" <b>&lt;5&gt;</b>
-   &gt;
-&lt;/uber&gt;</tt></pre>
+<pre><tt>{
+  "uber" :
+  {
+    "version" : " 1.0",
+    "data" :
+    [
+      {"rel" : "self", "url" : "http://example.org/"},
+      {"rel" : "profile", "url" : "http://example.org/profiles/people-and-places"},
+      "data" :
+      [
+        {"id" : "people", "rel" : "collection", "url" : "http://example.org/people/"},
+        "data" :
+        [
+          {
+            "name" : "create",
+            "rel" : "http://example.org/rels/create",
+            "url" : "http://example.org/people/",
+            "model" : "g={givenName}&amp;f={familyName}&amp;e={email}",
+            "action" : "append"
+          },
+          {
+            "name" : "search",
+            "rel" : "search",
+            "url" : "http://example.org/people/search",
+            "model" : "g={givenName}&amp;f={familyName}&amp;e={email}"
+          },
+          {
+            "name" : "person",
+            "rel" : "item",
+            "url" : "http://example.org/people/1",
+            "data" :
+            [
+              {"name" : "givenName", "value" : "Mike"},
+              {"name" : "familyName", "value" : "Amundsen"},
+              {"name" : "email", "value" : "mike@example.org"}
+            ]
+          },
+          {
+            "name" : "person",
+            "rel" : "item",
+            "url" : "http://example.org/people/2",
+            "data" :
+            [
+              {"name" : "givenName", "value" : "Mildred"},
+              {"name" : "familyName", "value" : "Amundsen"},
+              {"name" : "email", "value" : "mildred@example.org"}
+            ]
+          }
+        ],
+        {"id" : "places", "rel" : "collection", "url" : "http://example.org/places/"},
+        "data" :
+        [
+          {
+            "name" : "search",
+            "rel" : "search",
+            "url" : "http://example.org/places/search",
+            "model" : "r={addressRegion}&amp;l={addressLocality}&amp;p={postalCode}"
+          },
+          {
+            "name" : "place",
+            "rel" : "item",
+            "url" : "http://example.org/places/a",
+            "data" :
+            [
+              {"name" : "name", "value" : "Home"},
+              "data" :
+              [
+                {"name" : "streetAddress", "value" : "123 Main Street"},
+                {"name" : "addressLocalitly", "value" : "Byteville"},
+                {"name" : "addressRegion", "value" : "MD"},
+                {"name" : "postalCode", "value" : "12345"}
+              ]
+            ]
+          },
+          {
+            "name" : "place",
+            "rel" : "item",
+            "url" : "http://example.org/places/b",
+            "data" :
+            [
+              {"name" : "name", "value" : "Work"},
+              "data" :
+              [
+                {"name" : "streetAddress", "value" : "1456 Grand Ave."},
+                {"name" : "addressLocalitly", "value" : "Byteville"},
+                {"name" : "addressRegion", "value" : "MD"},
+                {"name" : "postalCode", "value" : "12345"}
+              ]
+            ]
+          }
+        ]
+      ]
+    ]
+  }
+}</tt></pre>
 </div></div>
-<div class="colist arabic"><ol>
-<li>
-<p>
-Defaults to "read"
-</p>
-</li>
-<li>
-<p>
-Defaults to "false"
-</p>
-</li>
-<li>
-<p>
-Defaults to "appilcation/x-www-urlencoded"
-</p>
-</li>
-<li>
-<p>
-Defaults to "appliation/vnd.uber-amundsen+xml"
-</p>
-</li>
-<li>
-<p>
-This element contains one or more "link-rel-values"
-</p>
-</li>
-</ol></div>
 </div>
 </div>
 </div>
@@ -784,17 +809,12 @@ This element contains one or more "link-rel-values"
 </p>
 </dd>
 </dl></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_tt_lt_uber_gt_tt_element">The <tt>&lt;uber&gt;</tt> Element</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_tt_lt_uber_gt_tt_element">The <tt>&lt;uber&gt;</tt> Element</h3>
 <div class="paragraph"><p>This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it&#8217;s root. It has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, then it can be assumed to be set to "1.0".</p></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_the_tt_lt_data_gt_tt_element">The <tt>&lt;data&gt;</tt> Element</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_tt_lt_data_gt_tt_element">The <tt>&lt;data&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the main element in the message. It MUST appear as a child of the <tt>&lt;uber&gt;</tt> element and MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -879,11 +899,14 @@ This element contains one or more "link-rel-values"
 </dd>
 </dl></div>
 </div>
+<div class="sect2">
+<h3 id="_the_tt_lt_error_gt_tt_element">The <tt>&lt;error&gt;</tt> Element</h3>
+<div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
 </div>
-<div class="sect1">
-<h2 id="_the_tt_lt_error_gt_tt_element">The <tt>&lt;error&gt;</tt> Element</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. It SHOULD contain one or more <tt>&lt;data&gt;</tt> elements. It is the child <tt>&lt;data&gt;</tt> elements that contains error details.</p></div>
+<div class="sect2">
+<h3 id="_comments">Comments</h3>
+<div class="paragraph"><p>You can add comments to XML message bodies by enclosing the comment within <tt>&lt;!--</tt> and <tt>-&#8594;</tt>.</p></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -913,7 +936,7 @@ This element contains one or more "link-rel-values"
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-08 19:40:13 EST
+Last updated 2014-02-08 21:10:01 EST
 </div>
 </div>
 </body>
