@@ -601,7 +601,7 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-02-08
+  2014-02-23
 </p>
 </dd>
 <dt class="hdlist1">
@@ -618,19 +618,19 @@ Proposed IANA Registrations
 <div class="sect1">
 <h2 id="_general">2. General</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Uber Hypermedia is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. The base format is XML and there is a JSON variant, too.</p></div>
+<div class="paragraph"><p>The Uber message format is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format.</p></div>
 <div class="sect2">
 <h3 id="_design_goals">2.1. Design Goals</h3>
 <div class="paragraph"><p>The Uber message model has a number of design goals:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Keep the number message structure as lean as possible.
+Keep the message structure as lean as possible.
 </p>
 </li>
 <li>
 <p>
-Support all the H-Factors [TK ref] in hypermedia controls.
+Support all the H-Factors <a href="#hfactor">[HFactor]</a> in hypermedia controls.
 </p>
 </li>
 <li>
@@ -647,7 +647,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 <div class="sect2">
 <h3 id="_messages_not_code">2.2. Messages, Not Code</h3>
-<div class="paragraph"><p>The Uber message model was designed to be a <em>message</em> format and not a source code format. It was optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model <em>was</em> designed to make it relatively easy to write a parser that can consistently transform Uber messages into object models (and back again).</p></div>
+<div class="paragraph"><p>The Uber message model is designed to be a <em>message</em> format and not a source code format. It is optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model <em>is</em> designed to make it relatively easy to write a parser that can consistently transform Uber messages into object models (and back again).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_compliance">2.3. Compliance</h3>
@@ -658,7 +658,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div class="title">Note</div>
 </td>
 <td class="content">
-<div class="paragraph"><p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119 [TK ref].</p></div>
+<div class="paragraph"><p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119 <a href="#rfc2119">[RFC2119]</a>.</p></div>
 </td>
 </tr></table>
 </div>
@@ -666,9 +666,9 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_uber_hypermedia_model">3. The Uber Hypermedia Model</h2>
+<h2 id="_the_uber_message_model">3. The Uber Message Model</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>There are only three elements in the Uber Hypermedia message:</p></div>
+<div class="paragraph"><p>There are only three elements in the Uber message model:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>&lt;uber&gt;</tt>
@@ -697,7 +697,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dl></div>
 <div class="sect2">
 <h3 id="_the_tt_lt_uber_gt_tt_element">3.1. The <tt>&lt;uber&gt;</tt> Element</h3>
-<div class="paragraph"><p>This is the root element of a Uber Hypermedia message. Every Uber message MUST have this as it&#8217;s root. It has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, then it can be assumed to be set to "1.0".</p></div>
+<div class="paragraph"><p>This is the root element of an Uber message. Every Uber message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, it SHOULD be assumed to be set to "1.0".</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;uber&gt;</tt> Elements</div>
 <div class="content">
@@ -712,14 +712,14 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_data_gt_tt_element">3.2. The <tt>&lt;data&gt;</tt> Element</h3>
-<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the main element in the message. A valid Uber message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, it MUST appear as a child of the <tt>&lt;uber&gt;</tt> element. The <tt>&lt;data&gt;</tt> element AMY" also appear as the child element of the <tt>&lt;error&gt;</tt> element. The <tt>&lt;data&gt;</tt> element may be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
+<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid Uber message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>id</tt>
 </dt>
 <dd>
 <p>
-  The document-wide unique identifier for this element.
+  The document-wide unique identifier for this element. The value of <tt>id</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>id</tt> attribute is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <a href="#rfc3986">[RFC3986]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -727,7 +727,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  A document-wide non-unique identifer for this element.
+  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> attribute is present it SHOULD be used as a variable in the Uber <tt>model</tt> attribute as described in <a href="#rfc6570">[RFC65670]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -735,7 +735,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains a space-separated list of link relation values.
+  Contains a space-separated list of link relation values. These values SHOULD conform to those described in RFC5988 <a href="#rfc5988">[RFC5988]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -743,7 +743,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  A resolvable URL associated with this element.
+  A resolvable URL associated with this element. The value SHOULD conform to that described in RFC3986 <a href="#rfc3986">[RFC3986]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -756,11 +756,6 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div class="ulist"><ul>
 <li>
 <p>
-<tt>read</tt> : A safe, idempotent request (e.g. <tt>HTTP.GET</tt>)
-</p>
-</li>
-<li>
-<p>
 <tt>append</tt> : An unsafe, non-idempotent request to add a new item (e.g. <tt>HTTP.POST</tt>)
 </p>
 </li>
@@ -771,7 +766,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </li>
 <li>
 <p>
-<tt>update</tt> : An unsafe, idemponent request to modify a complete existing item (e.g. <tt>HTTP.PUT</tt>)
+<tt>read</tt> : A safe, idempotent request (e.g. <tt>HTTP.GET</tt>)
 </p>
 </li>
 <li>
@@ -779,17 +774,22 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <tt>remove</tt> : An unsafe, idempontent request to delete an existing item (e.g. <tt>HTTP.DELETE</tt>)
 </p>
 </li>
+<li>
+<p>
+<tt>update</tt> : An unsafe, idemponent request to modify a complete existing item (e.g. <tt>HTTP.PUT</tt>)
+</p>
+</li>
 </ul></div>
 </dd>
 </dl></div>
-<div class="paragraph"><p>When the <tt>&lt;data&gt;</tt> element has a <tt>url</tt> attribute but no <tt>action</tt> attribute, it SHOULD be assumed the <tt>action</tt> attribute is set to <tt>read</tt>.</p></div>
+<div class="paragraph"><p>When the <tt>&lt;data&gt;</tt> element has a <tt>url</tt> attribute but no <tt>action</tt> attribute, it SHOULD be assumed the <tt>action</tt> attribute is set to <tt>read</tt>. Any value other than those listed here SHOULD be treated as <tt>read</tt>.</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>transclude</tt>
 </dt>
 <dd>
 <p>
-  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (<tt>transclude="true"</tt>) or treated as a <em>navigation</em> to a new document (<tt>transclude="false"</tt>).
+  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (<tt>transclude="true"</tt>) or treated as a <em>navigation</em> to a new document (<tt>transclude="false"</tt>). If the attribute is missing, it SHOULD be assumed to be set to <tt>false</tt> (e.g. <em>navigation</em>).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -797,7 +797,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains a RFC6570-compliant [TK ref] string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body. TK add encoding details]
+  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -805,7 +805,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains the media type identifier of the format to use when sending request bodies. If this attribute is missing the setting should be assumed to be <tt>application/x-www-urlencoded</tt> [TK ref].
+  Contains the media type identifier of the format to use when sending request bodies. If this attribute is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -813,7 +813,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains the media type identifier of the format to expect when recieving request bodies. If this attribute is missing, the setting should be assumed to be <tt>application/vnf.uber-amundsen+xnl</tt>.
+  Contains the media type identifier of the format to expect when recieving request bodies. If this attribute is missing, the setting should be assumed to be <tt>application/vnf.uber-amundsen+xml</tt>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -821,7 +821,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  In the XML variant of Uber Hypermedia, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value.
+  In the XML variant of the Uber mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value. It is the responsibility of the document author to make sure the contents of the <tt>value</tt> attribute are properly escaped as needed (per Section 2.4 of <a href="#REC-XML">[REC-XML]</a> and Section 2.5 of <a href="#rfc4627">[RFC4627]</a>).
 </p>
 </dd>
 </dl></div>
@@ -929,7 +929,115 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_uber_message_examples">4. Uber Message Examples</h2>
+<h2 id="_implementation_guidelines">4. Implementation Guidelines</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Since the Uber messsage format was designed to work with multiple application protocols (HTTP, CoAP, etc.), there needs to be some guidelines for createing a protocol-specific implementation that supports Uber documents. Below is the HTTP guidance for Uber documents. This can be used as a guide in creating (and documenting) other protocol-specific implemenations.</p></div>
+<div class="sect2">
+<h3 id="_supporting_uber_documents_of_http">4.1. Supporting Uber Documents of HTTP</h3>
+<div class="paragraph"><p>This section decribes the details of implementing Uber support over HTTP.</p></div>
+<div class="sect3">
+<h4 id="_mapping_uber_tt_action_tt_values_to_http_methods">4.1.1. Mapping Uber <tt>action</tt> Values to HTTP Methods</h4>
+<div class="paragraph"><p>When implementating support for Uber documents over HTTP one of the key details is to map the value of Uber&#8217;s <tt>action</tt> attribute to HTTP methods. Table #1 below provides this mapping:</p></div>
+<div class="tableblock">
+<table rules="rows"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 1. Mapping HTTP Methods to Uber <tt>action</tt> values</caption>
+<col width="50%" />
+<col width="50%" />
+<thead>
+<tr>
+<th align="left" valign="top">Uber Action</th>
+<th align="left" valign="top">HTTP Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><tt>append</tt></p></td>
+<td align="left" valign="top"><p class="table">POST</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><tt>diff</tt></p></td>
+<td align="left" valign="top"><p class="table">PATCH</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><tt>remove</tt></p></td>
+<td align="left" valign="top"><p class="table">DELETE</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><tt>read</tt></p></td>
+<td align="left" valign="top"><p class="table">GET</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><tt>update</tt></p></td>
+<td align="left" valign="top"><p class="table">PUT</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_uber_tt_model_tt_values_to_create_http_query_strings">4.1.2. Using Uber <tt>model</tt> Values to create HTTP Query Strings</h4>
+<div class="paragraph"><p>When applied to HTTP, any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>read</tt> or <tt>remove</tt> MUST be converted into a valid query string. The follwing example shows how an Uber message snippet is converted into a valid HTTP query string:</p></div>
+<div class="listingblock">
+<div class="title">Converting an Uber <tt>read</tt> Action into an HTTP Query String</div>
+<div class="content">
+<pre><tt>&lt;!-- Uber snippet --&gt;
+&lt;data name="search"
+  rel="search"
+  url="http://example.org/search"
+  model="?g={givenName}&amp;f={familyName}&amp;e={email}" /&gt;
+
+Assume the values supplied are:
+  givenName = Mike
+  familyName = Amundsen
+  email = mike@example.org
+
+*** HTTP Request ***
+GET /search/?g=Mike&amp;f=Amundsen&amp;e=mike%40example.org HTTP/1.1
+Host: example.org
+Accept-Type: application/vnd.amundsen-uber+xml</tt></pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_user_uber_tt_model_tt_values_to_create_http_request_bodies">4.1.3. User Uber <tt>model</tt> Values to create HTTP Request Bodies</h4>
+<div class="paragraph"><p>Any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> MUST be convereted into a valid HTTP request body. The follwing example shows how an Uber message snippet is converted into a valid HTTP request body:</p></div>
+<div class="listingblock">
+<div class="title">Converting an Uber <tt>append</tt> Action into an HTTP Request</div>
+<div class="content">
+<pre><tt>&lt;!-- Uber snippet --&gt;
+&lt;data name="create"
+  rel="http://example.org/rels/create"
+  url="http://example.org/people/"
+  model="g={givenName}&amp;f={familyName}&amp;e={email}&amp;a={avatarUrl}"
+  action="append" /&gt;
+
+Assume the values supplied are:
+  givenName = Mike
+  familyName = Amundsen
+  email = mike@example.org
+  avatarUrl = http://example.org/avatars/mike.png
+
+*** HTTP Request ***
+POST /people/ HTTP/1.1
+Host: example.org
+Accept-Type: application/vnd.amundsen-uber+xml
+Content-Type: application/x-www-form-urlencoded
+Content-Lengt: xxx
+
+g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2Favatars%2Fmike.png</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supporting_uber_documents_over_other_protocols">4.2. Supporting Uber Documents Over other Protocols</h3>
+<div class="paragraph"><p>It is possible that Uber documents can be exchanged using a protocol other than HTTP. In that case, it is the responsibility of the implementor to provide a guideline document that covers the same material included in the "Implementation Guidelines" of the Uber Message specification.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_uber_message_examples">5. Uber Message Examples</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Uber messages may appear in XML or JSON formats. Below are examples of each.</p></div>
 <div class="listingblock">
@@ -1095,10 +1203,10 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_extensibility">5. Extensibility</h2>
+<h2 id="_extensibility">6. Extensibility</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This document describes the Uber Hypermedia markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber Hypermedia document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber Hypermedia vocabulary SHOULD ignore them.</p></div>
-<div class="paragraph"><p>The details of designing and implementing Uber Hypermedia extensions is beyond the scope of this document.</p></div>
+<div class="paragraph"><p>This document describes the Uber message format markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber vocabulary SHOULD ignore them.</p></div>
+<div class="paragraph"><p>The details of designing and implementing Uber extensions is beyond the scope of this document.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1112,38 +1220,80 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_iana_considerations">6. IANA Considerations</h2>
+<h2 id="_iana_considerations">7. IANA Considerations</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>[TK text goes here]</p></div>
+<div class="paragraph"><p>Below are the related IANA considerations for this media type design.</p></div>
 <div class="sect2">
-<h3 id="_xml_media_type_registration">6.1. XML Media Type Registration</h3>
-<div class="paragraph"><p>[TK text goes here]</p></div>
+<h3 id="_xml_media_type_registration">7.1. XML Media Type Registration</h3>
+<div class="paragraph"><p>[pending submission]</p></div>
 </div>
 <div class="sect2">
-<h3 id="_json_media_type_registration">6.2. JSON Media Type Registration</h3>
-<div class="paragraph"><p>[TK text goes here]</p></div>
+<h3 id="_json_media_type_registration">7.2. JSON Media Type Registration</h3>
+<div class="paragraph"><p>[pending submission]</p></div>
 </div>
 <div class="sect2">
-<h3 id="_security_considerations">6.3. Security Considerations</h3>
-<div class="paragraph"><p>[TK text goes here]</p></div>
+<h3 id="_security_considerations">7.3. Security Considerations</h3>
+<div class="paragraph"><p>The XML variant of the Uber message format shares security issues common to all XML content types. It does not provide executable content. Information contained in Uber documents do not require privacy or integrity services.</p></div>
+<div class="paragraph"><p>The JSON variant of the Uber message format shares security issues common to all JSON content types. See RFC4627 Section #6 <a href="#rfc4627">[RFC4627]</a> for additional information. The Uber message format does not provide executable content. Information contained in Uber documents do not require privacy or integrity services.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_internationalization_considerations">6.4. Internationalization Considerations</h3>
-<div class="paragraph"><p>[TK text goes here]</p></div>
+<h3 id="_internationalization_considerations">7.4. Internationalization Considerations</h3>
+<div class="paragraph"><p>The Uber message format does not have any internationalization considerations other than those which are discussed in referenced RFC documents (see below).</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">7. References</h2>
+<h2 id="_references">8. References</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>[TK text goes here]</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a id="hfactor"></a> [HFactor] "H Factor" <a href="http://amundsen.com/hypermedia/hfactor/">http://amundsen.com/hypermedia/hfactor/</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc1867"></a> [RFC1867] "Form-based File Upload in HTML" <a href="http://tools.ietf.org/search/rfc1867">http://tools.ietf.org/search/rfc1867</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc2119"></a> [RFC2119] "Key words for use in RFCs to Indicate Requirement Levels" <a href="http://tools.ietf.org/html/rfc2119">http://tools.ietf.org/html/rfc2119</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc3986"></a> [RFC3986] "Uniform Resource Identifier (URI): Generic Syntax" <a href="http://tools.ietf.org/html/rfc3986">http://tools.ietf.org/html/rfc3986</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc4627"></a> [RFC4627] "The application/json Media Type for JavaScript Object Notation (JSON)" <a href="http://tools.ietf.org/html/rfc4627">http://tools.ietf.org/html/rfc4627</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc5988"></a> [RFC5988] "URI Template" <a href="http://tools.ietf.org/html/rfc5988">http://tools.ietf.org/html/rfc5988</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc6570"></a> [RFC6570] "URI Template" <a href="http://tools.ietf.org/html/rfc6570">http://tools.ietf.org/html/rfc6570</a>
+</p>
+</li>
+<li>
+<p>
+<a id="REC-XML"></a> [REC-XML] "Extensible Markup Language (XML) 1.0 (Fifth Edition)" <a href="http://www.w3.org/TR/REC-xml/">http://www.w3.org/TR/REC-xml/</a>
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-08 22:33:29 EST
+Last updated 2014-02-23 18:58:14 EST
 </div>
 </div>
 </body>
