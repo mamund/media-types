@@ -99,7 +99,7 @@ Below is a simple `map' of the Uber message format (XML variant). Along with the
 
 .Uber Message Model (XML)
 ----
-include::includes/message-model.xml[]
+include::message-model.xml[]
 ----
 
 === The +<uber>+ Element
