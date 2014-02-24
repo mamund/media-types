@@ -89,6 +89,7 @@ The +<data>+ element is the key element in the model. A valid Uber message SHOUL
   * +remove+ : An unsafe, idempontent request to delete an existing item (e.g. +HTTP.DELETE+)
   * +update+ : An unsafe, idemponent request to modify a complete existing item (e.g. +HTTP.PUT+)
 
++
 When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SHOULD be assumed the +action+ attribute is set to +read+. Any value other than those listed here SHOULD be treated as +read+.
   
 +transclude+::
