@@ -601,7 +601,7 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-02-23
+  2014-02-24
 </p>
 </dd>
 <dt class="hdlist1">
@@ -613,7 +613,6 @@ Proposed IANA Registrations
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>toc::[]</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -765,7 +764,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains the media type identifier of the format to use when sending request bodies.
+  Contains one or more space-separated media type identifiers for use when sending request bodies.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -773,7 +772,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains the media type identifier of the format to expect when recieving request bodies.
+  Contains one or more space-separated media type identifiers to expect when recieving request bodies.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -789,7 +788,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Indiates the Uber message version information.
+  Indicates the Uber message version information.
 </p>
 </dd>
 </dl></div>
@@ -977,7 +976,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </dt>
 <dd>
 <p>
-  Contains the media type identifier of the format to use when sending request bodies. If this attribute is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
+  Contains one or more space-separated media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the <tt>Content-Type</tt> header. If this attribute is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -985,7 +984,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </dt>
 <dd>
 <p>
-  Contains the media type identifier of the format to expect when recieving request bodies. If this attribute is missing, the setting should be assumed to be <tt>application/vnf.uber-amundsen+xml</tt>.
+  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the <tt>Accept</tt> header. If this attribute is missing, the setting should be assumed to be <tt>application/vnf.uber-amundsen+xml</tt>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -993,8 +992,37 @@ Reserved values for the <tt>transclude</tt> attribute
 </dt>
 <dd>
 <p>
-  In the XML variant of the Uber mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value. It is the responsibility of the document author to make sure the contents of the <tt>value</tt> attribute are properly escaped as needed (per Section 2.4 of <a href="#REC-XML">[REC-XML]</a> and Section 2.5 of <a href="#rfc4627">[RFC4627]</a>).
+  In the XML variant of the Uber mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element.
 </p>
+<div class="paragraph"><p>In the JSON variant there is a <tt>value</tt> attribute that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <a href="#rfc4627">[RFC4627]</a>):</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+number
+</p>
+</li>
+<li>
+<p>
+string
+</p>
+</li>
+<li>
+<p>
+<tt>false</tt>
+</p>
+</li>
+<li>
+<p>
+<tt>true</tt>
+</p>
+</li>
+<li>
+<p>
+<tt>null</tt>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the <tt>value</tt> attribute are properly escaped as needed (per Section 2.4 of <a href="#REC-XML">[REC-XML]</a> and Section 2.5 of <a href="#rfc4627">[RFC4627]</a>).</p></div>
 </dd>
 </dl></div>
 <div class="listingblock">
@@ -1121,35 +1149,42 @@ Reserved values for the <tt>transclude</tt> attribute
 width="100%"
 frame="border"
 cellspacing="0" cellpadding="4">
-<caption class="title">Table 1. Mapping HTTP Methods to Uber <tt>action</tt> values</caption>
-<col width="50%" />
-<col width="50%" />
+<caption class="title">Table 1. Mapping HTTP Methods to Uber <tt>action</tt> values &amp; Uber <tt>model</tt></caption>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
 <thead>
 <tr>
 <th align="left" valign="top">Uber Action</th>
 <th align="left" valign="top">HTTP Method</th>
+<th align="left" valign="top">Uber Model Modifies</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="left" valign="top"><p class="table"><tt>append</tt></p></td>
 <td align="left" valign="top"><p class="table">POST</p></td>
+<td align="left" valign="top"><p class="table">Request Body</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><tt>diff</tt></p></td>
 <td align="left" valign="top"><p class="table">PATCH</p></td>
+<td align="left" valign="top"><p class="table">Request Body</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><tt>remove</tt></p></td>
 <td align="left" valign="top"><p class="table">DELETE</p></td>
+<td align="left" valign="top"><p class="table">Query String</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><tt>read</tt></p></td>
 <td align="left" valign="top"><p class="table">GET</p></td>
+<td align="left" valign="top"><p class="table">Query String</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><tt>update</tt></p></td>
 <td align="left" valign="top"><p class="table">PUT</p></td>
+<td align="left" valign="top"><p class="table">Request Body</p></td>
 </tr>
 </tbody>
 </table>
@@ -1493,11 +1528,17 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </ul></div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_acknowledgements">9. Acknowledgements</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The author would like to thank everyone who commented upon, encouraged, and gave feedback to this specification, especially Matthew McClure.</p></div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-23 23:51:41 EST
+Last updated 2014-02-24 00:27:42 EST
 </div>
 </div>
 </body>

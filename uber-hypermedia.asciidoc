@@ -2,8 +2,6 @@ Uber Hypermedia
 ===============
 :toc:
 :numbered:
-:toc-placement: manual
-
 
 == Document Status
 Author::
@@ -21,8 +19,6 @@ Last Updated::
 Proposed IANA Registrations::
   +application/vnd.amundsen-uber+xml+, +application/vnd.amundsen-uber+json+
 
-toc::[]
-  
 == General
 The Uber message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting Uber messages over the HTTP protocol.
 
@@ -76,13 +72,13 @@ There are eleven attributes in the Uber design:
 +model+::
   Contains a template to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. 
 +send-format+::
-  Contains the media type identifier of the format to use when sending request bodies.
+  Contains one or more space-separated media type identifiers for use when sending request bodies. 
 +receive-format+::
-  Contains the media type identifier of the format to expect when recieving request bodies.
+  Contains one or more space-separated media type identifiers to expect when recieving request bodies. 
 +value+::
   In the XML variant of the Uber mesage format, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
 +version+::
-  Indiates the Uber message version information.
+  Indicates the Uber message version information.
   
 === Reserved Strings
 There are three reserved strings used as possible values for Uber attributes.
@@ -154,13 +150,24 @@ When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SH
   Contains a RFC6570-compliant <<rfc6570,[RFC6570]>> string to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. If the +action+ attribute is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +diff+, or +update+ then the +model+ is applied to the request body. 
   
 +send-format+::
-  Contains the media type identifier of the format to use when sending request bodies. If this attribute is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>. 
+  Contains one or more space-separated media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this attribute is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>.
   
 +receive-format+::
-  Contains the media type identifier of the format to expect when recieving request bodies. If this attribute is missing, the setting should be assumed to be +application/vnf.uber-amundsen+xml+.
+  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the +Accept+ header. If this attribute is missing, the setting should be assumed to be +application/vnf.uber-amundsen+xml+.
   
 +value+::
-  In the XML variant of the Uber mesage format, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value. It is the responsibility of the document author to make sure the contents of the +value+ attribute are properly escaped as needed (per Section 2.4 of <<REC-XML,[REC-XML]>> and Section 2.5 of <<rfc4627,[RFC4627]>>).
+  In the XML variant of the Uber mesage format, inner text of the +<data>+ element contains the value associated with that element. 
++  
+In the JSON variant there is a +value+ attribute that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <<rfc4627,[RFC4627]>>):
++
+  * number
+  * string
+  * +false+
+  * +true+
+  * +null+
+
++
+For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the +value+ attribute are properly escaped as needed (per Section 2.4 of <<REC-XML,[REC-XML]>> and Section 2.5 of <<rfc4627,[RFC4627]>>).
 
 .Example +<data>+ Elements (XML)
 ----
@@ -195,16 +202,16 @@ This section decribes the details of implementing Uber support over HTTP.
 ==== Mapping Uber +action+ Values to HTTP Methods
 When implementating support for Uber documents over HTTP one of the key details is to map the value of Uber's +action+ attribute to HTTP methods. Table #1 below provides this mapping:
 
-.Mapping HTTP Methods to Uber +action+ values
+.Mapping HTTP Methods to Uber +action+ values & Uber +model+
 [grid="rows", format="csv"]
 [options="header"]
 |====
-Uber Action,HTTP Method
-+append+,POST
-+diff+,PATCH
-+remove+,DELETE
-+read+,GET
-+update+,PUT
+Uber Action,HTTP Method, Uber Model Modifies
++append+,POST, Request Body
++diff+,PATCH, Request Body
++remove+,DELETE, Query String
++read+,GET, Query String
++update+,PUT, Request Body
 |====
 
 ==== Using Uber +model+ Values to create HTTP Query Strings
@@ -283,6 +290,7 @@ The Uber message format does not have any internationalization considerations ot
  * [[rfc6570]] [RFC6570] "URI Template" http://tools.ietf.org/html/rfc6570
  * [[REC-XML]] [REC-XML] "Extensible Markup Language (XML) 1.0 (Fifth Edition)" http://www.w3.org/TR/REC-xml/
  
- 
- 
+== Acknowledgements
+The author would like to thank everyone who commented upon, encouraged, and gave feedback to this specification, especially Matthew McClure.
+
 
