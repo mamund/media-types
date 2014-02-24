@@ -618,7 +618,7 @@ Proposed IANA Registrations
 <div class="sect1">
 <h2 id="_general">2. General</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The Uber message format is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format.</p></div>
+<div class="paragraph"><p>The Uber message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting Uber messages over the HTTP protocol.</p></div>
 <div class="sect2">
 <h3 id="_design_goals">2.1. Design Goals</h3>
 <div class="paragraph"><p>The Uber message model has a number of design goals:</p></div>
@@ -668,6 +668,9 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div class="sect1">
 <h2 id="_the_uber_message_model">3. The Uber Message Model</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>The Uber message model is very minimal. There are three elements, eleven possible attributes, and seven reserved string values.</p></div>
+<div class="sect2">
+<h3 id="_elements">3.1. Elements</h3>
 <div class="paragraph"><p>There are only three elements in the Uber message model:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -695,8 +698,178 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </p>
 </dd>
 </dl></div>
+</div>
 <div class="sect2">
-<h3 id="_the_tt_lt_uber_gt_tt_element">3.1. The <tt>&lt;uber&gt;</tt> Element</h3>
+<h3 id="_attributes">3.2. Attributes</h3>
+<div class="paragraph"><p>There are eleven attributes in the Uber design:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<tt>id</tt>
+</dt>
+<dd>
+<p>
+  The document-wide unique identifier for this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>name</tt>
+</dt>
+<dd>
+<p>
+  A document-wide non-unique identifer for this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>rel</tt>
+</dt>
+<dd>
+<p>
+  Contains a space-separated list of link relation values.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>url</tt>
+</dt>
+<dd>
+<p>
+  A resolvable URL associated with this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>action</tt>
+</dt>
+<dd>
+<p>
+  The network request verb associated with this element.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>transclude</tt>
+</dt>
+<dd>
+<p>
+  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>model</tt>
+</dt>
+<dd>
+<p>
+  Contains a template to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>send-format</tt>
+</dt>
+<dd>
+<p>
+  Contains the media type identifier of the format to use when sending request bodies.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>receive-format</tt>
+</dt>
+<dd>
+<p>
+  Contains the media type identifier of the format to expect when recieving request bodies.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>value</tt>
+</dt>
+<dd>
+<p>
+  In the XML variant of the Uber mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>version</tt>
+</dt>
+<dd>
+<p>
+  Indiates the Uber message version information.
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_reserved_strings">3.3. Reserved Strings</h3>
+<div class="paragraph"><p>There are three reserved strings used as possible values for Uber attributes.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Reserved values for the <tt>action</tt> attribute
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<tt>append</tt> : An unsafe, non-idempotent request to add a new item.
+</p>
+</li>
+<li>
+<p>
+<tt>diff</tt> : An unsafe, non-idemponent request to modify parts of an existing item.
+</p>
+</li>
+<li>
+<p>
+<tt>read</tt> : A safe, idempotent request.
+</p>
+</li>
+<li>
+<p>
+<tt>remove</tt> : An unsafe, idempontent request to delete an existing item.
+</p>
+</li>
+<li>
+<p>
+<tt>replace</tt> : An unsafe, idemponent request to replace an existing item.
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Reserved values for the <tt>transclude</tt> attribute
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<tt>true</tt> : embed the results of the request into the current document
+</p>
+</li>
+<li>
+<p>
+<tt>false</tt> : treat the associated <tt>url</tt> value as a <em>navigation</em> to a new document.
+</p>
+</li>
+</ul></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_message_map">3.4. Message Map</h3>
+<div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>&lt;!-- XML variant --&gt;
+&lt;uber @version&gt;
+  &lt;data @id @name @rel @url @action @transclude @model @send-format @receive-format&gt;
+    &lt;data ... &gt;
+       &lt;data ... /&gt;
+    &lt;/data&gt;
+  &lt;/data&gt;
+  &lt;error&gt;
+    &lt;data @id @name @rel @url @action @transclude @model @send-format @receive-format&gt;
+       &lt;data ... /&gt;
+    &lt;/data&gt;
+  &lt;/error&gt;
+&lt;/uber&gt;</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_the_tt_lt_uber_gt_tt_element">3.5. The <tt>&lt;uber&gt;</tt> Element</h3>
 <div class="paragraph"><p>This is the root element of an Uber message. Every Uber message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, it SHOULD be assumed to be set to "1.0".</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;uber&gt;</tt> Elements</div>
@@ -711,7 +884,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_data_gt_tt_element">3.2. The <tt>&lt;data&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_data_gt_tt_element">3.6. The <tt>&lt;data&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid Uber message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -776,7 +949,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </li>
 <li>
 <p>
-<tt>update</tt> : An unsafe, idemponent request to modify a complete existing item (e.g. <tt>HTTP.PUT</tt>)
+<tt>replace</tt> : An unsafe, idemponent request to replace an existing item (e.g. <tt>HTTP.PUT</tt>)
 </p>
 </li>
 </ul></div>
@@ -894,7 +1067,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_error_gt_tt_element">3.3. The <tt>&lt;error&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_error_gt_tt_element">3.7. The <tt>&lt;error&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;error&gt;</tt> Elements</div>
@@ -931,7 +1104,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div class="sectionbody">
 <div class="paragraph"><p>Since the Uber messsage format was designed to work with multiple application protocols (HTTP, CoAP, etc.), there needs to be some guidelines for createing a protocol-specific implementation that supports Uber documents. Below is the HTTP guidance for Uber documents. This can be used as a guide in creating (and documenting) other protocol-specific implemenations.</p></div>
 <div class="sect2">
-<h3 id="_supporting_uber_documents_of_http">4.1. Supporting Uber Documents of HTTP</h3>
+<h3 id="_supporting_uber_documents_over_http">4.1. Supporting Uber Documents over HTTP</h3>
 <div class="paragraph"><p>This section decribes the details of implementing Uber support over HTTP.</p></div>
 <div class="sect3">
 <h4 id="_mapping_uber_tt_action_tt_values_to_http_methods">4.1.1. Mapping Uber <tt>action</tt> Values to HTTP Methods</h4>
@@ -1035,9 +1208,12 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </div>
 </div>
 <div class="sect1">
-<h2 id="_uber_message_examples">5. Uber Message Examples</h2>
+<h2 id="_message_examples">5. Message Examples</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Uber messages may appear in XML or JSON formats. Below are examples of each.</p></div>
+<div class="sect2">
+<h3 id="_xml_example">5.1. XML Example</h3>
+<div class="paragraph"><p>Below is an XML Example of an Uber message.</p></div>
 <div class="listingblock">
 <div class="title">XML Example</div>
 <div class="content">
@@ -1097,6 +1273,10 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 
 &lt;/uber&gt;</tt></pre>
 </div></div>
+</div>
+<div class="sect2">
+<h3 id="_json_example">5.2. JSON Example</h3>
+<div class="paragraph"><p>Below is a JSON Example of an Uber message.</p></div>
 <div class="listingblock">
 <div class="title">Uber JSON Example</div>
 <div class="content">
@@ -1200,6 +1380,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </div></div>
 </div>
 </div>
+</div>
 <div class="sect1">
 <h2 id="_extensibility">6. Extensibility</h2>
 <div class="sectionbody">
@@ -1291,7 +1472,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-23 19:01:24 EST
+Last updated 2014-02-23 20:15:34 EST
 </div>
 </div>
 </body>

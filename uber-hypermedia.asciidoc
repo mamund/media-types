@@ -20,7 +20,7 @@ Proposed IANA Registrations::
   +application/vnd.amundsen-uber+xml+, +application/vnd.amundsen-uber+json+
   
 == General
-The Uber message format is a read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format.
+The Uber message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting Uber messages over the HTTP protocol.
 
 === Design Goals
 The Uber message model has a number of design goals:
@@ -42,6 +42,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 ====
 
 == The Uber Message Model
+The Uber message model is very minimal. There are three elements, eleven possible attributes, and seven reserved string values.
+
+=== Elements
 There are only three elements in the Uber message model:
 
 +<uber>+::
@@ -50,7 +53,66 @@ There are only three elements in the Uber message model:
   The main element in Uber messages. 
 +<error>+::
   The element that carries error details from the previous request.
+
+=== Attributes
+There are eleven attributes in the Uber design:
+
++id+::
+  The document-wide unique identifier for this element.
++name+::
+  A document-wide non-unique identifer for this element.
++rel+::
+  Contains a space-separated list of link relation values.
++url+::
+  A resolvable URL associated with this element. 
++action+::
+  The network request verb associated with this element. 
++transclude+::
+  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document 
++model+::
+  Contains a template to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. 
++send-format+::
+  Contains the media type identifier of the format to use when sending request bodies.
++receive-format+::
+  Contains the media type identifier of the format to expect when recieving request bodies.
++value+::
+  In the XML variant of the Uber mesage format, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
++version+::
+  Indiates the Uber message version information.
   
+=== Reserved Strings
+There are three reserved strings used as possible values for Uber attributes.
+
+Reserved values for the +action+ attribute::
+  * +append+ : An unsafe, non-idempotent request to add a new item.
+  * +diff+ : An unsafe, non-idemponent request to modify parts of an existing item.
+  * +read+ : A safe, idempotent request.
+  * +remove+ : An unsafe, idempontent request to delete an existing item.
+  * +replace+ : An unsafe, idemponent request to replace an existing item.
+
+Reserved values for the +transclude+ attribute::
+  * +true+ : embed the results of the request into the current document
+  * +false+ : treat the associated +url+ value as a 'navigation' to a new document.
+
+=== Message Map
+Below is a simple `map' of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
+
+----
+<!-- XML variant -->
+<uber @version>
+  <data @id @name @rel @url @action @transclude @model @send-format @receive-format>
+    <data ... >
+       <data ... />
+    </data>  
+  </data>
+  <error>
+    <data @id @name @rel @url @action @transclude @model @send-format @receive-format>
+       <data ... />
+    </data>
+  </error>
+</uber>
+----
+
 === The +<uber>+ Element
 This is the root element of an Uber message. Every Uber message MUST have this as it's root. The +<uber>+ element has one optional attribute: +version+ which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, it SHOULD be assumed to be set to "1.0".
 
@@ -87,7 +149,7 @@ The +<data>+ element is the key element in the model. A valid Uber message SHOUL
   * +diff+ : An unsafe, non-idemponent request to modify parts of an existing item (e.g. +HTTP.PATCH+)
   * +read+ : A safe, idempotent request (e.g. +HTTP.GET+)
   * +remove+ : An unsafe, idempontent request to delete an existing item (e.g. +HTTP.DELETE+)
-  * +update+ : An unsafe, idemponent request to modify a complete existing item (e.g. +HTTP.PUT+)
+  * +replace+ : An unsafe, idemponent request to replace an existing item (e.g. +HTTP.PUT+)
 
 +
 When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SHOULD be assumed the +action+ attribute is set to +read+. Any value other than those listed here SHOULD be treated as +read+.
@@ -209,7 +271,7 @@ The +<error>+ element contains any error information returned by the server rega
 == Implementation Guidelines
 Since the Uber messsage format was designed to work with multiple application protocols (HTTP, CoAP, etc.), there needs to be some guidelines for createing a protocol-specific implementation that supports Uber documents. Below is the HTTP guidance for Uber documents. This can be used as a guide in creating (and documenting) other protocol-specific implemenations.
 
-=== Supporting Uber Documents of HTTP
+=== Supporting Uber Documents over HTTP
 This section decribes the details of implementing Uber support over HTTP.
 
 ==== Mapping Uber +action+ Values to HTTP Methods
@@ -280,8 +342,11 @@ g=Mike&f=Amundsen&e=mike%40example.org&a=http%3A%2F%2Fexample.org%2Favatars%2Fmi
 === Supporting Uber Documents Over other Protocols
 It is possible that Uber documents can be exchanged using a protocol other than HTTP. In that case, it is the responsibility of the implementor to provide a guideline document that covers the same material included in the "Implementation Guidelines" of the Uber Message specification.
 
-== Uber Message Examples
+== Message Examples
 Uber messages may appear in XML or JSON formats. Below are examples of each.
+
+=== XML Example
+Below is an XML Example of an Uber message.
 
 .XML Example
 ----
@@ -341,6 +406,9 @@ Uber messages may appear in XML or JSON formats. Below are examples of each.
   
 </uber>
 ----
+
+=== JSON Example
+Below is a JSON Example of an Uber message.
 
 .Uber JSON Example
 ----
