@@ -94,6 +94,13 @@ Reserved values for the +transclude+ attribute::
   * +true+ : embed the results of the request into the current document
   * +false+ : treat the associated +url+ value as a 'navigation' to a new document.
 
+=== Link Relation Values
+There are no Uber-specific link relation values. Document authors are SHOULD use registered link relation values that comply with those described in RFC5988 <<rfc5988, [RFC5988]>> and from shared public sources such as:
+
+ * IANA Link Relations <<iana-rel, [IANA-REL]>>
+ * Microformats Existing Rel Values <<mf-rel, [MF-REL]>>
+ * Dublin Core Metadata Element Set, Version 1.1 <<dc-rel,[DC-REL]>>
+ 
 === Message Map
 Below is a simple `map' of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
 
@@ -123,7 +130,7 @@ The +<data>+ element is the key element in the model. A valid Uber message SHOUL
   The document-wide unique identifier for this element. The value of +id+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +id+ attribute is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <<rfc3986,[RFC3986]>>.
   
 +name+::
-  A document-wide non-unique identifer for this element. The value of +name+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +name+ attribute is present it SHOULD be used as a variable in the Uber +model+ attribute as described in <<rfc6570,[RFC65670]>>.
+  A document-wide non-unique identifer for this element. The value of +name+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +name+ attribute is present it MAY be used as a variable in the Uber +model+ attribute as described in <<rfc6570,[RFC65670]>>.
   
 +rel+::
   Contains a space-separated list of link relation values. These values SHOULD conform to those described in RFC5988 <<rfc5988, [RFC5988]>>.
@@ -147,7 +154,7 @@ When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SH
   Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (+transclude="true"+) or treated as a 'navigation' to a new document (+transclude="false"+). If the attribute is missing, it SHOULD be assumed to be set to +false+ (e.g. 'navigation').
   
 +model+::
-  Contains a RFC6570-compliant <<rfc6570,[RFC6570]>> string to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. If the +action+ attribute is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +diff+, or +update+ then the +model+ is applied to the request body. 
+  Contains a RFC6570-compliant <<rfc6570,[RFC6570]>> string to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. Variables in Uber +_model+ strings SHOULD be resolved using the values from +name+ attributes, but MAY come from any source available to the client application. If the +action+ attribute is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +diff+, or +update+ then the +model+ is applied to the request body. 
   
 +send-format+::
   Contains one or more space-separated media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this attribute is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>.
@@ -202,7 +209,7 @@ This section decribes the details of implementing Uber support over HTTP.
 ==== Mapping Uber +action+ Values to HTTP Methods
 When implementating support for Uber documents over HTTP one of the key details is to map the value of Uber's +action+ attribute to HTTP methods. Table #1 below provides this mapping:
 
-.Mapping HTTP Methods to Uber +action+ values & Uber +model+
+.Mapping HTTP Methods to Uber +action+ and +model+ Values
 [grid="rows", format="csv"]
 [options="header"]
 |====
@@ -280,15 +287,23 @@ The JSON variant of the Uber message format shares security issues common to all
 The Uber message format does not have any internationalization considerations other than those which are discussed in referenced RFC documents (see below).
 
 == References 
+Below are the references used in this document.
 
- * [[hfactor]] [HFactor] "H Factor" http://amundsen.com/hypermedia/hfactor/
- * [[rfc1867]] [RFC1867] "Form-based File Upload in HTML" http://tools.ietf.org/search/rfc1867
- * [[rfc2119]] [RFC2119] "Key words for use in RFCs to Indicate Requirement Levels" http://tools.ietf.org/html/rfc2119
- * [[rfc3986]] [RFC3986] "Uniform Resource Identifier (URI): Generic Syntax" http://tools.ietf.org/html/rfc3986
- * [[rfc4627]] [RFC4627] "The application/json Media Type for JavaScript Object Notation (JSON)" http://tools.ietf.org/html/rfc4627
- * [[rfc5988]] [RFC5988] "URI Template" http://tools.ietf.org/html/rfc5988
- * [[rfc6570]] [RFC6570] "URI Template" http://tools.ietf.org/html/rfc6570
- * [[REC-XML]] [REC-XML] "Extensible Markup Language (XML) 1.0 (Fifth Edition)" http://www.w3.org/TR/REC-xml/
+=== Normative References
+ * [[rfc1867]] [RFC1867] Nebel, E., Masinter, L., "Form-based File Upload in HTML", November 1995, http://tools.ietf.org/search/rfc1867
+ * [[rfc2119]] [RFC2119] Bradner, S.,"Key words for use in RFCs to Indicate Requirement Levels" http://tools.ietf.org/html/rfc2119, March 1997
+ * [[rfc3986]] [RFC3986] Berners-Lee, T., Fielding, R., and L. Masinter,"Uniform Resource Identifier (URI): Generic Syntax", January 2005, http://tools.ietf.org/html/rfc3986
+ * [[rfc4627]] [RFC4627] D. Crockford, "The application/json Media Type for JavaScript Object Notation (JSON)", July 2006, http://tools.ietf.org/html/rfc4627
+ * [[rfc5988]] [RFC5988] M. Nottingham, "Web Linking", October 2010, http://tools.ietf.org/html/rfc5988
+ * [[rfc6570]] [RFC6570] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M., Orchard, D., "URI Template", March 2012, http://tools.ietf.org/html/rfc6570
+ * [[REC-XML]] [REC-XML] Bray, T., Paoli, J., Sperberg-McQueen, C., Maler, E., Yergeau, F., "Extensible Markup Language (XML) 1.0 (Fifth Edition)", November 2008, http://www.w3.org/TR/REC-xml/
+
+=== Informative References
+ * [[hfactor]] [HFactor] Amundsen, M. "H Factor",  May 2010, http://amundsen.com/hypermedia/hfactor/
+ * [[iana-rel]] [IANA-REL] "Link Relations, December 2013, http://www.iana.org/assignments/link-relations/link-relations.xhtml
+ * [[mf-rel]] [MF-REL] "Microformat Existing Rel Values", February 2014, http://microformats.org/wiki/existing-rel-values
+ * [[dc-rel]] [DC-REL] "Dublin Core Metadata Element Set, Version 1.1", June 2012, http://dublincore.org/documents/dces/
+ 
  
 == Acknowledgements
 The author would like to thank everyone who commented upon, encouraged, and gave feedback to this specification, especially Matthew McClure.

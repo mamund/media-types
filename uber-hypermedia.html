@@ -849,7 +849,28 @@ Reserved values for the <tt>transclude</tt> attribute
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="_message_map">3.4. Message Map</h3>
+<h3 id="_link_relation_values">3.4. Link Relation Values</h3>
+<div class="paragraph"><p>There are no Uber-specific link relation values. Document authors are SHOULD use registered link relation values that comply with those described in RFC5988 <a href="#rfc5988">[RFC5988]</a> and from shared public sources such as:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+IANA Link Relations <a href="#iana-rel">[IANA-REL]</a>
+</p>
+</li>
+<li>
+<p>
+Microformats Existing Rel Values <a href="#mf-rel">[MF-REL]</a>
+</p>
+</li>
+<li>
+<p>
+Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_message_map">3.5. Message Map</h3>
 <div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
 <div class="listingblock">
 <div class="title">Uber Message Model (XML)</div>
@@ -869,7 +890,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_uber_gt_tt_element">3.5. The <tt>&lt;uber&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_uber_gt_tt_element">3.6. The <tt>&lt;uber&gt;</tt> Element</h3>
 <div class="paragraph"><p>This is the root element of an Uber message. Every Uber message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, it SHOULD be assumed to be set to "1.0".</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;uber&gt;</tt> Elements</div>
@@ -884,7 +905,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_data_gt_tt_element">3.6. The <tt>&lt;data&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_data_gt_tt_element">3.7. The <tt>&lt;data&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid Uber message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -900,7 +921,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </dt>
 <dd>
 <p>
-  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> attribute is present it SHOULD be used as a variable in the Uber <tt>model</tt> attribute as described in <a href="#rfc6570">[RFC65670]</a>.
+  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> attribute is present it MAY be used as a variable in the Uber <tt>model</tt> attribute as described in <a href="#rfc6570">[RFC65670]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -968,7 +989,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </dt>
 <dd>
 <p>
-  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body.
+  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. Variables in Uber <tt>_model</tt> strings SHOULD be resolved using the values from <tt>name</tt> attributes, but MAY come from any source available to the client application. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1101,7 +1122,7 @@ string
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_the_tt_lt_error_gt_tt_element">3.7. The <tt>&lt;error&gt;</tt> Element</h3>
+<h3 id="_the_tt_lt_error_gt_tt_element">3.8. The <tt>&lt;error&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;error&gt;</tt> Element (XML)</div>
@@ -1149,7 +1170,7 @@ string
 width="100%"
 frame="border"
 cellspacing="0" cellpadding="4">
-<caption class="title">Table 1. Mapping HTTP Methods to Uber <tt>action</tt> values &amp; Uber <tt>model</tt></caption>
+<caption class="title">Table 1. Mapping HTTP Methods to Uber <tt>action</tt> and <tt>model</tt> Values</caption>
 <col width="33%" />
 <col width="33%" />
 <col width="33%" />
@@ -1484,48 +1505,72 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <div class="sect1">
 <h2 id="_references">8. References</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Below are the references used in this document.</p></div>
+<div class="sect2">
+<h3 id="_normative_references">8.1. Normative References</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-<a id="hfactor"></a> [HFactor] "H Factor" <a href="http://amundsen.com/hypermedia/hfactor/">http://amundsen.com/hypermedia/hfactor/</a>
+<a id="rfc1867"></a> [RFC1867] Nebel, E., Masinter, L., "Form-based File Upload in HTML", November 1995, <a href="http://tools.ietf.org/search/rfc1867">http://tools.ietf.org/search/rfc1867</a>
 </p>
 </li>
 <li>
 <p>
-<a id="rfc1867"></a> [RFC1867] "Form-based File Upload in HTML" <a href="http://tools.ietf.org/search/rfc1867">http://tools.ietf.org/search/rfc1867</a>
+<a id="rfc2119"></a> [RFC2119] Bradner, S.,"Key words for use in RFCs to Indicate Requirement Levels" <a href="http://tools.ietf.org/html/rfc2119">http://tools.ietf.org/html/rfc2119</a>, March 1997
 </p>
 </li>
 <li>
 <p>
-<a id="rfc2119"></a> [RFC2119] "Key words for use in RFCs to Indicate Requirement Levels" <a href="http://tools.ietf.org/html/rfc2119">http://tools.ietf.org/html/rfc2119</a>
+<a id="rfc3986"></a> [RFC3986] Berners-Lee, T., Fielding, R., and L. Masinter,"Uniform Resource Identifier (URI): Generic Syntax", January 2005, <a href="http://tools.ietf.org/html/rfc3986">http://tools.ietf.org/html/rfc3986</a>
 </p>
 </li>
 <li>
 <p>
-<a id="rfc3986"></a> [RFC3986] "Uniform Resource Identifier (URI): Generic Syntax" <a href="http://tools.ietf.org/html/rfc3986">http://tools.ietf.org/html/rfc3986</a>
+<a id="rfc4627"></a> [RFC4627] D. Crockford, "The application/json Media Type for JavaScript Object Notation (JSON)", July 2006, <a href="http://tools.ietf.org/html/rfc4627">http://tools.ietf.org/html/rfc4627</a>
 </p>
 </li>
 <li>
 <p>
-<a id="rfc4627"></a> [RFC4627] "The application/json Media Type for JavaScript Object Notation (JSON)" <a href="http://tools.ietf.org/html/rfc4627">http://tools.ietf.org/html/rfc4627</a>
+<a id="rfc5988"></a> [RFC5988] M. Nottingham, "Web Linking", October 2010, <a href="http://tools.ietf.org/html/rfc5988">http://tools.ietf.org/html/rfc5988</a>
 </p>
 </li>
 <li>
 <p>
-<a id="rfc5988"></a> [RFC5988] "URI Template" <a href="http://tools.ietf.org/html/rfc5988">http://tools.ietf.org/html/rfc5988</a>
+<a id="rfc6570"></a> [RFC6570] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M., Orchard, D., "URI Template", March 2012, <a href="http://tools.ietf.org/html/rfc6570">http://tools.ietf.org/html/rfc6570</a>
 </p>
 </li>
 <li>
 <p>
-<a id="rfc6570"></a> [RFC6570] "URI Template" <a href="http://tools.ietf.org/html/rfc6570">http://tools.ietf.org/html/rfc6570</a>
-</p>
-</li>
-<li>
-<p>
-<a id="REC-XML"></a> [REC-XML] "Extensible Markup Language (XML) 1.0 (Fifth Edition)" <a href="http://www.w3.org/TR/REC-xml/">http://www.w3.org/TR/REC-xml/</a>
+<a id="REC-XML"></a> [REC-XML] Bray, T., Paoli, J., Sperberg-McQueen, C., Maler, E., Yergeau, F., "Extensible Markup Language (XML) 1.0 (Fifth Edition)", November 2008, <a href="http://www.w3.org/TR/REC-xml/">http://www.w3.org/TR/REC-xml/</a>
 </p>
 </li>
 </ul></div>
+</div>
+<div class="sect2">
+<h3 id="_informative_references">8.2. Informative References</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+<a id="hfactor"></a> [HFactor] Amundsen, M. "H Factor",  May 2010, <a href="http://amundsen.com/hypermedia/hfactor/">http://amundsen.com/hypermedia/hfactor/</a>
+</p>
+</li>
+<li>
+<p>
+<a id="iana-rel"></a> [IANA-REL] "Link Relations, December 2013, <a href="http://www.iana.org/assignments/link-relations/link-relations.xhtml">http://www.iana.org/assignments/link-relations/link-relations.xhtml</a>
+</p>
+</li>
+<li>
+<p>
+<a id="mf-rel"></a> [MF-REL] "Microformat Existing Rel Values", February 2014, <a href="http://microformats.org/wiki/existing-rel-values">http://microformats.org/wiki/existing-rel-values</a>
+</p>
+</li>
+<li>
+<p>
+<a id="dc-rel"></a> [DC-REL] "Dublin Core Metadata Element Set, Version 1.1", June 2012, <a href="http://dublincore.org/documents/dces/">http://dublincore.org/documents/dces/</a>
+</p>
+</li>
+</ul></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1538,7 +1583,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-24 01:52:42 EST
+Last updated 2014-02-24 09:00:28 EST
 </div>
 </div>
 </body>
