@@ -853,9 +853,9 @@ Reserved values for the <tt>transclude</tt> attribute
 <h3 id="_message_map">3.4. Message Map</h3>
 <div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
 <div class="listingblock">
+<div class="title">Uber Message Model (XML)</div>
 <div class="content">
-<pre><tt>&lt;!-- XML variant --&gt;
-&lt;uber @version&gt;
+<pre><tt>&lt;uber @version&gt;
   &lt;data @id @name @rel @url @action @transclude @model @send-format @receive-format&gt;
     &lt;data ... &gt;
        &lt;data ... /&gt;
@@ -998,10 +998,9 @@ Reserved values for the <tt>transclude</tt> attribute
 </dd>
 </dl></div>
 <div class="listingblock">
-<div class="title">Example <tt>&lt;data&gt;</tt> Elements</div>
+<div class="title">Example <tt>&lt;data&gt;</tt> Elements (XML)</div>
 <div class="content">
-<pre><tt>&lt;!-- XML format --&gt;
-&lt;uber version="1.0"&gt;
+<pre><tt>&lt;uber version="1.0"&gt;
   &lt;data id="root"&gt;
     &lt;data rel="self" url="http://example.org/" /&gt;
     &lt;data name="list" rel="collection" url="http://example.org/list/"&gt;
@@ -1016,10 +1015,12 @@ Reserved values for the <tt>transclude</tt> attribute
       &lt;/data&gt;
     &lt;/data&gt;
   &lt;/data&gt;
-&lt;/uber&gt;
-
-// JSON format
-{
+&lt;/uber&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">Example <tt>&lt;data&gt;</tt> Elements (JSON)</div>
+<div class="content">
+<pre><tt>{
   "uber" :
   {
     "version" : "1.0",
@@ -1030,36 +1031,40 @@ Reserved values for the <tt>transclude</tt> attribute
         "data" :
         [
           {"rel" : "self", "url" : "http://example.org/"},
-          {"name" : "list", "rel" : "collection", "url" : "http://example.org/list/"},
-          "data" :
-          [
-            {
-              "name" : "search,
-              "rel" : "search",
-              "url" : "http://example.org/search",
-              "model" : "{&amp;title}"
-            },
-            {
-              "name" : "todo",
-              "rel" : "item",
-              "url" : "http://example.org/list/1",
-              "data" :
-              [
-                {"name" : "title", "value" : "Clean house"},
-                {"name" : "dueDate", "value" : "2014-05-01"}
-              ]
-            },
-            {
-              "name" : "todo",
-              "rel" : "item",
-              "url" : "http://example.org/list/2",
-              "data" :
-              [
-                {"name" : "title", "value" : "Paint the fence"},
-                {"name" : "dueDate", "value" : "2014-06-01"}
-              ]
-            }
-          ]
+          {
+            "name" : "list",
+            "rel" : "collection",
+            "url" : "http://example.org/list/",
+            "data" :
+            [
+              {
+                "name" : "search",
+                "rel" : "search",
+                "url" : "http://example.org/search",
+                "model" : "{&amp;title}"
+              },
+              {
+                "name" : "todo",
+                "rel" : "item",
+                "url" : "http://example.org/list/1",
+                "data" :
+                [
+                  {"name" : "title", "value" : "Clean house"},
+                  {"name" : "dueDate", "value" : "2014-05-01"}
+                ]
+              },
+              {
+                "name" : "todo",
+                "rel" : "item",
+                "url" : "http://example.org/list/2",
+                "data" :
+                [
+                  {"name" : "title", "value" : "Paint the fence"},
+                  {"name" : "dueDate", "value" : "2014-06-01"}
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
@@ -1071,18 +1076,19 @@ Reserved values for the <tt>transclude</tt> attribute
 <h3 id="_the_tt_lt_error_gt_tt_element">3.7. The <tt>&lt;error&gt;</tt> Element</h3>
 <div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
 <div class="listingblock">
-<div class="title">Example <tt>&lt;error&gt;</tt> Elements</div>
+<div class="title">Example <tt>&lt;error&gt;</tt> Element (XML)</div>
 <div class="content">
-<pre><tt>&lt;!-- XML format --&gt;
-&lt;uber version="1.0"&gt;
+<pre><tt>&lt;uber version="1.0"&gt;
   &lt;error&gt;
     &lt;data name="internal-error"&gt;q1w2e3&lt;/data&gt;
     &lt;data name="debug-data" url="http://example.org/debug/1" /&gt;
   &lt;/error&gt;
-&lt;/uber&gt;
-
-// JSON format
-{
+&lt;/uber&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">Example <tt>&lt;error&gt;</tt> Element (JSON)</div>
+<div class="content">
+<pre><tt>{
   "uber" :
   {
     "version" : "1.0",
@@ -1289,92 +1295,110 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
     [
       {"rel" : "self", "url" : "http://example.org/"},
       {"rel" : "profile", "url" : "http://example.org/profiles/people-and-places"},
-      "data" :
-      [
-        {"id" : "people", "rel" : "collection", "url" : "http://example.org/people/"},
+
+      {
         "data" :
         [
           {
-            "name" : "create",
-            "rel" : "http://example.org/rels/create",
+            "id" : "people",
+            "rel" : "collection",
             "url" : "http://example.org/people/",
-            "model" : "g={givenName}&amp;f={familyName}&amp;e={email}",
-            "action" : "append"
-          },
-          {
-            "name" : "search",
-            "rel" : "search",
-            "url" : "http://example.org/people/search",
-            "model" : "?g={givenName}&amp;f={familyName}&amp;e={email}"
-          },
-          {
-            "name" : "person",
-            "rel" : "item",
-            "url" : "http://example.org/people/1",
             "data" :
             [
-              {"name" : "givenName", "value" : "Mike"},
-              {"name" : "familyName", "value" : "Amundsen"},
-              {"name" : "email", "value" : "mike@example.org"},
-              {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1"}
+              {
+                "name" : "create",
+                "rel" : "http://example.org/rels/create",
+                "url" : "http://example.org/people/",
+                "model" : "g={givenName}&amp;f={familyName}&amp;e={email}",
+                "action" : "append"
+              },
+              {
+                "name" : "search",
+                "rel" : "search",
+                "url" : "http://example.org/people/search",
+                "model" : "?g={givenName}&amp;f={familyName}&amp;e={email}"
+              },
+              {
+                "name" : "person",
+                "rel" : "item",
+                "url" : "http://example.org/people/1",
+                "data" :
+                [
+                  {"name" : "givenName", "value" : "Mike"},
+                  {"name" : "familyName", "value" : "Amundsen"},
+                  {"name" : "email", "value" : "mike@example.org"},
+                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1"}
+                ]
+              },
+              {
+                "name" : "person",
+                "rel" : "item",
+                "url" : "http://example.org/people/2",
+                "data" :
+                [
+                  {"name" : "givenName", "value" : "Mildred"},
+                  {"name" : "familyName", "value" : "Amundsen"},
+                  {"name" : "email", "value" : "mildred@example.org"},
+                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2"}
+                ]
+              }
             ]
           },
+
           {
-            "name" : "person",
-            "rel" : "item",
-            "url" : "http://example.org/people/2",
+            "id" : "places",
+            "rel" : "collection",
+            "url" : "http://example.org/places/",
             "data" :
             [
-              {"name" : "givenName", "value" : "Mildred"},
-              {"name" : "familyName", "value" : "Amundsen"},
-              {"name" : "email", "value" : "mildred@example.org"},
-              {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2"}
-            ]
-          }
-        ],
-        {"id" : "places", "rel" : "collection", "url" : "http://example.org/places/"},
-        "data" :
-        [
-          {
-            "name" : "search",
-            "rel" : "search",
-            "url" : "http://example.org/places/search",
-            "model" : "?r={addressRegion}&amp;l={addressLocality}&amp;p={postalCode}"
-          },
-          {
-            "name" : "place",
-            "rel" : "item",
-            "url" : "http://example.org/places/a",
-            "data" :
-            [
-              {"name" : "name", "value" : "Home"},
-              "data" :
-              [
-                {"name" : "streetAddress", "value" : "123 Main Street"},
-                {"name" : "addressLocalitly", "value" : "Byteville"},
-                {"name" : "addressRegion", "value" : "MD"},
-                {"name" : "postalCode", "value" : "12345"}
-              ]
-            ]
-          },
-          {
-            "name" : "place",
-            "rel" : "item",
-            "url" : "http://example.org/places/b",
-            "data" :
-            [
-              {"name" : "name", "value" : "Work"},
-              "data" :
-              [
-                {"name" : "streetAddress", "value" : "1456 Grand Ave."},
-                {"name" : "addressLocalitly", "value" : "Byteville"},
-                {"name" : "addressRegion", "value" : "MD"},
-                {"name" : "postalCode", "value" : "12345"}
-              ]
+              {
+                "name" : "search",
+                "rel" : "search",
+                "url" : "http://example.org/places/search",
+                "model" : "?r={addressRegion}&amp;l={addressLocality}&amp;p={postalCode}"
+              },
+              {
+                "name" : "place",
+                "rel" : "item",
+                "url" : "http://example.org/places/a",
+                "data" :
+                [
+                  {
+                    "name" : "name",
+                    "value" : "Home",
+                    "data" :
+                    [
+                      {"name" : "streetAddress", "value" : "123 Main Street"},
+                      {"name" : "addressLocalitly", "value" : "Byteville"},
+                      {"name" : "addressRegion", "value" : "MD"},
+                      {"name" : "postalCode", "value" : "12345"}
+                    ]
+                  }
+                ]
+              },
+              {
+                "name" : "place",
+                "rel" : "item",
+                "url" : "http://example.org/places/b",
+                "data" :
+                [
+                  {
+                    "name" : "name",
+                    "value" : "Work",
+                    "data" :
+                    [
+                      {"name" : "streetAddress", "value" : "1456 Grand Ave."},
+                      {"name" : "addressLocalitly", "value" : "Byteville"},
+                      {"name" : "addressRegion", "value" : "MD"},
+                      {"name" : "postalCode", "value" : "12345"}
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]
-      ]
+      }
     ]
   }
 }</tt></pre>
@@ -1473,7 +1497,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-23 20:23:49 EST
+Last updated 2014-02-23 23:51:41 EST
 </div>
 </div>
 </body>

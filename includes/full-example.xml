@@ -1,0 +1,56 @@
+<uber version="1.0">
+  <data rel="self" url="http://example.org/" />
+  <data rel="profile" url="http://example.org/profiles/people-and-places/" />
+    
+  <data id="people" rel="collection" url="http://example.org/people/">
+    <data name="create" 
+      rel="http://example.org/rels/create" 
+      url="http://example.org/people/" 
+      model="g={givenName}&f={familyName}&e={email}&a={avatarUrl}"
+      action="append" />
+    <data name="search" 
+      rel="search" 
+      url="http://example.org/search" 
+      model="?g={givenName}&f={familyName}&e={email}" />
+      
+    <data name="person" rel="item" url="http://example.org/people/1">
+      <data name="givenName">Mildred</data>
+      <data name="familyName">Amundsen</data>
+      <data name="email">mildred@example.org</data>
+      <data name="avatarUrl" transclude="true">http://example.org/avatars/1</data>
+    </data>
+    <data name="person" rel="item" url="http://example.org/people/2">
+      <data name="givenName">Mildred</data>
+      <data name="familyName">Amundsen</data>
+      <data name="email">mildred@example.org</data>
+      <data name="avatarUrl" transclude="true">http://example.org/avatars/2</data>
+    </data>
+  </data>
+  
+  <data id="places" rel="collection" url="http://example.org/places/">
+    <data name="search" rel="search" 
+      url="http://example.org/search" 
+      model="?r={addressRegion}&l={addressLocality}&p={postalCode}" />
+      
+    <data name="place" url="http://example.org/places/1">
+      <data name="name">Home</data>
+      <data name="address">
+        <data name="streetAddress">123 Main</data>
+        <data name="addressLocality">Byteville</data>
+        <data name="addressRegion">MD</data>
+        <data name="postalCode">12345</data>
+      </data>
+    </data>
+    <data name="place" url="http://example.org/places/2">
+      <data name="name">Work</data>
+      <data name="address">
+        <data name="streetAddress">456 Grand Ave.</data>
+        <data name="addressLocality">Byteville</data>
+        <data name="addressRegion">MD</data>
+        <data name="postalCode">12345</data>
+      </data>
+    </data>
+  </data>
+  
+</uber>
+

@@ -1,0 +1,22 @@
+<!-- Uber snippet -->
+<data name="create" 
+  rel="http://example.org/rels/create" 
+  url="http://example.org/people/" 
+  model="g={givenName}&f={familyName}&e={email}&a={avatarUrl}"
+  action="append" />
+
+Assume the values supplied are:
+  givenName = Mike
+  familyName = Amundsen
+  email = mike@example.org
+  avatarUrl = http://example.org/avatars/mike.png
+
+*** HTTP Request ***
+POST /people/ HTTP/1.1
+Host: example.org
+Accept-Type: application/vnd.amundsen-uber+xml
+Content-Type: application/x-www-form-urlencoded
+Content-Lengt: xxx
+
+g=Mike&f=Amundsen&e=mike%40example.org&a=http%3A%2F%2Fexample.org%2Favatars%2Fmike.png
+

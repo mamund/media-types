@@ -1,0 +1,16 @@
+<!-- Uber snippet -->
+<data name="search" 
+  rel="search" 
+  url="http://example.org/search" 
+  model="?g={givenName}&f={familyName}&e={email}" />
+
+Assume the values supplied are:
+  givenName = Mike
+  familyName = Amundsen
+  email = mike@example.org
+
+*** HTTP Request ***
+GET /search/?g=Mike&f=Amundsen&e=mike%40example.org HTTP/1.1
+Host: example.org
+Accept-Type: application/vnd.amundsen-uber+xml
+

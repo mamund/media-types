@@ -1,8 +1,9 @@
 Uber Hypermedia
 ===============
 :toc:
-:toc-placement: manual
 :numbered:
+:toc-placement: manual
+
 
 == Document Status
 Author::
@@ -100,20 +101,9 @@ Reserved values for the +transclude+ attribute::
 === Message Map
 Below is a simple `map' of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
 
+.Uber Message Model (XML)
 ----
-<!-- XML variant -->
-<uber @version>
-  <data @id @name @rel @url @action @transclude @model @send-format @receive-format>
-    <data ... >
-       <data ... />
-    </data>  
-  </data>
-  <error>
-    <data @id @name @rel @url @action @transclude @model @send-format @receive-format>
-       <data ... />
-    </data>
-  </error>
-</uber>
+include::includes/message-model.xml[]
 ----
 
 === The +<uber>+ Element
@@ -172,103 +162,28 @@ When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SH
 +value+::
   In the XML variant of the Uber mesage format, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value. It is the responsibility of the document author to make sure the contents of the +value+ attribute are properly escaped as needed (per Section 2.4 of <<REC-XML,[REC-XML]>> and Section 2.5 of <<rfc4627,[RFC4627]>>).
 
-.Example +<data>+ Elements
+.Example +<data>+ Elements (XML)
 ----
-<!-- XML format -->
-<uber version="1.0">
-  <data id="root">
-    <data rel="self" url="http://example.org/" />
-    <data name="list" rel="collection" url="http://example.org/list/">
-      <data name="search" rel="search" url="http://example.org/search" model="{&title}" />
-      <data name="todo" rel="item" url="http://example.org/list/1">
-        <data name="title">Clean House</data>
-        <data name="dueDate">2014-05-01</data>
-      </data>
-      <data name="todo" rel="item" url="http://example.org/list/2">
-        <data name="title">Paint the fence</data>
-        <data name="dueDate">2014-06-01</data>
-      </data>
-    </data>
-  </data>
-</uber>
+include::includes/search-sample.xml[]
+----
 
-// JSON format
-{
-  "uber" : 
-  {
-    "version" : "1.0", 
-    "data" :
-    [
-      {
-        "id" : "root", 
-        "data" :
-        [
-          {"rel" : "self", "url" : "http://example.org/"},
-          {"name" : "list", "rel" : "collection", "url" : "http://example.org/list/"},
-          "data" :
-          [
-            {
-              "name" : "search, 
-              "rel" : "search",
-              "url" : "http://example.org/search",
-              "model" : "{&title}"
-            },
-            {
-              "name" : "todo",
-              "rel" : "item",
-              "url" : "http://example.org/list/1",
-              "data" : 
-              [
-                {"name" : "title", "value" : "Clean house"},
-                {"name" : "dueDate", "value" : "2014-05-01"}
-              ]
-            },
-            {
-              "name" : "todo",
-              "rel" : "item",
-              "url" : "http://example.org/list/2",
-              "data" : 
-              [
-                {"name" : "title", "value" : "Paint the fence"},
-                {"name" : "dueDate", "value" : "2014-06-01"}
-              ]
-            }
-          ]  
-        ]
-      }    
-    ]
-  }
-}
+.Example +<data>+ Elements (JSON)
 ----
+include::includes/search-sample.js[]
+----
+
 
 === The +<error>+ Element
 The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
 
-.Example +<error>+ Elements
+.Example +<error>+ Element (XML)
 ----
-<!-- XML format -->
-<uber version="1.0">
-  <error>
-    <data name="internal-error">q1w2e3</data>
-    <data name="debug-data" url="http://example.org/debug/1" />
-  </error>
-</uber>
+include::includes/error-sample.xml[]
+----
 
-// JSON format
-{
-  "uber" :
-  {
-    "version" : "1.0",
-    "error" : 
-    {
-      "data" : 
-      [
-        {"name" : "internal-error", "value" : "q1w2e3"},
-        {"name" : "debug-data", "url" : "http://example.org/debug/1"}
-      ]
-    }
-  }
-}
+.Example +<error>+ Element (JSON)
+----
+include::includes/error-sample.js[]
 ----
 
 == Implementation Guidelines
@@ -297,21 +212,7 @@ When applied to HTTP, any +model+ value associated with a +data+ element with th
 
 .Converting an Uber +read+ Action into an HTTP Query String
 ----
-<!-- Uber snippet -->
-<data name="search" 
-  rel="search" 
-  url="http://example.org/search" 
-  model="?g={givenName}&f={familyName}&e={email}" />
-
-Assume the values supplied are:
-  givenName = Mike
-  familyName = Amundsen
-  email = mike@example.org
-
-*** HTTP Request ***
-GET /search/?g=Mike&f=Amundsen&e=mike%40example.org HTTP/1.1
-Host: example.org
-Accept-Type: application/vnd.amundsen-uber+xml
+include::includes/uber-query-string.txt[]
 ----
 
 ==== User Uber +model+ Values to create HTTP Request Bodies
@@ -319,27 +220,7 @@ Any +model+ value associated with a +data+ element with the +action+ attribute s
 
 .Converting an Uber +append+ Action into an HTTP Request
 ----
-<!-- Uber snippet -->
-<data name="create" 
-  rel="http://example.org/rels/create" 
-  url="http://example.org/people/" 
-  model="g={givenName}&f={familyName}&e={email}&a={avatarUrl}"
-  action="append" />
-
-Assume the values supplied are:
-  givenName = Mike
-  familyName = Amundsen
-  email = mike@example.org
-  avatarUrl = http://example.org/avatars/mike.png
-
-*** HTTP Request ***
-POST /people/ HTTP/1.1
-Host: example.org
-Accept-Type: application/vnd.amundsen-uber+xml
-Content-Type: application/x-www-form-urlencoded
-Content-Lengt: xxx
-
-g=Mike&f=Amundsen&e=mike%40example.org&a=http%3A%2F%2Fexample.org%2Favatars%2Fmike.png
+include::includes/uber-request-body.txt[]
 ----
 
 === Supporting Uber Documents Over other Protocols
@@ -353,61 +234,7 @@ Below is an XML Example of an Uber message.
 
 .XML Example
 ----
-<uber version="1.0">
-  <data rel="self" url="http://example.org/" />
-  <data rel="profile" url="http://example.org/profiles/people-and-places/" />
-    
-  <data id="people" rel="collection" url="http://example.org/people/">
-    <data name="create" 
-      rel="http://example.org/rels/create" 
-      url="http://example.org/people/" 
-      model="g={givenName}&f={familyName}&e={email}&a={avatarUrl}"
-      action="append" />
-    <data name="search" 
-      rel="search" 
-      url="http://example.org/search" 
-      model="?g={givenName}&f={familyName}&e={email}" />
-      
-    <data name="person" rel="item" url="http://example.org/people/1">
-      <data name="givenName">Mildred</data>
-      <data name="familyName">Amundsen</data>
-      <data name="email">mildred@example.org</data>
-      <data name="avatarUrl" transclude="true">http://example.org/avatars/1</data>
-    </data>
-    <data name="person" rel="item" url="http://example.org/people/2">
-      <data name="givenName">Mildred</data>
-      <data name="familyName">Amundsen</data>
-      <data name="email">mildred@example.org</data>
-      <data name="avatarUrl" transclude="true">http://example.org/avatars/2</data>
-    </data>
-  </data>
-  
-  <data id="places" rel="collection" url="http://example.org/places/">
-    <data name="search" rel="search" 
-      url="http://example.org/search" 
-      model="?r={addressRegion}&l={addressLocality}&p={postalCode}" />
-      
-    <data name="place" url="http://example.org/places/1">
-      <data name="name">Home</data>
-      <data name="address">
-        <data name="streetAddress">123 Main</data>
-        <data name="addressLocality">Byteville</data>
-        <data name="addressRegion">MD</data>
-        <data name="postalCode">12345</data>
-      </data>
-    </data>
-    <data name="place" url="http://example.org/places/2">
-      <data name="name">Work</data>
-      <data name="address">
-        <data name="streetAddress">456 Grand Ave.</data>
-        <data name="addressLocality">Byteville</data>
-        <data name="addressRegion">MD</data>
-        <data name="postalCode">12345</data>
-      </data>
-    </data>
-  </data>
-  
-</uber>
+include::includes/full-example.xml[]
 ----
 
 === JSON Example
@@ -415,103 +242,7 @@ Below is a JSON Example of an Uber message.
 
 .Uber JSON Example
 ----
-{ 
-  "uber" :
-  {
-    "version" : " 1.0",
-    "data" :
-    [
-      {"rel" : "self", "url" : "http://example.org/"},
-      {"rel" : "profile", "url" : "http://example.org/profiles/people-and-places"},
-      "data" : 
-      [
-        {"id" : "people", "rel" : "collection", "url" : "http://example.org/people/"},
-        "data" : 
-        [
-          {
-            "name" : "create", 
-            "rel" : "http://example.org/rels/create", 
-            "url" : "http://example.org/people/",
-            "model" : "g={givenName}&f={familyName}&e={email}",
-            "action" : "append"
-          },
-          {
-            "name" : "search",
-            "rel" : "search",
-            "url" : "http://example.org/people/search",
-            "model" : "?g={givenName}&f={familyName}&e={email}"
-          },
-          {
-            "name" : "person",
-            "rel" : "item",
-            "url" : "http://example.org/people/1",
-            "data" :
-            [
-              {"name" : "givenName", "value" : "Mike"},
-              {"name" : "familyName", "value" : "Amundsen"},
-              {"name" : "email", "value" : "mike@example.org"},
-              {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1"}
-            ]
-          },
-          {
-            "name" : "person",
-            "rel" : "item",
-            "url" : "http://example.org/people/2",
-            "data" :
-            [
-              {"name" : "givenName", "value" : "Mildred"},
-              {"name" : "familyName", "value" : "Amundsen"},
-              {"name" : "email", "value" : "mildred@example.org"},
-              {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2"}
-            ]
-          }
-        ],
-        {"id" : "places", "rel" : "collection", "url" : "http://example.org/places/"},
-        "data" :
-        [
-          {
-            "name" : "search",
-            "rel" : "search",
-            "url" : "http://example.org/places/search",
-            "model" : "?r={addressRegion}&l={addressLocality}&p={postalCode}"
-          },
-          {
-            "name" : "place",
-            "rel" : "item",
-            "url" : "http://example.org/places/a",
-            "data" : 
-            [
-              {"name" : "name", "value" : "Home"},
-              "data" :
-              [
-                {"name" : "streetAddress", "value" : "123 Main Street"},
-                {"name" : "addressLocalitly", "value" : "Byteville"},
-                {"name" : "addressRegion", "value" : "MD"},
-                {"name" : "postalCode", "value" : "12345"}
-              ]
-            ]
-          },
-          {
-            "name" : "place",
-            "rel" : "item",
-            "url" : "http://example.org/places/b",
-            "data" : 
-            [
-              {"name" : "name", "value" : "Work"},
-              "data" : 
-              [
-                {"name" : "streetAddress", "value" : "1456 Grand Ave."},
-                {"name" : "addressLocalitly", "value" : "Byteville"},
-                {"name" : "addressRegion", "value" : "MD"},
-                {"name" : "postalCode", "value" : "12345"}
-              ]
-            ]
-          }
-        ]
-      ]
-    ]
-  }
-}
+include::includes/full-example.js[]
 ----
 
 == Extensibility
