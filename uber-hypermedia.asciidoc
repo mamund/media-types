@@ -1,6 +1,7 @@
 Uber Hypermedia
 ===============
 :toc:
+:toc-placement: manual
 :numbered:
 
 == Document Status
@@ -18,6 +19,8 @@ Last Updated::
   {docdate}
 Proposed IANA Registrations::
   +application/vnd.amundsen-uber+xml+, +application/vnd.amundsen-uber+json+
+
+toc::[]
   
 == General
 The Uber message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting Uber messages over the HTTP protocol.
