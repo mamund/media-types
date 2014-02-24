@@ -98,9 +98,9 @@ Reserved values for the +transclude+ attribute::
 Below is a simple `map' of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
 
 .Uber Message Model (XML)
-----
+--
 include::includes/message-model.xml[]
-----
+--
 
 === The +<uber>+ Element
 This is the root element of an Uber message. Every Uber message MUST have this as it's root. The +<uber>+ element has one optional attribute: +version+ which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, it SHOULD be assumed to be set to "1.0".
@@ -170,28 +170,28 @@ In the JSON variant there is a +value+ attribute that contains the associated va
 For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the +value+ attribute are properly escaped as needed (per Section 2.4 of <<REC-XML,[REC-XML]>> and Section 2.5 of <<rfc4627,[RFC4627]>>).
 
 .Example +<data>+ Elements (XML)
-----
+--
 include::includes/search-sample.xml[]
-----
+--
 
 .Example +<data>+ Elements (JSON)
-----
+--
 include::includes/search-sample.js[]
-----
+--
 
 
 === The +<error>+ Element
 The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
 
 .Example +<error>+ Element (XML)
-----
+--
 include::includes/error-sample.xml[]
-----
+--
 
 .Example +<error>+ Element (JSON)
-----
+--
 include::includes/error-sample.js[]
-----
+--
 
 == Implementation Guidelines
 Since the Uber messsage format was designed to work with multiple application protocols (HTTP, CoAP, etc.), there needs to be some guidelines for createing a protocol-specific implementation that supports Uber documents. Below is the HTTP guidance for Uber documents. This can be used as a guide in creating (and documenting) other protocol-specific implemenations.
@@ -218,17 +218,17 @@ Uber Action,HTTP Method, Uber Model Modifies
 When applied to HTTP, any +model+ value associated with a +data+ element with the +action+ attribute set to +read+ or +remove+ MUST be converted into a valid query string. The follwing example shows how an Uber message snippet is converted into a valid HTTP query string:
 
 .Converting an Uber +read+ Action into an HTTP Query String
-----
+--
 include::includes/uber-query-string.txt[]
-----
+--
 
 ==== User Uber +model+ Values to create HTTP Request Bodies
 Any +model+ value associated with a +data+ element with the +action+ attribute set to +append+, +diff+, or +update+ MUST be convereted into a valid HTTP request body. The follwing example shows how an Uber message snippet is converted into a valid HTTP request body:
 
 .Converting an Uber +append+ Action into an HTTP Request
-----
+--
 include::includes/uber-request-body.txt[]
-----
+--
 
 === Supporting Uber Documents Over other Protocols
 It is possible that Uber documents can be exchanged using a protocol other than HTTP. In that case, it is the responsibility of the implementor to provide a guideline document that covers the same material included in the "Implementation Guidelines" of the Uber Message specification.
@@ -240,17 +240,17 @@ Uber messages may appear in XML or JSON formats. Below are examples of each.
 Below is an XML Example of an Uber message.
 
 .XML Example
-----
+--
 include::includes/full-example.xml[]
-----
+--
 
 === JSON Example
 Below is a JSON Example of an Uber message.
 
 .Uber JSON Example
-----
+--
 include::includes/full-example.js[]
-----
+--
 
 == Extensibility
 This document describes the Uber message format markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber vocabulary SHOULD ignore them.
