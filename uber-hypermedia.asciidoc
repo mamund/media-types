@@ -95,7 +95,7 @@ Reserved values for the +transclude+ attribute::
   * +false+ : treat the associated +url+ value as a 'navigation' to a new document.
 
 === Link Relation Values
-There are no Uber-specific link relation values. Document authors are SHOULD use registered link relation values that comply with those described in RFC5988 <<rfc5988, [RFC5988]>> and from shared public sources such as:
+There are no Uber-specific link relation values. Document authors SHOULD use registered link relation values that comply with those described in RFC5988 <<rfc5988, [RFC5988]>> and from shared public sources such as:
 
  * IANA Link Relations <<iana-rel, [IANA-REL]>>
  * Microformats Existing Rel Values <<mf-rel, [MF-REL]>>
