@@ -85,24 +85,24 @@ There are three reserved strings used as possible values for Uber attributes.
 
 Reserved values for the +action+ attribute::
   * +append+ : An unsafe, non-idempotent request to add a new item.
-  * +diff+ : An unsafe, non-idemponent request to modify parts of an existing item.
+  * +diff+ : An unsafe, non-idempotent request to modify parts of an existing item.
   * +read+ : A safe, idempotent request.
-  * +remove+ : An unsafe, idempontent request to delete an existing item.
-  * +replace+ : An unsafe, idemponent request to replace an existing item.
+  * +remove+ : An unsafe, idempotent request to delete an existing item.
+  * +replace+ : An unsafe, idempotent request to replace an existing item.
 
 Reserved values for the +transclude+ attribute::
   * +true+ : embed the results of the request into the current document
   * +false+ : treat the associated +url+ value as a 'navigation' to a new document.
 
 === Link Relation Values
-There are no Uber-specific link relation values. Document authors are SHOULD use registered link relation values that comply with those described in RFC5988 <<rfc5988, [RFC5988]>> and from shared public sources such as:
+There are no Uber-specific link relation values. Document authors SHOULD use registered link relation values that comply with those described in RFC5988 <<rfc5988, [RFC5988]>> and from shared public sources such as:
 
  * IANA Link Relations <<iana-rel, [IANA-REL]>>
  * Microformats Existing Rel Values <<mf-rel, [MF-REL]>>
  * Dublin Core Metadata Element Set, Version 1.1 <<dc-rel,[DC-REL]>>
  
 === Message Map
-Below is a simple `map' of the Uber message format (XML variant). Along with the three elements, there are ten attributed (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
+Below is a simple `map' of the Uber message format (XML variant). Along with the three elements, there are ten attributes (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
 
 .Uber Message Model (XML)
 ----
@@ -142,10 +142,10 @@ The +<data>+ element is the key element in the model. A valid Uber message SHOUL
   The network request verb associated with this element. The list of valid values for this element are:
 
   * +append+ : An unsafe, non-idempotent request to add a new item (e.g. +HTTP.POST+)
-  * +diff+ : An unsafe, non-idemponent request to modify parts of an existing item (e.g. +HTTP.PATCH+)
+  * +diff+ : An unsafe, non-idempotent request to modify parts of an existing item (e.g. +HTTP.PATCH+)
   * +read+ : A safe, idempotent request (e.g. +HTTP.GET+)
-  * +remove+ : An unsafe, idempontent request to delete an existing item (e.g. +HTTP.DELETE+)
-  * +replace+ : An unsafe, idemponent request to replace an existing item (e.g. +HTTP.PUT+)
+  * +remove+ : An unsafe, idempotent request to delete an existing item (e.g. +HTTP.DELETE+)
+  * +replace+ : An unsafe, idempotent request to replace an existing item (e.g. +HTTP.PUT+)
 
 +
 When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SHOULD be assumed the +action+ attribute is set to +read+. Any value other than those listed here SHOULD be treated as +read+.
