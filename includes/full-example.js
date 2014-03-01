@@ -1,7 +1,7 @@
 { 
   "uber" :
   {
-    "version" : " 1.0",
+    "version" : "1.0",
     "data" :
     [
       {"rel" : "self", "url" : "http://example.org/"},
