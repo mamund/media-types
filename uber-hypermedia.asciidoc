@@ -160,7 +160,7 @@ When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SH
   Contains one or more space-separated media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this attribute is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>.
 
 +receive-format+::
-  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the +Accept+ header. If this attribute is missing, the setting should be assumed to be +application/vnf.uber-amundsen+xml+.
+  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the +Accept+ header. If this attribute is missing, the setting should be assumed to be +application/vnd.uber-amundsen+xml+.
 
 +value+::
   In the XML variant of the Uber mesage format, inner text of the +<data>+ element contains the value associated with that element.
