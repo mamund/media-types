@@ -601,7 +601,7 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-02-24
+  2014-03-04
 </p>
 </dd>
 <dt class="hdlist1">
@@ -989,7 +989,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. Variables in Uber <tt>_model</tt> strings SHOULD be resolved using the values from <tt>name</tt> attributes, but MAY come from any source available to the client application. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body.
+  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. Variables in Uber <tt>model</tt> strings SHOULD be resolved using the values from <tt>name</tt> attributes, but MAY come from any source available to the client application. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1005,7 +1005,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the <tt>Accept</tt> header. If this attribute is missing, the setting should be assumed to be <tt>application/vnf.uber-amundsen+xml</tt>.
+  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the <tt>Accept</tt> header. If this attribute is missing, the setting should be assumed to be <tt>application/vnd.uber-amundsen+xml</tt>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1050,18 +1050,16 @@ string
 <div class="title">Example <tt>&lt;data&gt;</tt> Elements (XML)</div>
 <div class="content">
 <pre><tt>&lt;uber version="1.0"&gt;
-  &lt;data id="root"&gt;
-    &lt;data rel="self" url="http://example.org/" /&gt;
-    &lt;data name="list" rel="collection" url="http://example.org/list/"&gt;
-      &lt;data name="search" rel="search" url="http://example.org/search" model="{&amp;title}" /&gt;
-      &lt;data name="todo" rel="item" url="http://example.org/list/1"&gt;
-        &lt;data name="title"&gt;Clean House&lt;/data&gt;
-        &lt;data name="dueDate"&gt;2014-05-01&lt;/data&gt;
-      &lt;/data&gt;
-      &lt;data name="todo" rel="item" url="http://example.org/list/2"&gt;
-        &lt;data name="title"&gt;Paint the fence&lt;/data&gt;
-        &lt;data name="dueDate"&gt;2014-06-01&lt;/data&gt;
-      &lt;/data&gt;
+  &lt;data rel="self" url="http://example.org/" /&gt;
+  &lt;data name="list" rel="collection" url="http://example.org/list/"&gt;
+  &lt;data name="search" rel="search" url="http://example.org/search" model="{&amp;title}" /&gt;
+    &lt;data name="todo" rel="item" url="http://example.org/list/1"&gt;
+      &lt;data name="title"&gt;Clean House&lt;/data&gt;
+      &lt;data name="dueDate"&gt;2014-05-01&lt;/data&gt;
+    &lt;/data&gt;
+    &lt;data name="todo" rel="item" url="http://example.org/list/2"&gt;
+      &lt;data name="title"&gt;Paint the fence&lt;/data&gt;
+      &lt;data name="dueDate"&gt;2014-06-01&lt;/data&gt;
     &lt;/data&gt;
   &lt;/data&gt;
 &lt;/uber&gt;</tt></pre>
@@ -1075,46 +1073,41 @@ string
     "version" : "1.0",
     "data" :
     [
-      {
-        "id" : "root",
-        "data" :
-        [
-          {"rel" : "self", "url" : "http://example.org/"},
-          {
-            "name" : "list",
-            "rel" : "collection",
-            "url" : "http://example.org/list/",
-            "data" :
-            [
-              {
-                "name" : "search",
-                "rel" : "search",
-                "url" : "http://example.org/search",
-                "model" : "{&amp;title}"
-              },
-              {
-                "name" : "todo",
-                "rel" : "item",
-                "url" : "http://example.org/list/1",
-                "data" :
-                [
-                  {"name" : "title", "value" : "Clean house"},
-                  {"name" : "dueDate", "value" : "2014-05-01"}
-                ]
-              },
-              {
-                "name" : "todo",
-                "rel" : "item",
-                "url" : "http://example.org/list/2",
-                "data" :
-                [
-                  {"name" : "title", "value" : "Paint the fence"},
-                  {"name" : "dueDate", "value" : "2014-06-01"}
-                ]
-              }
-            ]
-          }
-        ]
+      {"rel" : "self", "url" : "http://example.org/"},
+        {
+          "name" : "list",
+          "rel" : "collection",
+          "url" : "http://example.org/list/",
+          "data" :
+          [
+            {
+              "name" : "search",
+              "rel" : "search",
+              "url" : "http://example.org/search",
+              "model" : "{&amp;title}"
+            },
+            {
+              "name" : "todo",
+              "rel" : "item",
+              "url" : "http://example.org/list/1",
+              "data" :
+              [
+                {"name" : "title", "value" : "Clean house"},
+                {"name" : "dueDate", "value" : "2014-05-01"}
+              ]
+            },
+            {
+              "name" : "todo",
+              "rel" : "item",
+              "url" : "http://example.org/list/2",
+              "data" :
+              [
+                {"name" : "title", "value" : "Paint the fence"},
+                {"name" : "dueDate", "value" : "2014-06-01"}
+              ]
+            }
+          ]
+        }
       }
     ]
   }
@@ -1346,7 +1339,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <pre><tt>{
   "uber" :
   {
-    "version" : " 1.0",
+    "version" : "1.0",
     "data" :
     [
       {"rel" : "self", "url" : "http://example.org/"},
@@ -1576,14 +1569,16 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <div class="sect1">
 <h2 id="_acknowledgements">9. Acknowledgements</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The author would like to thank everyone who commented upon, encouraged, and gave feedback to this specification, especially Matthew McClure.</p></div>
+<div class="paragraph"><p>The author would like to thank everyone who commented upon,
+encouraged, and gave feedback to this specification,
+especially Matthew McClure and Cédric Brancourt.</p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-24 09:00:28 EST
+Last updated 2014-03-04 10:33:52 EST
 </div>
 </div>
 </body>

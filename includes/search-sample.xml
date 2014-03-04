@@ -1,16 +1,14 @@
 <uber version="1.0">
-  <data id="root">
-    <data rel="self" url="http://example.org/" />
-    <data name="list" rel="collection" url="http://example.org/list/">
-      <data name="search" rel="search" url="http://example.org/search" model="{&title}" />
-      <data name="todo" rel="item" url="http://example.org/list/1">
-        <data name="title">Clean House</data>
-        <data name="dueDate">2014-05-01</data>
-      </data>
-      <data name="todo" rel="item" url="http://example.org/list/2">
-        <data name="title">Paint the fence</data>
-        <data name="dueDate">2014-06-01</data>
-      </data>
+  <data rel="self" url="http://example.org/" />
+  <data name="list" rel="collection" url="http://example.org/list/">
+  <data name="search" rel="search" url="http://example.org/search" model="{&title}" />
+    <data name="todo" rel="item" url="http://example.org/list/1">
+      <data name="title">Clean House</data>
+      <data name="dueDate">2014-05-01</data>
+    </data>
+    <data name="todo" rel="item" url="http://example.org/list/2">
+      <data name="title">Paint the fence</data>
+      <data name="dueDate">2014-06-01</data>
     </data>
   </data>
 </uber>
