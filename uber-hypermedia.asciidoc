@@ -229,7 +229,7 @@ When applied to HTTP, any +model+ value associated with a +data+ element with th
 include::includes/uber-query-string.txt[]
 ----
 
-==== User Uber +model+ Values to create HTTP Request Bodies
+==== Using Uber +model+ Values to create HTTP Request Bodies
 Any +model+ value associated with a +data+ element with the +action+ attribute set to +append+, +diff+, or +update+ MUST be convereted into a valid HTTP request body. The follwing example shows how an Uber message snippet is converted into a valid HTTP request body:
 
 .Converting an Uber +append+ Action into an HTTP Request
