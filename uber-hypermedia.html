@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.4" />
-<title>Uber Hypermedia</title>
+<title>Uniform Basis for Exchanging Representations (UBER)</title>
 <style type="text/css">
 /* Sans-serif font. */
 h1, h2, h3, h4, h5, h6,
@@ -567,7 +567,7 @@ footnotes: function () {
 </head>
 <body class="article">
 <div id="header">
-<h1>Uber Hypermedia</h1>
+<h1>Uniform Basis for Exchanging Representations (UBER)</h1>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -601,7 +601,7 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-03-04
+  2014-03-08
 </p>
 </dd>
 <dt class="hdlist1">
@@ -618,10 +618,10 @@ Proposed IANA Registrations
 <div class="sect1">
 <h2 id="_general">2. General</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The Uber message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting Uber messages over the HTTP protocol.</p></div>
+<div class="paragraph"><p>The UBER message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting UBER messages over the HTTP protocol.</p></div>
 <div class="sect2">
 <h3 id="_design_goals">2.1. Design Goals</h3>
-<div class="paragraph"><p>The Uber message model has a number of design goals:</p></div>
+<div class="paragraph"><p>The UBER message model has a number of design goals:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -630,12 +630,12 @@ Keep the message structure as lean as possible.
 </li>
 <li>
 <p>
-Support all the H-Factors <a href="#hfactor">[HFactor]</a> in hypermedia controls.
+Support all the H-Factors <a href="#hfactor">[HFactor]</a>.
 </p>
 </li>
 <li>
 <p>
-Be compatible with multiple protocols (e.g. HTTP, CoAP, etc.)
+Be compatible with multiple protocols (e.g. <a href="#rfc2616">[HTTP]</a>, <a href="#idcoap18">[CoAP]</a>, etc.)
 </p>
 </li>
 <li>
@@ -647,7 +647,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 <div class="sect2">
 <h3 id="_messages_not_code">2.2. Messages, Not Code</h3>
-<div class="paragraph"><p>The Uber message model is designed to be a <em>message</em> format and not a source code format. It is optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of Uber. However, the Uber message model <em>is</em> designed to make it relatively easy to write a parser that can consistently transform Uber messages into object models (and back again).</p></div>
+<div class="paragraph"><p>The UBER message model is designed to be a <em>message</em> format and not a source code format. It is optimized for cross-format use (XML and JSON) and not optimized to be directly serialized into source code or data objects. This is especially noticeable in the JSON variant of UBER. However, the UBER message model <em>is</em> designed to make it relatively easy to write a parser that can consistently transform UBER messages into object models (and back again).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_compliance">2.3. Compliance</h3>
@@ -666,19 +666,19 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_uber_message_model">3. The Uber Message Model</h2>
+<h2 id="_the_uber_message_model">3. The UBER Message Model</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The Uber message model is very minimal. There are three elements, eleven possible attributes, and seven reserved string values.</p></div>
+<div class="paragraph"><p>The UBER message model is very minimal. There are three elements, eleven possible attributes, and seven reserved string values.</p></div>
 <div class="sect2">
 <h3 id="_elements">3.1. Elements</h3>
-<div class="paragraph"><p>There are only three elements in the Uber message model:</p></div>
+<div class="paragraph"><p>There are only three elements in the UBER message model:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>&lt;uber&gt;</tt>
 </dt>
 <dd>
 <p>
-  The root element of all Uber messages
+  The root element of all UBER messages
 </p>
 </dd>
 <dt class="hdlist1">
@@ -686,7 +686,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  The main element in Uber messages.
+  The main element in UBER messages.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -701,7 +701,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 <div class="sect2">
 <h3 id="_attributes">3.2. Attributes</h3>
-<div class="paragraph"><p>There are eleven attributes in the Uber design:</p></div>
+<div class="paragraph"><p>There are eleven attributes in the UBER design:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>id</tt>
@@ -760,19 +760,19 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </p>
 </dd>
 <dt class="hdlist1">
-<tt>send-format</tt>
+<tt>sending</tt>
 </dt>
 <dd>
 <p>
-  Contains one or more space-separated media type identifiers for use when sending request bodies.
+  Contains one or more media type identifiers for use when sending request bodies.
 </p>
 </dd>
 <dt class="hdlist1">
-<tt>receive-format</tt>
+<tt>accepting</tt>
 </dt>
 <dd>
 <p>
-  Contains one or more space-separated media type identifiers to expect when recieving request bodies.
+  Contains one or more media type identifiers to expect when receiving request bodies.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -780,7 +780,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  In the XML variant of the Uber mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value.
+  In the XML variant of the UBER mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -788,14 +788,14 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Indicates the Uber message version information.
+  Indicates the UBER message version information.
 </p>
 </dd>
 </dl></div>
 </div>
 <div class="sect2">
 <h3 id="_reserved_strings">3.3. Reserved Strings</h3>
-<div class="paragraph"><p>There are three reserved strings used as possible values for Uber attributes.</p></div>
+<div class="paragraph"><p>There are three reserved strings used as possible values for UBER attributes.</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 Reserved values for the <tt>action</tt> attribute
@@ -809,7 +809,7 @@ Reserved values for the <tt>action</tt> attribute
 </li>
 <li>
 <p>
-<tt>diff</tt> : An unsafe, non-idempotent request to modify parts of an existing item.
+<tt>partial</tt> : An unsafe, non-idempotent request to modify parts of an existing item.
 </p>
 </li>
 <li>
@@ -850,7 +850,7 @@ Reserved values for the <tt>transclude</tt> attribute
 </div>
 <div class="sect2">
 <h3 id="_link_relation_values">3.4. Link Relation Values</h3>
-<div class="paragraph"><p>There are no Uber-specific link relation values. Document authors SHOULD use registered link relation values that comply with those described in RFC5988 <a href="#rfc5988">[RFC5988]</a> and from shared public sources such as:</p></div>
+<div class="paragraph"><p>There are no UBER-specific link relation values. Document authors SHOULD use registered link relation values that comply the guidance provided in RFC5988 <a href="#rfc5988">[RFC5988]</a> and from shared public sources such as:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -871,18 +871,18 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_message_map">3.5. Message Map</h3>
-<div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the Uber message format (XML variant). Along with the three elements, there are ten attributes (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
+<div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the UBER message format (XML variant). Along with the three elements, there are ten attributes (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
 <div class="listingblock">
-<div class="title">Uber Message Model (XML)</div>
+<div class="title">UBER Message Model (XML)</div>
 <div class="content">
 <pre><tt>&lt;uber @version&gt;
-  &lt;data @id @name @rel @url @action @transclude @model @send-format @receive-format&gt;
+  &lt;data @id @name @rel @url @action @transclude @model @sending @accepting&gt;
     &lt;data ... &gt;
        &lt;data ... /&gt;
     &lt;/data&gt;
   &lt;/data&gt;
   &lt;error&gt;
-    &lt;data @id @name @rel @url @action @transclude @model @send-format @receive-format&gt;
+    &lt;data @id @name @rel @url @action @transclude @model @sending @accepting&gt;
        &lt;data ... /&gt;
     &lt;/data&gt;
   &lt;/error&gt;
@@ -891,7 +891,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_uber_gt_tt_element">3.6. The <tt>&lt;uber&gt;</tt> Element</h3>
-<div class="paragraph"><p>This is the root element of an Uber message. Every Uber message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional attribute: <tt>version</tt> which carries the Uber message version information. For this release, all Uber messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, it SHOULD be assumed to be set to "1.0".</p></div>
+<div class="paragraph"><p>This is the root element of an UBER message. Every UBER message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional attribute: <tt>version</tt> which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, it SHOULD be assumed to be set to "1.0".</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;uber&gt;</tt> Elements</div>
 <div class="content">
@@ -906,7 +906,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_data_gt_tt_element">3.7. The <tt>&lt;data&gt;</tt> Element</h3>
-<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid Uber message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
+<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid UBER message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>id</tt>
@@ -921,7 +921,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> attribute is present it MAY be used as a variable in the Uber <tt>model</tt> attribute as described in <a href="#rfc6570">[RFC6570]</a>.
+  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> attribute is present it MAY be used as a variable in the UBER <tt>model</tt> attribute as described in <a href="#rfc6570">[RFC6570]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -929,7 +929,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains a space-separated list of link relation values. These values SHOULD conform to those described in RFC5988 <a href="#rfc5988">[RFC5988]</a>.
+  Contains a list of link relation values. These values SHOULD conform to the guidance provided in RFC5988 <a href="#rfc5988">[RFC5988]</a>. In the XML variant the list of link relation values appears as a space-separated list. In the JSON variant the list of link realtion values appears as an array.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -950,27 +950,27 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 <div class="ulist"><ul>
 <li>
 <p>
-<tt>append</tt> : An unsafe, non-idempotent request to add a new item (e.g. <tt>HTTP.POST</tt>)
+<tt>append</tt> : An unsafe, non-idempotent request to add a new item (e.g. <tt>HTTP.POST</tt> <a href="#rfc2616">[RFC2616]</a>)
 </p>
 </li>
 <li>
 <p>
-<tt>diff</tt> : An unsafe, non-idempotent request to modify parts of an existing item (e.g. <tt>HTTP.PATCH</tt>)
+<tt>partial</tt> : An unsafe, non-idempotent request to modify parts of an existing item (e.g. <tt>HTTP.PATCH</tt> <a href="#rfc5789">[RFC5789]</a>)
 </p>
 </li>
 <li>
 <p>
-<tt>read</tt> : A safe, idempotent request (e.g. <tt>HTTP.GET</tt>)
+<tt>read</tt> : A safe, idempotent request (e.g. <tt>HTTP.GET</tt> <a href="#rfc2616">[RFC2616]</a>)
 </p>
 </li>
 <li>
 <p>
-<tt>remove</tt> : An unsafe, idempotent request to delete an existing item (e.g. <tt>HTTP.DELETE</tt>)
+<tt>remove</tt> : An unsafe, idempotent request to delete an existing item (e.g. <tt>HTTP.DELETE</tt> <a href="#rfc2616">[RFC2616]</a>)
 </p>
 </li>
 <li>
 <p>
-<tt>replace</tt> : An unsafe, idempotent request to replace an existing item (e.g. <tt>HTTP.PUT</tt>)
+<tt>replace</tt> : An unsafe, idempotent request to replace an existing item (e.g. <tt>HTTP.PUT</tt> <a href="#rfc2616">[RFC2616]</a>)
 </p>
 </li>
 </ul></div>
@@ -989,31 +989,33 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. Variables in Uber <tt>model</tt> strings SHOULD be resolved using the values from <tt>name</tt> attributes, but MAY come from any source available to the client application. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> then the <tt>model</tt> is applied to the request body.
+  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. Variables in UBER <tt>model</tt> strings SHOULD be resolved using the values from <tt>name</tt> attributes, but MAY come from any source available to the client application. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>partial</tt>, or <tt>replace</tt> then the <tt>model</tt> is applied to the request body.
 </p>
 </dd>
 <dt class="hdlist1">
-<tt>send-format</tt>
+<tt>sending</tt>
 </dt>
 <dd>
 <p>
-  Contains one or more space-separated media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the <tt>Content-Type</tt> header. If this attribute is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
+  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the <tt>Content-Type</tt> header. If this attribute is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
 </p>
+<div class="paragraph"><p>In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.</p></div>
 </dd>
 <dt class="hdlist1">
-<tt>receive-format</tt>
+<tt>accepting</tt>
 </dt>
 <dd>
 <p>
-  Contains one or more space-separated media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the <tt>Accept</tt> header. If this attribute is missing, the setting should be assumed to be <tt>application/vnd.uber-amundsen+xml</tt>.
+  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the <tt>Accept</tt> header. If this attribute is missing, the setting should be assumed to be <tt>application/vnd.uber-amundsen+xml</tt>.
 </p>
+<div class="paragraph"><p>In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.</p></div>
 </dd>
 <dt class="hdlist1">
 <tt>value</tt>
 </dt>
 <dd>
 <p>
-  In the XML variant of the Uber mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element.
+  In the XML variant of the UBER mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element.
 </p>
 <div class="paragraph"><p>In the JSON variant there is a <tt>value</tt> attribute that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <a href="#rfc4627">[RFC4627]</a>):</p></div>
 <div class="ulist"><ul>
@@ -1051,16 +1053,15 @@ string
 <div class="content">
 <pre><tt>&lt;uber version="1.0"&gt;
   &lt;data rel="self" url="http://example.org/" /&gt;
-  &lt;data name="list" rel="collection" url="http://example.org/list/"&gt;
-  &lt;data name="search" rel="search" url="http://example.org/search" model="{&amp;title}" /&gt;
-    &lt;data name="todo" rel="item" url="http://example.org/list/1"&gt;
-      &lt;data name="title"&gt;Clean House&lt;/data&gt;
-      &lt;data name="dueDate"&gt;2014-05-01&lt;/data&gt;
-    &lt;/data&gt;
-    &lt;data name="todo" rel="item" url="http://example.org/list/2"&gt;
-      &lt;data name="title"&gt;Paint the fence&lt;/data&gt;
-      &lt;data name="dueDate"&gt;2014-06-01&lt;/data&gt;
-    &lt;/data&gt;
+  &lt;data name="list" rel="collection" url="http://example.org/list/"/&gt;
+  &lt;data name="search" rel="search collection" url="http://example.org/search" model="{title}" /&gt;
+  &lt;data name="todo" rel="item http://example.org/rels/todo" url="http://example.org/list/1"&gt;
+    &lt;data name="title"&gt;Clean House&lt;/data&gt;
+    &lt;data name="dueDate"&gt;2014-05-01&lt;/data&gt;
+  &lt;/data&gt;
+  &lt;data name="todo" rel="item http://example.org/rels/todo" url="http://example.org/list/2"&gt;
+    &lt;data name="title"&gt;Paint the fence&lt;/data&gt;
+    &lt;data name="dueDate"&gt;2014-06-01&lt;/data&gt;
   &lt;/data&gt;
 &lt;/uber&gt;</tt></pre>
 </div></div>
@@ -1073,41 +1074,40 @@ string
     "version" : "1.0",
     "data" :
     [
-      {"rel" : "self", "url" : "http://example.org/"},
-        {
-          "name" : "list",
-          "rel" : "collection",
-          "url" : "http://example.org/list/",
-          "data" :
-          [
-            {
-              "name" : "search",
-              "rel" : "search",
-              "url" : "http://example.org/search",
-              "model" : "{&amp;title}"
-            },
-            {
-              "name" : "todo",
-              "rel" : "item",
-              "url" : "http://example.org/list/1",
-              "data" :
-              [
-                {"name" : "title", "value" : "Clean house"},
-                {"name" : "dueDate", "value" : "2014-05-01"}
-              ]
-            },
-            {
-              "name" : "todo",
-              "rel" : "item",
-              "url" : "http://example.org/list/2",
-              "data" :
-              [
-                {"name" : "title", "value" : "Paint the fence"},
-                {"name" : "dueDate", "value" : "2014-06-01"}
-              ]
-            }
-          ]
-        }
+      {
+        "rel" : ["self"],
+        "url" : "http://example.org/"
+      },
+      {
+        "name" : "list",
+        "rel" : ["collection"],
+        "url" : "http://example.org/list/"
+      },
+      {
+        "name" : "search",
+        "rel" : ["search","collection"],
+        "url" : "http://example.org/search",
+        "model" : "{&amp;title}"
+      },
+      {
+        "name" : "todo",
+        "rel" : ["item","http://example.org/rels/todo"],
+        "url" : "http://example.org/list/1",
+        "data" :
+        [
+          {"name" : "title", "value" : "Clean house"},
+          {"name" : "dueDate", "value" : "2014-05-01"}
+        ]
+      },
+      {
+        "name" : "todo",
+        "rel" : ["item","http://example.org/rels/todo"],
+        "url" : "http://example.org/list/2",
+        "data" :
+        [
+          {"name" : "title", "value" : "Paint the fence"},
+          {"name" : "dueDate", "value" : "2014-06-01"}
+        ]
       }
     ]
   }
@@ -1122,8 +1122,8 @@ string
 <div class="content">
 <pre><tt>&lt;uber version="1.0"&gt;
   &lt;error&gt;
-    &lt;data name="internal-error"&gt;q1w2e3&lt;/data&gt;
-    &lt;data name="debug-data" url="http://example.org/debug/1" /&gt;
+    &lt;data name="code"&gt;q1w2e3&lt;/data&gt;
+    &lt;data name="dump" url="http://example.org/debug/1" /&gt;
   &lt;/error&gt;
 &lt;/uber&gt;</tt></pre>
 </div></div>
@@ -1138,8 +1138,8 @@ string
     {
       "data" :
       [
-        {"name" : "internal-error", "value" : "q1w2e3"},
-        {"name" : "debug-data", "url" : "http://example.org/debug/1"}
+        {"name" : "code", "value" : "q1w2e3"},
+        {"name" : "dump", "url" : "http://example.org/debug/1"}
       ]
     }
   }
@@ -1151,27 +1151,27 @@ string
 <div class="sect1">
 <h2 id="_implementation_guidelines">4. Implementation Guidelines</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Since the Uber messsage format was designed to work with multiple application protocols (HTTP, CoAP, etc.), there needs to be some guidelines for createing a protocol-specific implementation that supports Uber documents. Below is the HTTP guidance for Uber documents. This can be used as a guide in creating (and documenting) other protocol-specific implemenations.</p></div>
+<div class="paragraph"><p>Since the UBER messsage format was designed to work with multiple application protocols (HTTP, CoAP, etc.), there needs to be some guidelines for creating a protocol-specific implementation that supports UBER documents. Below is the HTTP guidance for UBER documents. This can be used as a guide in creating (and documenting) other protocol-specific implemenations.</p></div>
 <div class="sect2">
-<h3 id="_supporting_uber_documents_over_http">4.1. Supporting Uber Documents over HTTP</h3>
-<div class="paragraph"><p>This section decribes the details of implementing Uber support over HTTP.</p></div>
+<h3 id="_supporting_uber_documents_over_http">4.1. Supporting UBER Documents over HTTP</h3>
+<div class="paragraph"><p>This section decribes the details of implementing UBER support over HTTP.</p></div>
 <div class="sect3">
-<h4 id="_mapping_uber_tt_action_tt_values_to_http_methods">4.1.1. Mapping Uber <tt>action</tt> Values to HTTP Methods</h4>
-<div class="paragraph"><p>When implementating support for Uber documents over HTTP one of the key details is to map the value of Uber&#8217;s <tt>action</tt> attribute to HTTP methods. Table #1 below provides this mapping:</p></div>
+<h4 id="_mapping_uber_tt_action_tt_values_to_http_methods">4.1.1. Mapping UBER <tt>action</tt> Values to HTTP Methods</h4>
+<div class="paragraph"><p>When implementating support for UBER documents over HTTP one of the key details is to map the value of UBER&#8217;s <tt>action</tt> attribute to HTTP methods. Table #1 below provides this mapping:</p></div>
 <div class="tableblock">
 <table rules="rows"
 width="100%"
 frame="border"
 cellspacing="0" cellpadding="4">
-<caption class="title">Table 1. Mapping HTTP Methods to Uber <tt>action</tt> and <tt>model</tt> Values</caption>
+<caption class="title">Table 1. Mapping HTTP Methods to UBER <tt>action</tt> and <tt>model</tt> Values</caption>
 <col width="33%" />
 <col width="33%" />
 <col width="33%" />
 <thead>
 <tr>
-<th align="left" valign="top">Uber Action</th>
+<th align="left" valign="top">UBER Action</th>
 <th align="left" valign="top">HTTP Method</th>
-<th align="left" valign="top">Uber Model Modifies</th>
+<th align="left" valign="top">UBER Model Modifies</th>
 </tr>
 </thead>
 <tbody>
@@ -1181,14 +1181,9 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Request Body</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt>diff</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>partial</tt></p></td>
 <td align="left" valign="top"><p class="table">PATCH</p></td>
 <td align="left" valign="top"><p class="table">Request Body</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><tt>remove</tt></p></td>
-<td align="left" valign="top"><p class="table">DELETE</p></td>
-<td align="left" valign="top"><p class="table">Query String</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><tt>read</tt></p></td>
@@ -1196,7 +1191,12 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Query String</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><tt>update</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>remove</tt></p></td>
+<td align="left" valign="top"><p class="table">DELETE</p></td>
+<td align="left" valign="top"><p class="table">Query String</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><tt>replace</tt></p></td>
 <td align="left" valign="top"><p class="table">PUT</p></td>
 <td align="left" valign="top"><p class="table">Request Body</p></td>
 </tr>
@@ -1205,10 +1205,10 @@ cellspacing="0" cellpadding="4">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_using_uber_tt_model_tt_values_to_create_http_query_strings">4.1.2. Using Uber <tt>model</tt> Values to create HTTP Query Strings</h4>
-<div class="paragraph"><p>When applied to HTTP, any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>read</tt> or <tt>remove</tt> MUST be converted into a valid query string. The follwing example shows how an Uber message snippet is converted into a valid HTTP query string:</p></div>
+<h4 id="_using_uber_tt_model_tt_values_to_create_http_query_strings">4.1.2. Using UBER <tt>model</tt> Values to create HTTP Query Strings</h4>
+<div class="paragraph"><p>When applied to HTTP, any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>read</tt> or <tt>remove</tt> MUST be converted into a valid query string. The follwing example shows how an UBER message snippet is converted into a valid HTTP query string:</p></div>
 <div class="listingblock">
-<div class="title">Converting an Uber <tt>read</tt> Action into an HTTP Query String</div>
+<div class="title">Converting an UBER <tt>read</tt> Action into an HTTP Query String</div>
 <div class="content">
 <pre><tt>&lt;!-- Uber snippet --&gt;
 &lt;data name="search"
@@ -1228,10 +1228,10 @@ Accept-Type: application/vnd.amundsen-uber+xml</tt></pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_user_uber_tt_model_tt_values_to_create_http_request_bodies">4.1.3. Using Uber <tt>model</tt> Values to create HTTP Request Bodies</h4>
-<div class="paragraph"><p>Any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>append</tt>, <tt>diff</tt>, or <tt>update</tt> MUST be convereted into a valid HTTP request body. The follwing example shows how an Uber message snippet is converted into a valid HTTP request body:</p></div>
+<h4 id="_using_uber_tt_model_tt_values_to_create_http_request_bodies">4.1.3. Using UBER <tt>model</tt> Values to create HTTP Request Bodies</h4>
+<div class="paragraph"><p>Any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>append</tt>, <tt>partial</tt>, or <tt>replace</tt> MUST be convereted into a valid HTTP request body. The follwing example shows how an UBER message snippet is converted into a valid HTTP request body:</p></div>
 <div class="listingblock">
-<div class="title">Converting an Uber <tt>append</tt> Action into an HTTP Request</div>
+<div class="title">Converting an UBER <tt>append</tt> Action into an HTTP Request</div>
 <div class="content">
 <pre><tt>&lt;!-- Uber snippet --&gt;
 &lt;data name="create"
@@ -1258,18 +1258,18 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </div>
 </div>
 <div class="sect2">
-<h3 id="_supporting_uber_documents_over_other_protocols">4.2. Supporting Uber Documents Over other Protocols</h3>
-<div class="paragraph"><p>It is possible that Uber documents can be exchanged using a protocol other than HTTP. In that case, it is the responsibility of the implementor to provide a guideline document that covers the same material included in the "Implementation Guidelines" of the Uber Message specification.</p></div>
+<h3 id="_supporting_uber_documents_over_other_protocols">4.2. Supporting UBER Documents Over other Protocols</h3>
+<div class="paragraph"><p>It is possible that UBER documents can be exchanged using a protocol other than HTTP. In that case, it is the responsibility of the implementor to provide a guideline document that covers the same material included in the "Implementation Guidelines" of the UBER Message specification.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_message_examples">5. Message Examples</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Uber messages may appear in XML or JSON formats. Below are examples of each.</p></div>
+<div class="paragraph"><p>UBER messages may appear in XML or JSON formats. Below are examples of each.</p></div>
 <div class="sect2">
 <h3 id="_xml_example">5.1. XML Example</h3>
-<div class="paragraph"><p>Below is an XML Example of an Uber message.</p></div>
+<div class="paragraph"><p>Below is an XML Example of an UBER message.</p></div>
 <div class="listingblock">
 <div class="title">XML Example</div>
 <div class="content">
@@ -1277,37 +1277,38 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
   &lt;data rel="self" url="http://example.org/" /&gt;
   &lt;data rel="profile" url="http://example.org/profiles/people-and-places/" /&gt;
 
-  &lt;data id="people" rel="collection" url="http://example.org/people/"&gt;
+  &lt;data id="people" rel="collection http://example.org/rels/people" url="http://example.org/people/"&gt;
     &lt;data name="create"
       rel="http://example.org/rels/create"
       url="http://example.org/people/"
       model="g={givenName}&amp;f={familyName}&amp;e={email}&amp;a={avatarUrl}"
       action="append" /&gt;
     &lt;data name="search"
-      rel="search"
+      rel="search collection"
       url="http://example.org/search"
       model="?g={givenName}&amp;f={familyName}&amp;e={email}" /&gt;
 
-    &lt;data name="person" rel="item" url="http://example.org/people/1"&gt;
+    &lt;data name="person" rel="item http://example.org/rels/person" url="http://example.org/people/1"&gt;
       &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
       &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
       &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
-      &lt;data name="avatarUrl" transclude="true"&gt;http://example.org/avatars/1&lt;/data&gt;
+      &lt;data name="avatarUrl" transclude="true" accepting="image/*"&gt;http://example.org/avatars/1&lt;/data&gt;
     &lt;/data&gt;
-    &lt;data name="person" rel="item" url="http://example.org/people/2"&gt;
+    &lt;data name="person" rel="item http://example.org/rels/person" url="http://example.org/people/2"&gt;
       &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
       &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
       &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
-      &lt;data name="avatarUrl" transclude="true"&gt;http://example.org/avatars/2&lt;/data&gt;
+      &lt;data name="avatarUrl" transclude="true" accepting="image/*"&gt;http://example.org/avatars/2&lt;/data&gt;
     &lt;/data&gt;
   &lt;/data&gt;
 
-  &lt;data id="places" rel="collection" url="http://example.org/places/"&gt;
-    &lt;data name="search" rel="search"
+  &lt;data id="places" rel="collection http://example.org/rels/places" url="http://example.org/places/"&gt;
+    &lt;data name="search"
+      rel="search collection"
       url="http://example.org/search"
       model="?r={addressRegion}&amp;l={addressLocality}&amp;p={postalCode}" /&gt;
 
-    &lt;data name="place" url="http://example.org/places/1"&gt;
+    &lt;data name="place" url="http://example.org/places/1" rel="item http://example.org/rels/place"&gt;
       &lt;data name="name"&gt;Home&lt;/data&gt;
       &lt;data name="address"&gt;
         &lt;data name="streetAddress"&gt;123 Main&lt;/data&gt;
@@ -1316,7 +1317,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
         &lt;data name="postalCode"&gt;12345&lt;/data&gt;
       &lt;/data&gt;
     &lt;/data&gt;
-    &lt;data name="place" url="http://example.org/places/2"&gt;
+    &lt;data name="place" url="http://example.org/places/2" rel="item http://example.org/rels/place"&gt;
       &lt;data name="name"&gt;Work&lt;/data&gt;
       &lt;data name="address"&gt;
         &lt;data name="streetAddress"&gt;456 Grand Ave.&lt;/data&gt;
@@ -1332,9 +1333,9 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </div>
 <div class="sect2">
 <h3 id="_json_example">5.2. JSON Example</h3>
-<div class="paragraph"><p>Below is a JSON Example of an Uber message.</p></div>
+<div class="paragraph"><p>Below is a JSON Example of an UBER message.</p></div>
 <div class="listingblock">
-<div class="title">Uber JSON Example</div>
+<div class="title">UBER JSON Example</div>
 <div class="content">
 <pre><tt>{
   "uber" :
@@ -1342,53 +1343,53 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
     "version" : "1.0",
     "data" :
     [
-      {"rel" : "self", "url" : "http://example.org/"},
-      {"rel" : "profile", "url" : "http://example.org/profiles/people-and-places"},
+      {"rel" : ["self"], "url" : "http://example.org/"},
+      {"rel" : ["profile"], "url" : "http://example.org/profiles/people-and-places"},
 
       {
         "data" :
         [
           {
             "id" : "people",
-            "rel" : "collection",
+            "rel" : ["collection","http://example.org/rels/people"],
             "url" : "http://example.org/people/",
             "data" :
             [
               {
                 "name" : "create",
-                "rel" : "http://example.org/rels/create",
+                "rel" : ["http://example.org/rels/create"],
                 "url" : "http://example.org/people/",
                 "model" : "g={givenName}&amp;f={familyName}&amp;e={email}",
                 "action" : "append"
               },
               {
                 "name" : "search",
-                "rel" : "search",
+                "rel" : ["search","collection"],
                 "url" : "http://example.org/people/search",
                 "model" : "?g={givenName}&amp;f={familyName}&amp;e={email}"
               },
               {
                 "name" : "person",
-                "rel" : "item",
+                "rel" : ["item","http://example.org/rels/person"],
                 "url" : "http://example.org/people/1",
                 "data" :
                 [
                   {"name" : "givenName", "value" : "Mike"},
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mike@example.org"},
-                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1"}
+                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1", "accepting" : "image/*"}
                 ]
               },
               {
                 "name" : "person",
-                "rel" : "item",
+                "rel" : ["item","http://example.org/rels/person"],
                 "url" : "http://example.org/people/2",
                 "data" :
                 [
                   {"name" : "givenName", "value" : "Mildred"},
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mildred@example.org"},
-                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2"}
+                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2", "accepting" : "image/*"}
                 ]
               }
             ]
@@ -1396,19 +1397,19 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 
           {
             "id" : "places",
-            "rel" : "collection",
+            "rel" : ["collection","http://example.org/rels/places"],
             "url" : "http://example.org/places/",
             "data" :
             [
               {
                 "name" : "search",
-                "rel" : "search",
+                "rel" : ["search","collection"],
                 "url" : "http://example.org/places/search",
                 "model" : "?r={addressRegion}&amp;l={addressLocality}&amp;p={postalCode}"
               },
               {
                 "name" : "place",
-                "rel" : "item",
+                "rel" : ["item","http://example.org/rels/place"],
                 "url" : "http://example.org/places/a",
                 "data" :
                 [
@@ -1427,7 +1428,7 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
               },
               {
                 "name" : "place",
-                "rel" : "item",
+                "rel" : ["item","http://example.org/rels/place"],
                 "url" : "http://example.org/places/b",
                 "data" :
                 [
@@ -1458,8 +1459,8 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <div class="sect1">
 <h2 id="_extensibility">6. Extensibility</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This document describes the Uber message format markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an Uber document. Any extensions to the Uber Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the Uber vocabulary SHOULD ignore them.</p></div>
-<div class="paragraph"><p>The details of designing and implementing Uber extensions is beyond the scope of this document.</p></div>
+<div class="paragraph"><p>This document describes the UBER message format markup vocabulary. Markup from other vocabularies ("foreign markup") can be used in an UBER document. Any extensions to the UBER Hypermedia vocabulary MUST not redefine any objects (or their properties), arrays, properties, link relations, or data types defined in this document. Clients that do not recognize extensions to the UBER vocabulary SHOULD ignore them.</p></div>
+<div class="paragraph"><p>The details of designing and implementing UBER extensions is beyond the scope of this document.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1486,12 +1487,12 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </div>
 <div class="sect2">
 <h3 id="_security_considerations">7.3. Security Considerations</h3>
-<div class="paragraph"><p>The XML variant of the Uber message format shares security issues common to all XML content types. It does not provide executable content. Information contained in Uber documents do not require privacy or integrity services.</p></div>
-<div class="paragraph"><p>The JSON variant of the Uber message format shares security issues common to all JSON content types. See RFC4627 Section #6 <a href="#rfc4627">[RFC4627]</a> for additional information. The Uber message format does not provide executable content. Information contained in Uber documents do not require privacy or integrity services.</p></div>
+<div class="paragraph"><p>The XML variant of the UBER message format shares security issues common to all XML content types. It does not provide executable content. Information contained in UBER documents do not require privacy or integrity services.</p></div>
+<div class="paragraph"><p>The JSON variant of the UBER message format shares security issues common to all JSON content types. See RFC4627 Section #6 <a href="#rfc4627">[RFC4627]</a> for additional information. The UBER message format does not provide executable content. Information contained in UBER documents do not require privacy or integrity services.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_internationalization_considerations">7.4. Internationalization Considerations</h3>
-<div class="paragraph"><p>The Uber message format does not have any internationalization considerations other than those which are discussed in referenced RFC documents (see below).</p></div>
+<div class="paragraph"><p>The UBER message format does not have any internationalization considerations other than those which are discussed in referenced RFC documents (see below).</p></div>
 </div>
 </div>
 </div>
@@ -1509,7 +1510,12 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </li>
 <li>
 <p>
-<a id="rfc2119"></a> [RFC2119] Bradner, S.,"Key words for use in RFCs to Indicate Requirement Levels" <a href="http://tools.ietf.org/html/rfc2119">http://tools.ietf.org/html/rfc2119</a>, March 1997
+<a id="rfc2119"></a> [RFC2119] Bradner, S.,"Key words for use in RFCs to Indicate Requirement Levels", March 1997, <a href="http://tools.ietf.org/html/rfc2119">http://tools.ietf.org/html/rfc2119</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc2616"></a> [RFC2616] Fielding, R, et al, "Hypertext Transfer Protocol&#8201;&#8212;&#8201;HTTP/1.1", June 1999, <a href="https://tools.ietf.org/html/rfc2616">https://tools.ietf.org/html/rfc2616</a>
 </p>
 </li>
 <li>
@@ -1524,7 +1530,12 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 </li>
 <li>
 <p>
-<a id="rfc5988"></a> [RFC5988] M. Nottingham, "Web Linking", October 2010, <a href="http://tools.ietf.org/html/rfc5988">http://tools.ietf.org/html/rfc5988</a>
+<a id="rfc5789"></a> [RFC5789] Dusseault, L., Snell, J., "PATCH Method for HTTP", March 2010, <a href="https://tools.ietf.org/html/rfc5789">https://tools.ietf.org/html/rfc5789</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc5988"></a> [RFC5988] Nottingham, M., "Web Linking", October 2010, <a href="http://tools.ietf.org/html/rfc5988">http://tools.ietf.org/html/rfc5988</a>
 </p>
 </li>
 <li>
@@ -1562,6 +1573,11 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
 <a id="dc-rel"></a> [DC-REL] "Dublin Core Metadata Element Set, Version 1.1", June 2012, <a href="http://dublincore.org/documents/dces/">http://dublincore.org/documents/dces/</a>
 </p>
 </li>
+<li>
+<p>
+<a id="idcoap18"></a> [CoAP] "Shelby, Z., Hartke, K., Bormann, C., "Constrained Application Protocol (CoAP)", June 28, 2013, <a href="https://tools.ietf.org/html/draft-ietf-core-coap-18">https://tools.ietf.org/html/draft-ietf-core-coap-18</a>
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -1578,7 +1594,7 @@ especially Matthew McClure and Cédric Brancourt.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-04 10:33:52 EST
+Last updated 2014-03-08 16:13:00 EST
 </div>
 </div>
 </body>

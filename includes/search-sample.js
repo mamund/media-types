@@ -5,23 +5,23 @@
     "data" :
     [
       { 
-        "rel" : "self", 
+        "rel" : ["self"], 
         "url" : "http://example.org/"
       },
       {
         "name" : "list", 
-        "rel" : "collection", 
+        "rel" : ["collection"], 
         "url" : "http://example.org/list/"
       },
       {
         "name" : "search", 
-        "rel" : "search",
+        "rel" : ["search","collection"],
         "url" : "http://example.org/search",
         "model" : "{&title}"
       },
       {
         "name" : "todo",
-        "rel" : "item",
+        "rel" : ["item","http://example.org/rels/todo"],
         "url" : "http://example.org/list/1",
         "data" : 
         [
@@ -31,7 +31,7 @@
       },
       {
         "name" : "todo",
-        "rel" : "item",
+        "rel" : ["item","http://example.org/rels/todo"],
         "url" : "http://example.org/list/2",
         "data" : 
         [

@@ -6,8 +6,8 @@
     {
       "data" : 
       [
-        {"name" : "internal-error", "value" : "q1w2e3"},
-        {"name" : "debug-data", "url" : "http://example.org/debug/1"}
+        {"name" : "code", "value" : "q1w2e3"},
+        {"name" : "dump", "url" : "http://example.org/debug/1"}
       ]
     }
   }
