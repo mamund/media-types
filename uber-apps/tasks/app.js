@@ -1,4 +1,4 @@
-/* tasks user example */
+/* tasks uber example */
 
 var fs = require('fs');
 var http = require('http');
@@ -20,19 +20,21 @@ function handler(req, res) {
 
   var m = {};
   m.item = {};
-  m.search = '';
+  m.filter = '';
   
   // internal urls
   m.homeUrl = '/';
   m.listUrl = '/tasks/';
   m.scriptUrl = '/tasks.js';
-  m.searchUrl = '/tasks/search';
+  m.filterUrl = '/tasks/search';
   m.completeUrl = '/tasks/complete/';
+  m.profileUrl = '/tasks-alps.xml';
 
   // media-type identifiers
   m.uberXml  = {'content-type':'application/xml'};
   m.textHtml = {'content-type':'text/html'};
   m.appJS = {'content-type':'application/javascript'};
+  m.appXml = {'content-type':'application/xml'};
 
   // add support for CORS
   var headers = {
@@ -45,10 +47,11 @@ function handler(req, res) {
   // hypermedia controls
   m.errorMessage = '<uber version="1.0"><error><data id="status">{status}</data><data id="message">{msg}</data></error></uber>';
   m.addControl = '<data id="add" rel="add" href="/tasks/" action="create" model="text={text}" />';
-  m.searchControl = '<data id="search" rel="search" href="/tasks/search" action="read" model="?text={text}" />';
+  m.filterControl = '<data id="search" rel="search" href="/tasks/search" action="read" model="?text={text}" />';
   m.listControl = '<data id="list" rel="collection" href="/tasks/" action="read" />';
   m.completeControl = '<data rel="complete" href="/tasks/complete/?id={id}" action="create" />';
   m.itemControl = '<data id="task{id}" rel="item">{complete}<data name="text">{text}</data></data>'; 
+  m.profileControl = '<data id="alps" rel="profile" href="/tasks-alps.xml" action="read" />';
 
   // add support for CORS
   var headers = {
@@ -65,9 +68,9 @@ function handler(req, res) {
     var url;
 
     // check for a search query
-    if(req.url.indexOf(m.searchUrl)!==-1) {
-      url = m.searchUrl;
-      m.search = req.url.substring(m.searchUrl.length,255).replace('?text=','');
+    if(req.url.indexOf(m.filterUrl)!==-1) {
+      url = m.filterUrl;
+      m.filter = req.url.substring(m.filterUrl.length,255).replace('?text=','');
     }
     else {
       url = req.url;
@@ -101,6 +104,16 @@ function handler(req, res) {
             break;
         }
         break;
+      case m.profileUrl:
+        switch(req.method) {
+          case 'GET':
+            showProfile();
+            break;
+          default:
+            showError(405, 'Method not allowed');
+            break;
+        }
+        break;
       case m.listUrl:
         switch(req.method) {
           case 'GET':
@@ -114,7 +127,7 @@ function handler(req, res) {
             break;
         }
         break;
-      case m.searchUrl:
+      case m.filterUrl:
         switch(req.method) {
           case 'GET':
             searchList();
@@ -149,18 +162,7 @@ function handler(req, res) {
   function sendList() {
     var msg, i, x;
 
-    msg = '<uber version="1.0">';
-    if(g.list.length>0) {
-      msg += m.listControl;
-      msg += m.searchControl;
-    }
-    msg += m.addControl;
-
-    for(i=0,x=g.list.length;i<x;i++) {
-      msg += m.itemControl.replace("{complete}",m.completeControl).replace(/{id}/gi,g.list[i].id).replace(/{text}/gi,g.list[i].text);
-    }
-    msg += '</uber>'
-
+    msg = makeUber(g.list,false);
     res.writeHead(200, 'OK', m.uberXml);
     res.end(msg);
   }
@@ -172,27 +174,16 @@ function handler(req, res) {
 
   */
   function searchList() {
-    var search, i, x, msg;
+    var coll, i, x, msg;
 
-    search = [];
+    coll = [];
     for(i=0,x=g.list.length;i<x;i++) {
-      if(g.list[i].text.indexOf(m.search)!==-1) {
-        search.push(g.list[i]);
+      if(g.list[i].text.indexOf(m.filter)!==-1) {
+        coll.push(g.list[i]);
       }
     }
 
-    msg  = '<uber version="1.0">';
-    if(search.length>0) {
-      msg += m.listControl;
-      msg += m.searchControl;
-    }
-    msg += m.addControl;
-
-    for(i=0,x=search.length;i<x;i++) {
-      msg += m.itemControl.replace("{complete}",m.completeControl).replace(/{id}/gi,search[i].id).replace(/{text}/gi,search[i].text);
-    }
-    msg += '</uber>';
-
+    msg = makeUber(coll,true);
     res.writeHead(200, 'OK', m.uberXml);
     res.end(msg);
   }
@@ -264,6 +255,26 @@ function handler(req, res) {
     res.end();
   }
 
+  /* generate uber representation */
+  function makeUber(list, showControls) {
+    var i, x, msg;
+
+    msg  = '<uber version="1.0">';
+    msg += m.profileControl
+    if(list.length>0 || showControls===true) {
+      msg += m.listControl;
+      msg += m.filterControl;
+    }
+    msg += m.addControl;
+
+    for(i=0,x=list.length;i<x;i++) {
+      msg += m.itemControl.replace("{complete}",m.completeControl).replace(/{id}/gi,list[i].id).replace(/{text}/gi,list[i].text);
+    }
+    msg += '</uber>';
+
+    return msg;
+  }
+  
   /* show html page */
   function showHtml() {
     fs.readFile('index.html', 'ascii', sendHtml);
@@ -292,9 +303,23 @@ function handler(req, res) {
     }
   }
 
+  /* show profile document */
+  function showProfile() {
+    fs.readFile('tasks-alps.xml', 'ascii', sendProfile);
+  }
+  function sendProfile(err, data) {
+    if (err) {
+      showError(500, err.message);
+    }
+    else {
+      res.writeHead(200, "OK",m.appXml);
+      res.end(data);
+    }
+  }
+
   /* show error page */
   function showError(status, msg) {
-    res.writeHead(status, msg, m.uberxml);
+    res.writeHead(status, msg, m.uberXml);
     res.end(m.errorMessage.replace('{status}', status).replace('{msg}', msg));
   }
 }

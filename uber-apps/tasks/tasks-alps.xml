@@ -1,0 +1,24 @@
+<alps version="1.0">
+  <link rel="author" href="http://github.com/mamund/" />
+  <link rel="source" href="https://github.com/mamund/media-types/tree/master/uber-apps/tasks" />
+  <doc>
+    Profile for simple hypermedia task list demo app.
+  </doc>
+  
+  <!-- data -->
+  <descriptor id="text" type="semantic" />
+  <descriptor id="id" type="semantic" />
+  
+  <!-- transitions -->
+  <descriptor id="list" type="safe" />
+  <descriptor id="search" type="safe">
+    <descriptor href="#text" />
+  </descriptor>
+  <descriptor id="add" type="unsafe">
+    <descriptor href="#text" />
+  </descriptor>
+  <descriptor id="completed" type="unsafe">
+    <descriptor href="#id" />
+  </descriptor>
+  
+</alps>
