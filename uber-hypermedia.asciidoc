@@ -319,7 +319,7 @@ Matthew McClure,
 Mark W. Foster, 
 Steve Klabnik,
 Stephen Mizell,
-Irakli Nadareishvili
+Irakli Nadareishvili.
 
 
 .
