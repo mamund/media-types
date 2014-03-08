@@ -260,16 +260,20 @@ function handler(req, res) {
     var i, x, msg;
 
     msg  = '<uber version="1.0">';
+    msg += '<data id="links">';
     msg += m.profileControl
     if(list.length>0 || showControls===true) {
       msg += m.listControl;
       msg += m.filterControl;
     }
     msg += m.addControl;
+    msg += '</data>';
 
+    msg += '<data id="tasks">';
     for(i=0,x=list.length;i<x;i++) {
       msg += m.itemControl.replace("{complete}",m.completeControl).replace(/{id}/gi,list[i].id).replace(/{text}/gi,list[i].text);
     }
+    msg += '</data>';
     msg += '</uber>';
 
     return msg;
