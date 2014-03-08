@@ -46,11 +46,11 @@ function handler(req, res) {
 
   // hypermedia controls
   m.errorMessage = '<uber version="1.0"><error><data id="status">{status}</data><data id="message">{msg}</data></error></uber>';
-  m.addControl = '<data id="add" rel="add" href="/tasks/" action="append" model="text={text}" />';
-  m.filterControl = '<data id="search" rel="search" href="/tasks/search" action="read" model="?text={text}" />';
-  m.listControl = '<data id="list" rel="collection" href="/tasks/" action="read" />';
+  m.addControl = '<data id="add" rel="add" name="links" href="/tasks/" action="append" model="text={text}" />';
+  m.filterControl = '<data id="search" rel="search" name="links" href="/tasks/search" action="read" model="?text={text}" />';
+  m.listControl = '<data id="list" rel="collection" name="links" href="/tasks/" action="read" />';
   m.completeControl = '<data rel="complete" href="/tasks/complete/" model="id={id}" action="append" />';
-  m.itemControl = '<data id="task{id}" rel="item">{complete}<data name="text">{text}</data></data>'; 
+  m.itemControl = '<data id="task{id}" rel="item" name="tasks">{complete}<data name="text">{text}</data></data>'; 
   m.profileControl = '<data id="alps" rel="profile" href="/tasks-alps.xml" action="read" />';
 
   // add support for CORS
