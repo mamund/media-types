@@ -1,7 +1,7 @@
 <uber version="1.0">
   <error>
-    <data name="internal-error">q1w2e3</data>
-    <data name="debug-data" url="http://example.org/debug/1" />
+    <data name="code">q1w2e3</data>
+    <data name="dump" url="http://example.org/debug/1" />
   </error>
 </uber>
 
