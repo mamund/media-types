@@ -317,9 +317,9 @@ The author would like to thank everyone who commented upon,
 encouraged, and gave feedback to this specification,
 especially 
 Cédric Brancourt, 
-Matthew McClure, 
 Mark W. Foster, 
 Steve Klabnik,
+Matthew McClure, 
 Stephen Mizell,
 Irakli Nadareishvili.
 
