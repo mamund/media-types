@@ -18,7 +18,7 @@ Last Updated::
   {docdate}
 Proposed IANA Registrations::
   +application/vnd.amundsen-uber+xml+, +application/vnd.amundsen-uber+json+
-Supported H-Factors <<hfactor,[HFactor]>>:
+Supported H-Factors <<hfactor,[HFactor]>>::
   LO, LE, LT, LI, LN, CR, CU, CM, CL
 
 == General
