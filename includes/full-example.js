@@ -38,7 +38,10 @@
                   {"name" : "givenName", "value" : "Mike"},
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mike@example.org"},
-                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1", "accepting" : "image/*"}
+                  {"name" : "avatarUrl", "transclude" : "true", 
+                      "value" : "http://example.org/avatars/1", 
+                      "accepting" : ["image/*"]
+                  }
                 ]
               },
               {
@@ -50,7 +53,10 @@
                   {"name" : "givenName", "value" : "Mildred"},
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mildred@example.org"},
-                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2", "accepting" : "image/*"}
+                  {"name" : "avatarUrl", "transclude" : "true", 
+                      "value" : "http://example.org/avatars/2", 
+                      "accepting" : ["image/*"]
+                  }
                 ]
               }
             ]
