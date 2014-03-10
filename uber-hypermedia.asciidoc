@@ -18,6 +18,8 @@ Last Updated::
   {docdate}
 Proposed IANA Registrations::
   +application/vnd.amundsen-uber+xml+, +application/vnd.amundsen-uber+json+
+Supported H-Factors <<hfactor,[HFactor]>>:
+  LO, LE, LT, LI, LN, CR, CU, CM, CL
 
 == General
 The UBER message format is a minimal read/write hypermedia type designed to support simple state transfers and ad-hoc hypermedia-based transitions. This document describes both the XML and JSON variants of the format and provides guidelines for supporting UBER messages over the HTTP protocol.
@@ -62,7 +64,7 @@ There are eleven attributes in the UBER design:
 +name+::
   A document-wide non-unique identifer for this element.
 +rel+::
-  Contains a space-separated list of link relation values.
+  Contains one or more link relation values.
 +url+::
   A resolvable URL associated with this element.
 +action+::
