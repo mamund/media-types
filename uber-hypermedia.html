@@ -601,7 +601,7 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-03-08
+  2014-03-10
 </p>
 </dd>
 <dt class="hdlist1">
@@ -610,6 +610,8 @@ Proposed IANA Registrations
 <dd>
 <p>
   <tt>application/vnd.amundsen-uber+xml</tt>, <tt>application/vnd.amundsen-uber+json</tt>
+Supported H-Factors <a href="#hfactor">[HFactor]</a>:
+  LO, LE, LT, LI, LN, CR, CU, CM, CL
 </p>
 </dd>
 </dl></div>
@@ -724,7 +726,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains a space-separated list of link relation values.
+  Contains one or more link relation values.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1377,7 +1379,10 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
                   {"name" : "givenName", "value" : "Mike"},
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mike@example.org"},
-                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/1", "accepting" : "image/*"}
+                  {"name" : "avatarUrl", "transclude" : "true",
+                      "value" : "http://example.org/avatars/1",
+                      "accepting" : ["image/*"]
+                  }
                 ]
               },
               {
@@ -1389,7 +1394,10 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
                   {"name" : "givenName", "value" : "Mildred"},
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mildred@example.org"},
-                  {"name" : "avatarUrl", "transclude" : "true", "value" : "http://example.org/avatars/2", "accepting" : "image/*"}
+                  {"name" : "avatarUrl", "transclude" : "true",
+                      "value" : "http://example.org/avatars/2",
+                      "accepting" : ["image/*"]
+                  }
                 ]
               }
             ]
@@ -1601,7 +1609,7 @@ Irakli Nadareishvili.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-08 16:33:40 EST
+Last updated 2014-03-10 10:35:34 EDT
 </div>
 </div>
 </body>
