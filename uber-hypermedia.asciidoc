@@ -104,7 +104,7 @@ There are no UBER-specific link relation values. Document authors SHOULD use reg
  * Dublin Core Metadata Element Set, Version 1.1 <<dc-rel,[DC-REL]>>
 
 === Message Map
-Below is a simple `map' of the UBER message format (XML variant). Along with the three elements, there are ten attributes (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
+Below is a simple `map' of the UBER message format (XML variant). Along with the three elements, there are ten attributes (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed. All elements described for the XML syntax MUST be in the UBER namespace, which is identified by the URI http://uber.org.
 
 .UBER Message Model (XML)
 ----
