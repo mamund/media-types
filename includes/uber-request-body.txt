@@ -16,7 +16,7 @@ POST /people/ HTTP/1.1
 Host: example.org
 Accept-Type: application/vnd.amundsen-uber+xml
 Content-Type: application/x-www-form-urlencoded
-Content-Lengt: xxx
+Content-Length: xxx
 
 g=Mike&f=Amundsen&e=mike%40example.org&a=http%3A%2F%2Fexample.org%2Favatars%2Fmike.png
 
