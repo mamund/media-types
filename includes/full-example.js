@@ -82,7 +82,10 @@
                 [
                   {
                     "name" : "name", 
-                    "value" : "Home",
+                    "value" : "Home"
+                  },
+                  {
+                    "name" : "address",
                     "data" :
                     [
                       {"name" : "streetAddress", "value" : "123 Main Street"},
@@ -101,7 +104,10 @@
                 [
                   {
                     "name" : "name", 
-                    "value" : "Work",
+                    "value" : "Work"
+                  },
+                  {
+                    "name" : "address",
                     "data" : 
                     [
                       {"name" : "streetAddress", "value" : "1456 Grand Ave."},
