@@ -19,31 +19,48 @@ var thisPage = function() {
 
   /* parse the response */
   function showResponse() {
-    var elm, li, i, x, coll;
+    var elm, li, i, x, coll, item, data, task;
 
     // fill in the list
     elm = document.getElementById('data');
     if(elm) {
       elm.innerHTML = '';
-      for(i=0,x=g.msg.collection.length;i<x;i++) {
-        li = document.createElement('li');
-        li.appendChild(document.createTextNode(g.msg.collection[i].text));
 
-        // see if we have an affordance here
-        try {
-          if(g.msg.collection[i].link.rel==='complete') {
-            if(g.msg.collection[i].link.data) {
-              li.setAttribute('data', g.msg.collection[i].link.data[0].name);
-              li.setAttribute('dvalue', g.msg.collection[i].id);
+      coll = g.msg.getElementsByTagName('data');
+      for(i=0,x=coll.length;i<x;i++) {
+        if(coll[i].getAttribute("name")==="tasks") {
+          li = document.createElement('li');
+          task = document.createElement('span');
+          task.className = 'task';
+
+          var item = coll[i].children;
+          for(j=0,y=item.length;j<y;j++) {
+            // handle transition elements
+            if(item[j].getAttribute("url")!==null) {
+              data = document.createElement('a');
+              data.href = item[j].getAttribute('url');
+              data.rel = item[j].getAttribute('rel');
+              data.title = item[j].getAttribute('rel');
+              if(item[j].getAttribute('model')!==null) {
+                data.setAttribute('model',item[j].getAttribute('model'));
+              }              
+              else {
+                data.setAttribute('model','');
+              }
+              data.setAttribute('action',item[j].getAttribute('action'));
+              data.innerHTML = 'X';
             }
-            li.id = g.msg.collection[i].link.rel;
-            li.setAttribute('href', g.msg.collection[i].link.href);
-            li.setAttribute('method', g.msg.collection[i].link.method);
-            li.onclick = clickButton;
-          }
+            else {
+              // handle data elements
+              data = document.createElement('span');
+              data.className='item';
+              data.innerHTML = item[j].childNodes[0].nodeValue;
+            }
+            task.appendChild(data);
+          }                               
+          li.appendChild(task);
+          elm.appendChild(li);
         }
-        catch (ex) {}
-        elm.appendChild(li);
       }
     }
     showControls();
@@ -51,27 +68,29 @@ var thisPage = function() {
 
   // handle possible hypermedia controls
   function showControls() {
-    var elm, inp, i, x;
+    var elm, inp, i, x, coll;
 
     // find and render controls
     elm = document.getElementById('actions');
     if(elm) {
       elm.innerHTML = '';
-      for(i=0,x=g.msg.links.length;i<x;i++) {
-        inp = document.createElement('input');
-        inp.type = "button";
-        inp.className = "button";
-        inp.id = g.msg.links[i].rel;
-        inp.setAttribute('method',g.msg.links[i].method);
-        inp.setAttribute('href',g.msg.links[i].href);
-        inp.value = g.msg.links[i].rel;
-        inp.onclick = clickButton;
-        
-        // check for args
-        if(g.msg.links[i].data) {
-          inp.setAttribute('data',g.msg.links[i].data[0].name);
+      coll = g.msg.getElementsByTagName("data");
+
+      for(i=0,x=coll.length;i<x;i++) {
+        if(coll[i].getAttribute('name')==="links") {
+          inp = document.createElement('input');
+          inp.type = "button";
+          inp.className = "button";
+          inp.id = coll[i].getAttribute('id');
+          
+          inp.setAttribute('action',coll[i].getAttribute('action'));
+          inp.setAttribute('href',coll[i].getAttribute('url'));
+          inp.setAttribute('model',coll[i].getAttribute('model'));
+          inp.value = coll[i].getAttribute('rel');
+          inp.onclick = clickButton;
+          
+          elm.appendChild(inp);
         }
-        elm.appendChild(inp);
       }
     }
   }
@@ -127,7 +146,7 @@ var thisPage = function() {
         switch(context) {
           case 'list':
           case 'search':
-            g.msg = JSON.parse(ajax.responseXml);
+            g.msg = ajax.responseXML.documentElement;
             showResponse();
             break;
           case 'add':
