@@ -765,16 +765,46 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-03-14
+  2014-03-15
 </p>
 </dd>
 </dl></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_general">2. General</h2>
+<h2 id="_summary">2. Summary</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This document is a proposal for supporting "rich templating" in UBER. This proposal has the following goals:</p></div>
+<div class="paragraph"><p>This rich template proposal offers the following changes to the <a href="#uber">[UBER]</a> specification.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Modify the <code>url</code> property to always support URI templates
+</p>
+</li>
+<li>
+<p>
+Modify the <code>model</code> property to only apply to (simple) write bodies (not URLs)
+</p>
+</li>
+<li>
+<p>
+Define/describe write constraints using existing <code>data</code> elements with reserved words for the <code>name</code> property
+</p>
+</li>
+<li>
+<p>
+Introduce the <code>template</code> container element to hold the constraints and the <code>template</code> property on the <code>data</code> element to point to the appropriate template
+</p>
+</li>
+<li>
+<p>
+Establish a way to make it easy to add new constraints as &#8216;extensions&#8217; to the spec.
+</p>
+</li>
+</ul></div>
+<div class="sect2">
+<h3 id="_goals">2.1. Goals</h3>
+<div class="paragraph"><p>This proposal has the following goals:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -797,12 +827,23 @@ Continue to keep the document model for UBER very small.
 </p>
 </li>
 </ul></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>This is just a proposal. This material is open for discussion and modification. Some parts of this proposal may be accepted and others found not useful. Material from this proposal may be folded into othe proposals (and <em>vice versa</em>).</p></div>
+</td>
+</tr></table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_changes_to_existing_uber_specifications">3. Changes to existing UBER Specifications</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This document proposes a change to the way RFC6570 (URI Templates) are supported in UBER.</p></div>
+<div class="paragraph"><p>This document proposes a change to the way <a href="#rfc6570">[RFC6570]</a> (URI Templates) are supported in UBER.</p></div>
 <div class="sect2">
 <h3 id="_change_the_code_url_code_property">3.1. Change the <code>url</code> Property</h3>
 <div class="paragraph"><p>The <code>url</code> property MAY contain a URI Template. Client applications MUST treat the value in <code>url</code> properties as a URI Template (e.g. resolve any URI template values before attempting to use the value to execute a request).</p></div>
@@ -856,20 +897,79 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div class="sect1">
 <h2 id="_additions_to_the_uber_specification">4. Additions to the UBER Specification</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This document proposes an additional property <code>template</code> to support rich templating of payloads.</p></div>
+<div class="paragraph"><p>This document proposes adding a new element (<code>template</code>) and a new property (<code>template</code>) to the <code>data</code> element. These additions make it possible to support both inline and external template instructions for UBER payloads.</p></div>
 <div class="sect2">
-<h3 id="_add_the_code_template_code_element">4.1. Add the <code>template</code> Element</h3>
-<div class="paragraph"><p>The <code>template</code> element is a container element that is used to identify a payload template. The <code>template</code> element MUST have an <code>id</code> property. The <code>template</code> SHOULD have one or more <code>data</code> elements. It is the <code>data</code> elements that express the datails of the payload.</p></div>
+<h3 id="_defining_and_applying_constraints">4.1. Defining and Applying Constraints</h3>
+<div class="paragraph"><p>Templates are described using pre-defined <em>constraints.</em> This section shows how constraints are applied to UBER representations, establishes the base-level set of constraints that all clients MUST support, and addresses the issue of extensibility to allow for future constraint definitions.</p></div>
+<div class="sect3">
+<h4 id="_applying_constraints">4.1.1. Applying Constraints</h4>
+<div class="paragraph"><p>Constraints are expressed as <code>data</code> elements with reserved words used in the <code>name</code> property. For example, expressing the <code>required</code> constraint looks like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>&lt;data name="required"&gt;true&lt;/data&gt;</code></pre>
+</div></div>
+<div class="paragraph"><p>Constraints are <em>applied</em> to a <code>data</code> element by adding the constraints as child elements. For example, applying the <code>required</code> constraint to a <code>data</code> element that identifies an email address looks like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>&lt;data name="email"&gt;
+  &lt;data name="required"&gt;true&lt;/data&gt;
+&lt;/data&gt;</code></pre>
+</div></div>
+<div class="paragraph"><p>In this proposal constraints appear within a <code>template</code> container element (a new element). For example, defining a template for validating an email is passed in a transition looks like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>&lt;template id="sendEmail"&gt;
+  &lt;data name="email"&gt;
+    &lt;data name="required"&gt;true&lt;/data&gt;
+  &lt;/data&gt;
+&lt;/template&gt;</code></pre>
+</div></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
 <div class="title">Note</div>
 </td>
 <td class="content">
-<div class="paragraph"><p>The example shows three contraints (<code>required</code>, <code>options</code>, and <code>body</code>). See the next section for a list of proposed constraints.</p></div>
+<div class="paragraph"><p>Details on how the <code>template</code> element (and the related <code>template</code> property) are used within an UBER representation is covered in the next section).</p></div>
 </td>
 </tr></table>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_base_level_constraints">4.1.2. Base-level Constraints</h4>
+<div class="paragraph"><p>Below is a list of proposed base-level constraints that MUST be supported if an app implements this template proposal.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<code>&lt;data name="body"&gt;</code>
+</dt>
+<dd>
+<p>
+  The contents of the <code>value</code> property contains the write template used when sending the content to the server.
+</p>
+</dd>
+<dt class="hdlist1">
+<code>&lt;data name="options"&gt;</code>
+</dt>
+<dd>
+<p>
+  The child <code>data</code> elements represent an enumeration of the valid values for a field.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><code>&lt;data name="required"&gt;</code>
+  The contents of the <code>value</code> property can be set to either <code>true</code> or <code>false</code>.</p></div>
+<div class="paragraph"><p><code>&lt;data name="pattern"&gt;</code>
+  The contents of the <code>value</code> property contains a regular expression (PCRE?) that SHOULD be applied to the field.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_constraint_extensibility">4.1.3. Constraint Extensibility</h4>
+<div class="paragraph"><p>Since constraints are established using reserved words for the <code>name</code> property of a <code>data</code> element, extending the list of supported constraints is done by registering a new reserved word and documenting how implementors can author and interpret that element and any possible child elements.</p></div>
+<div class="paragraph"><p>We may wish to create a registry for constraint extensions. We may also need to introduce some level of &#8216;adversiting&#8217; of supported/required constraints when returning an UBER response. This could be done via a <code>Link</code> header or other means within the payload.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_the_code_template_code_element">4.2. Add the <code>template</code> Element</h3>
+<div class="paragraph"><p>The <code>template</code> element is a container element that is used to identify a payload template. The <code>template</code> element MUST have an <code>id</code> property. The <code>template</code> SHOULD have one or more <code>data</code> elements. It is the <code>data</code> elements that express the datails of the payload.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;uber version="1.0"&gt;
@@ -897,7 +997,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_add_the_code_template_code_property">4.2. Add the <code>template</code> Property</h3>
+<h3 id="_add_the_code_template_code_property">4.3. Add the <code>template</code> Property</h3>
 <div class="paragraph"><p>The <code>template</code> property of the <code>data</code> element is used to &#8216;point&#8217; to the template to use when fashioning a payload. This can be done one of two ways:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -918,7 +1018,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 </dd>
 </dl></div>
 <div class="sect3">
-<h4 id="_external_uber_templates">4.2.1. External UBER Templates</h4>
+<h4 id="_external_uber_templates">4.3.1. External UBER Templates</h4>
 <div class="paragraph"><p>Below is an example of an external UBER template.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -951,7 +1051,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_internal_uber_templates">4.2.2. Internal UBER Templates</h4>
+<h4 id="_internal_uber_templates">4.3.2. Internal UBER Templates</h4>
 <div class="paragraph"><p>Below is an example of an UBER representation that contains an internal template.</p></div>
 <div class="listingblock">
 <div class="content">
@@ -983,11 +1083,29 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_references">5. References</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The following documents are referenced in this proposal:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a id="uber"></a> [UBER] Amundsen, M., "Uniform Basis for Exchanging Representations (UBER)", March 2014, <a href="http://g.mamund.com/uber">http://g.mamund.com/uber</a>
+</p>
+</li>
+<li>
+<p>
+<a id="rfc6570"></a> [RFC6570] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M., Orchard, D., "URI Template", March 2012, <a href="http://tools.ietf.org/html/rfc6570">http://tools.ietf.org/html/rfc6570</a>
+</p>
+</li>
+</ul></div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-14 18:37:12 US Eastern Daylight Time
+Last updated 2014-03-15 16:18:55 US Eastern Daylight Time
 </div>
 </div>
 </body>

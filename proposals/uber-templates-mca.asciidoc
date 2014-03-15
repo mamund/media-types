@@ -18,16 +18,30 @@ Status::
 Last Updated::
   {docdate}
 
-== General
-This document is a proposal for supporting "rich templating" in UBER. This proposal has the following goals:
+== Summary
+This rich template proposal offers the following changes to the <<uber, [UBER]>> specification.
+
+ * Modify the +url+ property to always support URI templates
+ * Modify the +model+ property to only apply to (simple) write bodies (not URLs)
+ * Define/describe write constraints using existing +data+ elements with reserved words for the +name+ property
+ * Introduce the +template+ container element to hold the constraints and the +template+ property on the +data+ element to point to the appropriate template
+ * Establish a way to make it easy to add new constraints as `extensions' to the spec.
+
+=== Goals
+This proposal has the following goals:
 
  * Add support for additional information for describing message bodies sent from client to server.
  * Continue to support the existing +model+ pattern for cases where the additional description is not necessary.
  * Support the use of templating for both the URI and the body on the same element.
  * Continue to keep the document model for UBER very small.
 
+[NOTE]
+====
+This is just a proposal. This material is open for discussion and modification. Some parts of this proposal may be accepted and others found not useful. Material from this proposal may be folded into othe proposals (and 'vice versa'). 
+====
+
 == Changes to existing UBER Specifications
-This document proposes a change to the way RFC6570 (URI Templates) are supported in UBER.
+This document proposes a change to the way <<rfc6570,[RFC6570]>> (URI Templates) are supported in UBER.
 
 === Change the +url+ Property
 The +url+ property MAY contain a URI Template. Client applications MUST treat the value in +url+ properties as a URI Template (e.g. resolve any URI template values before attempting to use the value to execute a request).
@@ -76,15 +90,63 @@ givenName=Mike&familyName=Amundsen&hatsize=Medium
 ----
 
 == Additions to the UBER Specification
-This document proposes an additional property +template+ to support rich templating of payloads.
+This document proposes adding a new element (+template+) and a new property (+template+) to the +data+ element. These additions make it possible to support both inline and external template instructions for UBER payloads.
 
-=== Add the +template+ Element
-The +template+ element is a container element that is used to identify a payload template. The +template+ element MUST have an +id+ property. The +template+ SHOULD have one or more +data+ elements. It is the +data+ elements that express the datails of the payload.
+=== Defining and Applying Constraints
+Templates are described using pre-defined 'constraints.' This section shows how constraints are applied to UBER representations, establishes the base-level set of constraints that all clients MUST support, and addresses the issue of extensibility to allow for future constraint definitions.
+
+==== Applying Constraints
+Constraints are expressed as +data+ elements with reserved words used in the +name+ property. For example, expressing the +required+ constraint looks like this:
+
+----
+<data name="required">true</data>
+----
+
+Constraints are 'applied' to a +data+ element by adding the constraints as child elements. For example, applying the +required+ constraint to a +data+ element that identifies an email address looks like this:
+
+----
+<data name="email">
+  <data name="required">true</data>
+</data>
+----
+
+In this proposal constraints appear within a +template+ container element (a new element). For example, defining a template for validating an email is passed in a transition looks like this:
+
+----
+<template id="sendEmail">
+  <data name="email">
+    <data name="required">true</data>
+  </data>
+</template> 
+----
 
 [NOTE]
 ====
-The example shows three contraints (+required+, +options+, and +body+). See the next section for a list of proposed constraints.
+Details on how the +template+ element (and the related +template+ property) are used within an UBER representation is covered in the next section).
 ====
+
+==== Base-level Constraints
+Below is a list of proposed base-level constraints that MUST be supported if an app implements this template proposal.
+
++<data name="body">+::
+  The contents of the +value+ property contains the write template used when sending the content to the server.
+
++<data name="options">+::
+  The child +data+ elements represent an enumeration of the valid values for a field.
+ 
++<data name="required">+
+  The contents of the +value+ property can be set to either +true+ or +false+. 
+
++<data name="pattern">+
+  The contents of the +value+ property contains a regular expression (PCRE?) that SHOULD be applied to the field.
+
+==== Constraint Extensibility
+Since constraints are established using reserved words for the +name+ property of a +data+ element, extending the list of supported constraints is done by registering a new reserved word and documenting how implementors can author and interpret that element and any possible child elements.
+
+We may wish to create a registry for constraint extensions. We may also need to introduce some level of `adversiting' of supported/required constraints when returning an UBER response. This could be done via a +Link+ header or other means within the payload.
+
+=== Add the +template+ Element
+The +template+ element is a container element that is used to identify a payload template. The +template+ element MUST have an +id+ property. The +template+ SHOULD have one or more +data+ elements. It is the +data+ elements that express the datails of the payload.
 
 ----
 <uber version="1.0">
@@ -179,4 +241,10 @@ Below is an example of an UBER representation that contains an internal template
   </template>
 </uber>
 ---- 
+
+== References
+The following documents are referenced in this proposal:
+ 
+ * [[uber]] [UBER] Amundsen, M., "Uniform Basis for Exchanging Representations (UBER)", March 2014, http://g.mamund.com/uber  
+ * [[rfc6570]] [RFC6570] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M., Orchard, D., "URI Template", March 2012, http://tools.ietf.org/html/rfc6570 
 
