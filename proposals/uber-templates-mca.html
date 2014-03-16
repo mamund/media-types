@@ -3,24 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
 <title>UBER Rich Templating Proposal (MCA)</title>
 <style type="text/css">
-/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
-
-/* Default font. */
-body {
-  font-family: Georgia,serif;
-}
-
-/* Title font. */
+/* Sans-serif font. */
 h1, h2, h3, h4, h5, h6,
 div.title, caption.title,
 thead, p.table.header,
-#toctitle,
-#author, #revnumber, #revdate, #revremark,
-#footer {
+div#toctitle,
+span#author, span#revnumber, span#revdate, span#revremark,
+div#footer {
   font-family: Arial,Helvetica,sans-serif;
+}
+
+/* Serif font. */
+div.sectionbody {
+  font-family: Georgia,"Times New Roman",Times,serif;
+}
+
+/* Monospace font. */
+tt {
+  font-size: inherit;
 }
 
 body {
@@ -45,6 +48,11 @@ strong {
   color: #083194;
 }
 
+tt {
+  font-size: inherit;
+  color: navy;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: #527bbd;
   margin-top: 1.2em;
@@ -63,9 +71,6 @@ h3 {
 }
 h3 + * {
   clear: left;
-}
-h5 {
-  font-size: 1.0em;
 }
 
 div.sectionbody {
@@ -87,45 +92,41 @@ ul, ol, li > p {
 ul > li     { color: #aaa; }
 ul > li > * { color: black; }
 
-.monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
+pre {
   padding: 0;
   margin: 0;
 }
 
-
-#author {
+span#author {
   color: #527bbd;
   font-weight: bold;
   font-size: 1.1em;
 }
-#email {
+span#email {
 }
-#revnumber, #revdate, #revremark {
+span#revnumber, span#revdate, span#revremark {
 }
 
-#footer {
+div#footer {
   font-size: small;
   border-top: 2px solid silver;
   padding-top: 0.5em;
   margin-top: 4.0em;
 }
-#footer-text {
+div#footer-text {
   float: left;
   padding-bottom: 0.5em;
 }
-#footer-badges {
+div#footer-badges {
   float: right;
   padding-bottom: 0.5em;
 }
 
-#preamble {
+div#preamble {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
 }
-div.imageblock, div.exampleblock, div.verseblock,
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
 div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
 div.admonitionblock {
   margin-top: 1.0em;
@@ -183,7 +184,7 @@ div.quoteblock, div.verseblock {
   margin-left: 1.0em;
   margin-right: 10%;
   border-left: 5px solid #f0f0f0;
-  color: #888;
+  color: #777777;
 }
 
 div.quoteblock > div.attribution {
@@ -266,12 +267,35 @@ div.compact div, div.compact div {
   margin-bottom: 0.1em;
 }
 
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
 tfoot {
   font-weight: bold;
 }
 td > div.verse {
   white-space: pre;
 }
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
 
 div.hdlist {
   margin-top: 0.8em;
@@ -338,14 +362,14 @@ div.colist td img {
 }
 
 @media print {
-  #footer-badges { display: none; }
+  div#footer-badges { display: none; }
 }
 
-#toc {
+div#toc {
   margin-bottom: 2.5em;
 }
 
-#toctitle {
+div#toctitle {
   color: #527bbd;
   font-size: 1.1em;
   font-weight: bold;
@@ -353,7 +377,7 @@ div.colist td img {
   margin-bottom: 0.1em;
 }
 
-div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -406,136 +430,10 @@ span.yellow-background { background: yellow; }
 
 span.big { font-size: 2em; }
 span.small { font-size: 0.6em; }
-
-span.underline { text-decoration: underline; }
-span.overline { text-decoration: overline; }
-span.line-through { text-decoration: line-through; }
-
-div.unbreakable { page-break-inside: avoid; }
-
-
-/*
- * xhtml11 specific
- *
- * */
-
-div.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-div.tableblock > table {
-  border: 3px solid #527bbd;
-}
-thead, p.table.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.table {
-  margin-top: 0;
-}
-/* Because the table frame attribute is overriden by CSS in most browsers. */
-div.tableblock > table[frame="void"] {
-  border-style: none;
-}
-div.tableblock > table[frame="hsides"] {
-  border-left-style: none;
-  border-right-style: none;
-}
-div.tableblock > table[frame="vsides"] {
-  border-top-style: none;
-  border-bottom-style: none;
-}
-
-
-/*
- * html5 specific
- *
- * */
-
-table.tableblock {
-  margin-top: 1.0em;
-  margin-bottom: 1.5em;
-}
-thead, p.tableblock.header {
-  font-weight: bold;
-  color: #527bbd;
-}
-p.tableblock {
-  margin-top: 0;
-}
-table.tableblock {
-  border-width: 3px;
-  border-spacing: 0px;
-  border-style: solid;
-  border-color: #527bbd;
-  border-collapse: collapse;
-}
-th.tableblock, td.tableblock {
-  border-width: 1px;
-  padding: 4px;
-  border-style: solid;
-  border-color: #527bbd;
-}
-
-table.tableblock.frame-topbot {
-  border-left-style: hidden;
-  border-right-style: hidden;
-}
-table.tableblock.frame-sides {
-  border-top-style: hidden;
-  border-bottom-style: hidden;
-}
-table.tableblock.frame-none {
-  border-style: hidden;
-}
-
-th.tableblock.halign-left, td.tableblock.halign-left {
-  text-align: left;
-}
-th.tableblock.halign-center, td.tableblock.halign-center {
-  text-align: center;
-}
-th.tableblock.halign-right, td.tableblock.halign-right {
-  text-align: right;
-}
-
-th.tableblock.valign-top, td.tableblock.valign-top {
-  vertical-align: top;
-}
-th.tableblock.valign-middle, td.tableblock.valign-middle {
-  vertical-align: middle;
-}
-th.tableblock.valign-bottom, td.tableblock.valign-bottom {
-  vertical-align: bottom;
-}
-
-
-/*
- * manpage specific
- *
- * */
-
-body.manpage h1 {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: 2px solid silver;
-  border-bottom: 2px solid silver;
-}
-body.manpage h2 {
-  border-style: none;
-}
-body.manpage div.sectionbody {
-  margin-left: 3em;
-}
-
-@media print {
-  body.manpage div#toc { display: none; }
-}
-
-
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 var asciidoc = {  // Namespace.
 
 /////////////////////////////////////////////////////////////////////
@@ -577,7 +475,7 @@ toc: function (toclevels) {
 
   function tocEntries(el, toclevels) {
     var result = new Array;
-    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    var re = new RegExp('[hH]([2-'+(toclevels+1)+'])');
     // Function that scans the DOM tree for header elements (the DOM2
     // nodeIterator API would be a better technique but not supported by all
     // browsers).
@@ -597,25 +495,6 @@ toc: function (toclevels) {
   }
 
   var toc = document.getElementById("toc");
-  if (!toc) {
-    return;
-  }
-
-  // Delete existing TOC entries in case we're reloading the TOC.
-  var tocEntriesToRemove = [];
-  var i;
-  for (i = 0; i < toc.childNodes.length; i++) {
-    var entry = toc.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div'
-     && entry.getAttribute("class")
-     && entry.getAttribute("class").match(/^toclevel/))
-      tocEntriesToRemove.push(entry);
-  }
-  for (i = 0; i < tocEntriesToRemove.length; i++) {
-    toc.removeChild(tocEntriesToRemove[i]);
-  }
-
-  // Rebuild TOC entries.
   var entries = tocEntries(document.getElementById("content"), toclevels);
   for (var i = 0; i < entries.length; ++i) {
     var entry = entries[i];
@@ -643,44 +522,24 @@ toc: function (toclevels) {
  */
 
 footnotes: function () {
-  // Delete existing footnote entries in case we're reloading the footnodes.
-  var i;
-  var noteholder = document.getElementById("footnotes");
-  if (!noteholder) {
-    return;
-  }
-  var entriesToRemove = [];
-  for (i = 0; i < noteholder.childNodes.length; i++) {
-    var entry = noteholder.childNodes[i];
-    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
-      entriesToRemove.push(entry);
-  }
-  for (i = 0; i < entriesToRemove.length; i++) {
-    noteholder.removeChild(entriesToRemove[i]);
-  }
-
-  // Rebuild footnote entries.
   var cont = document.getElementById("content");
+  var noteholder = document.getElementById("footnotes");
   var spans = cont.getElementsByTagName("span");
   var refs = {};
   var n = 0;
   for (i=0; i<spans.length; i++) {
     if (spans[i].className == "footnote") {
       n++;
-      var note = spans[i].getAttribute("data-note");
-      if (!note) {
-        // Use [\s\S] in place of . so multi-line matches work.
-        // Because JavaScript has no s (dotall) regex flag.
-        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
-        spans[i].innerHTML =
-          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
-          "' title='View footnote' class='footnote'>" + n + "</a>]";
-        spans[i].setAttribute("data-note", note);
-      }
+      // Use [\s\S] in place of . so multi-line matches work.
+      // Because JavaScript has no s (dotall) regex flag.
+      note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
       noteholder.innerHTML +=
         "<div class='footnote' id='_footnote_" + n + "'>" +
         "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
         n + "</a>. " + note + "</div>";
+      spans[i].innerHTML =
+        "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+        "' title='View footnote' class='footnote'>" + n + "</a>]";
       var id =spans[i].getAttribute("id");
       if (id != null) refs["#"+id] = n;
     }
@@ -700,32 +559,9 @@ footnotes: function () {
       }
     }
   }
-},
-
-install: function(toclevels) {
-  var timerId;
-
-  function reinstall() {
-    asciidoc.footnotes();
-    if (toclevels) {
-      asciidoc.toc(toclevels);
-    }
-  }
-
-  function reinstallAndRemoveTimer() {
-    clearInterval(timerId);
-    reinstall();
-  }
-
-  timerId = setInterval(reinstall, 500);
-  if (document.addEventListener)
-    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
-  else
-    window.onload = reinstallAndRemoveTimer;
 }
 
 }
-asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
@@ -755,7 +591,7 @@ Status
 </dt>
 <dd>
 <p>
-  <strong><span class="white black-background">Incomplete Draft</span></strong>
+  <strong><span class="black yellow-background">Proposed Draft</span></strong>
 </p>
 </dd>
 </dl></div>
@@ -778,22 +614,22 @@ Last Updated
 <div class="ulist"><ul>
 <li>
 <p>
-Modify the <code>url</code> property to always support URI templates
+Modify the <tt>url</tt> property to always support URI templates
 </p>
 </li>
 <li>
 <p>
-Modify the <code>model</code> property to only apply to (simple) write bodies (not URLs)
+Modify the <tt>model</tt> property to only apply to (simple) write bodies (not URLs)
 </p>
 </li>
 <li>
 <p>
-Define/describe write constraints using existing <code>data</code> elements with reserved words for the <code>name</code> property
+Define/describe write constraints using existing <tt>data</tt> elements with reserved words for the <tt>name</tt> property
 </p>
 </li>
 <li>
 <p>
-Introduce the <code>template</code> container element to hold the constraints and the <code>template</code> property on the <code>data</code> element to point to the appropriate template
+Introduce the <tt>template</tt> container element to hold the constraints and the <tt>template</tt> property on the <tt>data</tt> element to point to the appropriate template
 </p>
 </li>
 <li>
@@ -813,7 +649,7 @@ Add support for additional information for describing message bodies sent from c
 </li>
 <li>
 <p>
-Continue to support the existing <code>model</code> pattern for cases where the additional description is not necessary.
+Continue to support the existing <tt>model</tt> pattern for cases where the additional description is not necessary.
 </p>
 </li>
 <li>
@@ -841,16 +677,16 @@ Continue to keep the document model for UBER very small.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_changes_to_existing_uber_specifications">3. Changes to existing UBER Specifications</h2>
+<h2 id="_changes_to_the_uber_specification">3. Changes to the UBER Specification</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This document proposes a change to the way <a href="#rfc6570">[RFC6570]</a> (URI Templates) are supported in UBER.</p></div>
 <div class="sect2">
-<h3 id="_change_the_code_url_code_property">3.1. Change the <code>url</code> Property</h3>
-<div class="paragraph"><p>The <code>url</code> property MAY contain a URI Template. Client applications MUST treat the value in <code>url</code> properties as a URI Template (e.g. resolve any URI template values before attempting to use the value to execute a request).</p></div>
+<h3 id="_change_the_tt_url_tt_property">3.1. Change the <tt>url</tt> Property</h3>
+<div class="paragraph"><p>The <tt>url</tt> property MAY contain a URI Template. Client applications MUST treat the value in <tt>url</tt> properties as a URI Template (e.g. resolve any URI template values before attempting to use the value to execute a request).</p></div>
 <div class="listingblock">
-<div class="title">The <code>url</code> property is a URI template</div>
+<div class="title">The <tt>url</tt> property is a URI template</div>
 <div class="content">
-<pre><code>&lt;uber version="1.0"&gt;
+<pre><tt>&lt;uber version="1.0"&gt;
   &lt;data rel="collection" url="http://example.org/customers" /&gt;
   &lt;data rel="search" url="http://example.org/search?{givenname,familyname}" /&gt;
   &lt;data rel="item" url="http://example.org/1"&gt;
@@ -863,16 +699,16 @@ Continue to keep the document model for UBER very small.
     &lt;data name="familyName"&gt;Foster&lt;/data&gt;
     &lt;data name="hatsize"&gt;Medium&lt;/data&gt;
   &lt;/data&gt;
-&lt;/uber&gt;</code></pre>
+&lt;/uber&gt;</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_change_the_code_model_code_property">3.2. Change the <code>model</code> Property</h3>
-<div class="paragraph"><p>The <code>model</code> property only describes at payload (not a URL). If a client application sees a <code>model</code> property, the client MUST use that as a guide for creating a payload. The <code>model</code> still uses RFC570 (URI Template).</p></div>
+<h3 id="_change_the_tt_model_tt_property">3.2. Change the <tt>model</tt> Property</h3>
+<div class="paragraph"><p>The <tt>model</tt> property only describes at payload (not a URL). If a client application sees a <tt>model</tt> property, the client MUST use that as a guide for creating a payload. The <tt>model</tt> still uses RFC570 (URI Template).</p></div>
 <div class="listingblock">
-<div class="title">The <code>model</code> property is applies only to the body</div>
+<div class="title">The <tt>model</tt> property is applies only to the body</div>
 <div class="content">
-<pre><code>&lt;!-- this UBER message... --&gt;
+<pre><tt>&lt;!-- this UBER message... --&gt;
 &lt;uber version="1.0"&gt;
   &lt;data rel="item"
       url="http://example.org/1"
@@ -889,7 +725,7 @@ PUT HTTP/1.1
 Content-Type: application/x-www-urlencoded
 Content-Lengt: XXX
 
-givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
+givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</tt></pre>
 </div></div>
 </div>
 </div>
@@ -897,32 +733,32 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div class="sect1">
 <h2 id="_additions_to_the_uber_specification">4. Additions to the UBER Specification</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This document proposes adding a new element (<code>template</code>) and a new property (<code>template</code>) to the <code>data</code> element. These additions make it possible to support both inline and external template instructions for UBER payloads.</p></div>
+<div class="paragraph"><p>This document proposes adding a new element (<tt>template</tt>) and a new property (<tt>template</tt>) to the <tt>data</tt> element. These additions make it possible to support both inline and external template instructions for UBER payloads.</p></div>
 <div class="sect2">
 <h3 id="_defining_and_applying_constraints">4.1. Defining and Applying Constraints</h3>
 <div class="paragraph"><p>Templates are described using pre-defined <em>constraints.</em> This section shows how constraints are applied to UBER representations, establishes the base-level set of constraints that all clients MUST support, and addresses the issue of extensibility to allow for future constraint definitions.</p></div>
 <div class="sect3">
 <h4 id="_applying_constraints">4.1.1. Applying Constraints</h4>
-<div class="paragraph"><p>Constraints are expressed as <code>data</code> elements with reserved words used in the <code>name</code> property. For example, expressing the <code>required</code> constraint looks like this:</p></div>
+<div class="paragraph"><p>Constraints are expressed as <tt>data</tt> elements with reserved words used in the <tt>name</tt> property. For example, expressing the <tt>required</tt> constraint looks like this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>&lt;data name="required"&gt;true&lt;/data&gt;</code></pre>
+<pre><tt>&lt;data name="required"&gt;true&lt;/data&gt;</tt></pre>
 </div></div>
-<div class="paragraph"><p>Constraints are <em>applied</em> to a <code>data</code> element by adding the constraints as child elements. For example, applying the <code>required</code> constraint to a <code>data</code> element that identifies an email address looks like this:</p></div>
+<div class="paragraph"><p>Constraints are <em>applied</em> to a <tt>data</tt> element by adding the constraints as child elements. For example, applying the <tt>required</tt> constraint to a <tt>data</tt> element that identifies an email address looks like this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>&lt;data name="email"&gt;
+<pre><tt>&lt;data name="email"&gt;
   &lt;data name="required"&gt;true&lt;/data&gt;
-&lt;/data&gt;</code></pre>
+&lt;/data&gt;</tt></pre>
 </div></div>
-<div class="paragraph"><p>In this proposal constraints appear within a <code>template</code> container element (a new element). For example, defining a template for validating an email is passed in a transition looks like this:</p></div>
+<div class="paragraph"><p>In this proposal constraints appear within a <tt>template</tt> container element (a new element). For example, defining a template for validating an email is passed in a transition looks like this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>&lt;template id="sendEmail"&gt;
+<pre><tt>&lt;template id="sendEmail"&gt;
   &lt;data name="email"&gt;
     &lt;data name="required"&gt;true&lt;/data&gt;
   &lt;/data&gt;
-&lt;/template&gt;</code></pre>
+&lt;/template&gt;</tt></pre>
 </div></div>
 <div class="admonitionblock">
 <table><tr>
@@ -930,7 +766,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div class="title">Note</div>
 </td>
 <td class="content">
-<div class="paragraph"><p>Details on how the <code>template</code> element (and the related <code>template</code> property) are used within an UBER representation is covered in the next section).</p></div>
+<div class="paragraph"><p>Details on how the <tt>template</tt> element (and the related <tt>template</tt> property) are used within an UBER representation is covered in the next section).</p></div>
 </td>
 </tr></table>
 </div>
@@ -940,39 +776,51 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div class="paragraph"><p>Below is a list of proposed base-level constraints that MUST be supported if an app implements this template proposal.</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-<code>&lt;data name="body"&gt;</code>
+<tt>&lt;data name="body"&gt;</tt>
 </dt>
 <dd>
 <p>
-  The contents of the <code>value</code> property contains the write template used when sending the content to the server.
+  The contents of the <tt>value</tt> property contains the write template used when sending the content to the server.
 </p>
 </dd>
 <dt class="hdlist1">
-<code>&lt;data name="options"&gt;</code>
+<tt>&lt;data name="options"&gt;</tt>
 </dt>
 <dd>
 <p>
-  The child <code>data</code> elements represent an enumeration of the valid values for a field.
+  The child <tt>data</tt> elements represent an enumeration of the valid values for a field.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>&lt;data name="required"&gt;</tt>
+</dt>
+<dd>
+<p>
+  The contents of the <tt>value</tt> property can be set to either <tt>true</tt> or <tt>false</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>&lt;data name="pattern"&gt;</tt>
+</dt>
+<dd>
+<p>
+  The contents of the <tt>value</tt> property contains a <a href="#poxisre">[POSIX-RE]</a> regular expression that SHOULD be applied to the field.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p><code>&lt;data name="required"&gt;</code>
-  The contents of the <code>value</code> property can be set to either <code>true</code> or <code>false</code>.</p></div>
-<div class="paragraph"><p><code>&lt;data name="pattern"&gt;</code>
-  The contents of the <code>value</code> property contains a regular expression (PCRE?) that SHOULD be applied to the field.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_constraint_extensibility">4.1.3. Constraint Extensibility</h4>
-<div class="paragraph"><p>Since constraints are established using reserved words for the <code>name</code> property of a <code>data</code> element, extending the list of supported constraints is done by registering a new reserved word and documenting how implementors can author and interpret that element and any possible child elements.</p></div>
-<div class="paragraph"><p>We may wish to create a registry for constraint extensions. We may also need to introduce some level of &#8216;adversiting&#8217; of supported/required constraints when returning an UBER response. This could be done via a <code>Link</code> header or other means within the payload.</p></div>
+<div class="paragraph"><p>Since constraints are established using reserved words for the <tt>name</tt> property of a <tt>data</tt> element, extending the list of supported constraints is done by registering a new reserved word and documenting how implementors can author and interpret that element and any possible child elements.</p></div>
+<div class="paragraph"><p>We may wish to create a registry for constraint extensions. We may also need to introduce some level of &#8216;adversiting&#8217; of supported/required constraints when returning an UBER response. This could be done via a <tt>Link</tt> header or other means within the payload.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_add_the_code_template_code_element">4.2. Add the <code>template</code> Element</h3>
-<div class="paragraph"><p>The <code>template</code> element is a container element that is used to identify a payload template. The <code>template</code> element MUST have an <code>id</code> property. The <code>template</code> SHOULD have one or more <code>data</code> elements. It is the <code>data</code> elements that express the datails of the payload.</p></div>
+<h3 id="_add_the_tt_template_tt_element">4.2. Add the <tt>template</tt> Element</h3>
+<div class="paragraph"><p>The <tt>template</tt> element is a container element that is used to identify a payload template. The <tt>template</tt> element MUST have an <tt>id</tt> property. The <tt>template</tt> SHOULD have one or more <tt>data</tt> elements. It is the <tt>data</tt> elements that express the datails of the payload.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>&lt;uber version="1.0"&gt;
+<pre><tt>&lt;uber version="1.0"&gt;
   &lt;template id="customerTemplate"&gt;
     &lt;data name="familyName"&gt;
       &lt;data name="required"&gt;true&lt;/data&gt;
@@ -993,19 +841,19 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
       ]]&gt;
     &lt;/data&gt;
   &lt;/template&gt;
-&lt;/uber&gt;</code></pre>
+&lt;/uber&gt;</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_add_the_code_template_code_property">4.3. Add the <code>template</code> Property</h3>
-<div class="paragraph"><p>The <code>template</code> property of the <code>data</code> element is used to &#8216;point&#8217; to the template to use when fashioning a payload. This can be done one of two ways:</p></div>
+<h3 id="_add_the_tt_template_tt_property">4.3. Add the <tt>template</tt> Property</h3>
+<div class="paragraph"><p>The <tt>template</tt> property of the <tt>data</tt> element is used to &#8216;point&#8217; to the template to use when fashioning a payload. This can be done one of two ways:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-<code>template="http://example.org/templates/customerTemplate.xml"</code>
+<tt>template="http://example.org/templates/customerTemplate.xml"</tt>
 </dt>
 <dd>
 <p>
-  The <code>template</code> property value MAY be a URL that points to an external resource.
+  The <tt>template</tt> property value MAY be a URL that points to an external resource.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1013,7 +861,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 </dt>
 <dd>
 <p>
-  the <code>template</code> property value MAY be a fragment identifier that points to an internal <code>data</code> element in the current representation.
+  the <tt>template</tt> property value MAY be a fragment identifier that points to an internal <tt>data</tt> element in the current representation.
 </p>
 </dd>
 </dl></div>
@@ -1022,7 +870,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div class="paragraph"><p>Below is an example of an external UBER template.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>&lt;!-- the template property points to... --&gt;
+<pre><tt>&lt;!-- the template property points to... --&gt;
 &lt;uber version="1.0"&gt;
   &lt;data rel="item"
       url="http://example.org/1"
@@ -1047,7 +895,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
       &lt;data&gt;Small&lt;/data&gt;
     &lt;/data&gt;
   &lt;/data&gt;
-&lt;/uber&gt;</code></pre>
+&lt;/uber&gt;</tt></pre>
 </div></div>
 </div>
 <div class="sect3">
@@ -1055,7 +903,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div class="paragraph"><p>Below is an example of an UBER representation that contains an internal template.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>&lt;uber version="1.0"&gt;
+<pre><tt>&lt;uber version="1.0"&gt;
   &lt;data rel="item"
       url="http://example.org/1"
       template="#customerTemplate"
@@ -1077,7 +925,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
       &lt;/data&gt;
     &lt;/data&gt;
   &lt;/template&gt;
-&lt;/uber&gt;</code></pre>
+&lt;/uber&gt;</tt></pre>
 </div></div>
 </div>
 </div>
@@ -1098,6 +946,11 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <a id="rfc6570"></a> [RFC6570] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M., Orchard, D., "URI Template", March 2012, <a href="http://tools.ietf.org/html/rfc6570">http://tools.ietf.org/html/rfc6570</a>
 </p>
 </li>
+<li>
+<p>
+<a id="posixre"></a> [POSIX-RE] Access from Wikipedia MArch 2014, <a href="https://en.wikipedia.org/wiki/Regular_expression#Standards">https://en.wikipedia.org/wiki/Regular_expression#Standards</a>
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -1105,7 +958,7 @@ givenName=Mike&amp;familyName=Amundsen&amp;hatsize=Medium</code></pre>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-15 16:18:55 US Eastern Daylight Time
+Last updated 2014-03-15 20:13:39 EDT
 </div>
 </div>
 </body>

@@ -7,9 +7,10 @@ UBER Rich Templating Proposal (MCA)
 Author::
   Mike Amundsen, mca@amundsen.com
 Status::
-  *[white black-background]#Incomplete Draft#*
+  *[black yellow-background]#Proposed Draft#*
 
 ////
+  *[white black-background]#Proposed Draft#*
   *[white red-background]#Working Draft#*
   *[white blue-background]#Submitted to IANA#*
   *[white green-background]#Approved by IANA#*
@@ -40,7 +41,7 @@ This proposal has the following goals:
 This is just a proposal. This material is open for discussion and modification. Some parts of this proposal may be accepted and others found not useful. Material from this proposal may be folded into othe proposals (and 'vice versa'). 
 ====
 
-== Changes to existing UBER Specifications
+== Changes to the UBER Specification
 This document proposes a change to the way <<rfc6570,[RFC6570]>> (URI Templates) are supported in UBER.
 
 === Change the +url+ Property
@@ -134,11 +135,11 @@ Below is a list of proposed base-level constraints that MUST be supported if an 
 +<data name="options">+::
   The child +data+ elements represent an enumeration of the valid values for a field.
  
-+<data name="required">+
++<data name="required">+::
   The contents of the +value+ property can be set to either +true+ or +false+. 
 
-+<data name="pattern">+
-  The contents of the +value+ property contains a regular expression (PCRE?) that SHOULD be applied to the field.
++<data name="pattern">+::
+  The contents of the +value+ property contains a <<poxisre, [POSIX-RE]>> regular expression that SHOULD be applied to the field.
 
 ==== Constraint Extensibility
 Since constraints are established using reserved words for the +name+ property of a +data+ element, extending the list of supported constraints is done by registering a new reserved word and documenting how implementors can author and interpret that element and any possible child elements.
@@ -247,4 +248,4 @@ The following documents are referenced in this proposal:
  
  * [[uber]] [UBER] Amundsen, M., "Uniform Basis for Exchanging Representations (UBER)", March 2014, http://g.mamund.com/uber  
  * [[rfc6570]] [RFC6570] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M., Orchard, D., "URI Template", March 2012, http://tools.ietf.org/html/rfc6570 
-
+ * [[posixre]] [POSIX-RE] Access from Wikipedia MArch 2014, https://en.wikipedia.org/wiki/Regular_expression#Standards
