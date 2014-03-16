@@ -10,7 +10,8 @@ Status::
   *[black yellow-background]#Proposed Draft#*
 
 ////
-  *[white black-background]#Proposed Draft#*
+  *[white black-background]#Incomplete Draft#*
+  *[black yellow-background]#Proposed Draft#*
   *[white red-background]#Working Draft#*
   *[white blue-background]#Submitted to IANA#*
   *[white green-background]#Approved by IANA#*
@@ -179,8 +180,8 @@ The +template+ property of the +data+ element is used to `point' to the template
 
 +template="http://example.org/templates/customerTemplate.xml"+::
   The +template+ property value MAY be a URL that points to an external resource.
-+template="#customerTemplate"::
-  the +template+ property value MAY be a fragment identifier that points to an internal +data+ element in the current representation.
++template="#customerTemplate"+::
+  The +template+ property value MAY be a fragment identifier that points to an internal +data+ element in the current representation.
 
 ==== External UBER Templates
 Below is an example of an external UBER template. 
