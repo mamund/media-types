@@ -39,7 +39,8 @@
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mike@example.org"},
                   {"name" : "avatarUrl", "transclude" : "true", 
-                      "value" : "http://example.org/avatars/1", 
+                      "url" : "http://example.org/avatars/1", 
+                      "value" : "User Photo",
                       "accepting" : ["image/*"]
                   }
                 ]
@@ -54,7 +55,8 @@
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mildred@example.org"},
                   {"name" : "avatarUrl", "transclude" : "true", 
-                      "value" : "http://example.org/avatars/2", 
+                      "url" : "http://example.org/avatars/2", 
+                      "value" : "User Photo",
                       "accepting" : ["image/*"]
                   }
                 ]

@@ -44,7 +44,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 ====
 
 == The UBER Message Model
-The UBER message model is very minimal. There are three elements, eleven possible attributes, and seven reserved string values.
+The UBER message model is very minimal. There are three elements, eleven possible properties, and seven reserved string values.
 
 === Elements
 There are only three elements in the UBER message model:
@@ -56,8 +56,8 @@ There are only three elements in the UBER message model:
 +<error>+::
   The element that carries error details from the previous request.
 
-=== Attributes
-There are eleven attributes in the UBER design:
+=== Properties
+There are eleven properties in the UBER design:
 
 +id+::
   The document-wide unique identifier for this element.
@@ -72,27 +72,27 @@ There are eleven attributes in the UBER design:
 +transclude+::
   Indicates whether the content that is returned from the URL should be embedded within the currently loaded document
 +model+::
-  Contains a template to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute.
+  Contains a template to be used to construct URL query strings or request bodies depending on the value in the +action+ property.
 +sending+::
   Contains one or more media type identifiers for use when sending request bodies.
 +accepting+::
   Contains one or more media type identifiers to expect when receiving request bodies.
 +value+::
-  In the XML variant of the UBER mesage format, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ attribute that contains the associated value.
+  In the XML variant of the UBER mesage format, inner text of the +<data>+ element contains the value associated with that element. In the JSON variant there is a +value+ property that contains the associated value.
 +version+::
   Indicates the UBER message version information.
 
 === Reserved Strings
-There are three reserved strings used as possible values for UBER attributes.
+There are seven reserved strings used as possible values for UBER properties.
 
-Reserved values for the +action+ attribute::
+Reserved strings for the +action+ property::
   * +append+ : An unsafe, non-idempotent request to add a new item.
   * +partial+ : An unsafe, non-idempotent request to modify parts of an existing item.
   * +read+ : A safe, idempotent request.
   * +remove+ : An unsafe, idempotent request to delete an existing item.
   * +replace+ : An unsafe, idempotent request to replace an existing item.
 
-Reserved values for the +transclude+ attribute::
+Reserved strings for the +transclude+ property::
   * +true+ : embed the results of the request into the current document
   * +false+ : treat the associated +url+ value as a 'navigation' to a new document.
 
@@ -104,7 +104,7 @@ There are no UBER-specific link relation values. Document authors SHOULD use reg
  * Dublin Core Metadata Element Set, Version 1.1 <<dc-rel,[DC-REL]>>
 
 === Message Map
-Below is a simple `map' of the UBER message format (XML variant). Along with the three elements, there are ten attributes (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
+Below is a simple `map' of the UBER message format (XML variant). Along with the three elements, there are ten properties (indicated by the `@' character). The +<data>+ element can appear as a child element of +<uber>+ and +<error>+ and may be nested as many times as needed.
 
 .UBER Message Model (XML)
 ----
@@ -112,7 +112,7 @@ include::includes/message-model.xml[]
 ----
 
 === The +<uber>+ Element
-This is the root element of an UBER message. Every UBER message MUST have this as it's root. The +<uber>+ element has one optional attribute: +version+ which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the +version+ attribute is missing, it SHOULD be assumed to be set to "1.0".
+This is the root element of an UBER message. Every UBER message MUST have this as it's root. The +<uber>+ element has one optional property: +version+ which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the +version+ property is missing, it SHOULD be assumed to be set to "1.0".
 
 .Example +<uber>+ Elements
 ----
@@ -126,13 +126,13 @@ This is the root element of an UBER message. Every UBER message MUST have this a
 ----
 
 === The +<data>+ Element
-The +<data>+ element is the key element in the model. A valid UBER message SHOULD contain at least one +<data>+ element. If it does appear, the +<data>+ element appears as a child of the +<uber>+ or +<error>+ elements. The +<data>+ element MAY be nested as many times as needed. The +<data>+ element has the following attributes (all attributes are OPTIONAL):
+The +<data>+ element is the key element in the model. A valid UBER message SHOULD contain at least one +<data>+ element. If it does appear, the +<data>+ element appears as a child of the +<uber>+ or +<error>+ elements. The +<data>+ element MAY be nested as many times as needed. The +<data>+ element has the following property (all propertyies are OPTIONAL):
 
 +id+::
-  The document-wide unique identifier for this element. The value of +id+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +id+ attribute is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <<rfc3986,[RFC3986]>>.
+  The document-wide unique identifier for this element. The value of +id+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +id+ property is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <<rfc3986,[RFC3986]>>.
 
 +name+::
-  A document-wide non-unique identifer for this element. The value of +name+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +name+ attribute is present it MAY be used as a variable in the UBER +model+ attribute as described in <<rfc6570,[RFC6570]>>.
+  A document-wide non-unique identifer for this element. The value of +name+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +name+ property is present it MAY be used as a variable in the UBER +model+ property as described in <<rfc6570,[RFC6570]>>.
 
 +rel+::
   Contains a list of link relation values. These values SHOULD conform to the guidance provided in RFC5988 <<rfc5988, [RFC5988]>>. In the XML variant the list of link relation values appears as a space-separated list. In the JSON variant the list of link realtion values appears as an array. 
@@ -150,28 +150,28 @@ The +<data>+ element is the key element in the model. A valid UBER message SHOUL
   * +replace+ : An unsafe, idempotent request to replace an existing item (e.g. +HTTP.PUT+ <<rfc2616,[RFC2616]>>)
 
 +
-When the +<data>+ element has a +url+ attribute but no +action+ attribute, it SHOULD be assumed the +action+ attribute is set to +read+. Any value other than those listed here SHOULD be treated as +read+.
+When the +<data>+ element has a +url+ property but no +action+ property, it SHOULD be assumed the +action+ property is set to +read+. Any value other than those listed here SHOULD be treated as +read+.
 
 +transclude+::
-  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (+transclude="true"+) or treated as a 'navigation' to a new document (+transclude="false"+). If the attribute is missing, it SHOULD be assumed to be set to +false+ (e.g. 'navigation').
+  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (+transclude="true"+) or treated as a 'navigation' to a new document (+transclude="false"+). If the property is missing, it SHOULD be assumed to be set to +false+ (e.g. 'navigation').
 
 +model+::
-  Contains a RFC6570-compliant <<rfc6570,[RFC6570]>> string to be used to construct URL query strings or request bodies depending on the value in the +action+ attribute. Variables in UBER +model+ strings SHOULD be resolved using the values from +name+ attributes, but MAY come from any source available to the client application. If the +action+ attribute is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +partial+, or +replace+ then the +model+ is applied to the request body.
+  Contains a RFC6570-compliant <<rfc6570,[RFC6570]>> string to be used to construct URL query strings or request bodies depending on the value in the +action+ property. Variables in UBER +model+ strings SHOULD be resolved using the values from +name+ properties, but MAY come from any source available to the client application. If the +action+ property is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +partial+, or +replace+ then the +model+ is applied to the request body.
 
 +sending+::
-  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this attribute is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>. 
+  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this property is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>. 
 +
 In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array. 
 
 +accepting+::
-  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the +Accept+ header. If this attribute is missing, the setting should be assumed to be +application/vnd.uber-amundsen+xml+.
+  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this property SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this property SHOULD be used as the value for the +Accept+ header. If this property is missing, the setting should be assumed to be set tgo the same value as that of the currently loaded representation (+application/vnd.uber-amundsen+xml+ or +application/vnd.uber-amundsen+json+).
 +
 In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array. 
 
 +value+::
   In the XML variant of the UBER mesage format, inner text of the +<data>+ element contains the value associated with that element.
 +
-In the JSON variant there is a +value+ attribute that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <<rfc4627,[RFC4627]>>):
+In the JSON variant there is a +value+ property that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <<rfc4627,[RFC4627]>>):
 +
   * number
   * string
@@ -180,7 +180,7 @@ In the JSON variant there is a +value+ attribute that contains the associated va
   * +null+
 
 +
-For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the +value+ attribute are properly escaped as needed (per Section 2.4 of <<REC-XML,[REC-XML]>> and Section 2.5 of <<rfc4627,[RFC4627]>>).
+For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the +value+ property are properly escaped as needed (per Section 2.4 of <<REC-XML,[REC-XML]>> and Section 2.5 of <<rfc4627,[RFC4627]>>).
 
 .Example +<data>+ Elements (XML)
 ----
@@ -193,7 +193,7 @@ include::includes/search-sample.js[]
 ----
 
 === The +<error>+ Element
-The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
+The +<error>+ element contains any error information returned by the server regarding the previous request. The +<error>+ element has no properties. This is an OPTIONAL element. When present, it SHOULD contain one or more +<data>+ child elements. It is the +<data>+ child elements that contains error details.
 
 .Example +<error>+ Element (XML)
 ----
@@ -212,7 +212,7 @@ Since the UBER messsage format was designed to work with multiple application pr
 This section decribes the details of implementing UBER support over HTTP.
 
 ==== Mapping UBER +action+ Values to HTTP Methods
-When implementating support for UBER documents over HTTP one of the key details is to map the value of UBER's +action+ attribute to HTTP methods. Table #1 below provides this mapping:
+When implementating support for UBER documents over HTTP one of the key details is to map the value of UBER's +action+ property to HTTP methods. Table #1 below provides this mapping:
 
 .Mapping HTTP Methods to UBER +action+ and +model+ Values
 [grid="rows", format="csv"]
@@ -227,7 +227,7 @@ UBER Action,HTTP Method, UBER Model Modifies
 |====
 
 ==== Using UBER +model+ Values to create HTTP Query Strings
-When applied to HTTP, any +model+ value associated with a +data+ element with the +action+ attribute set to +read+ or +remove+ MUST be converted into a valid query string. The follwing example shows how an UBER message snippet is converted into a valid HTTP query string:
+When applied to HTTP, any +model+ value associated with a +data+ element with the +action+ property set to +read+ or +remove+ MUST be converted into a valid query string. The follwing example shows how an UBER message snippet is converted into a valid HTTP query string:
 
 .Converting an UBER +read+ Action into an HTTP Query String
 ----
@@ -235,7 +235,7 @@ include::includes/uber-query-string.txt[]
 ----
 
 ==== Using UBER +model+ Values to create HTTP Request Bodies
-Any +model+ value associated with a +data+ element with the +action+ attribute set to +append+, +partial+, or +replace+ MUST be convereted into a valid HTTP request body. The follwing example shows how an UBER message snippet is converted into a valid HTTP request body:
+Any +model+ value associated with a +data+ element with the +action+ property set to +append+, +partial+, or +replace+ MUST be convereted into a valid HTTP request body. The follwing example shows how an UBER message snippet is converted into a valid HTTP request body:
 
 .Converting an UBER +append+ Action into an HTTP Request
 ----

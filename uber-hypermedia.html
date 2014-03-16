@@ -601,7 +601,7 @@ Last Updated
 </dt>
 <dd>
 <p>
-  2014-03-10
+  2014-03-16
 </p>
 </dd>
 <dt class="hdlist1">
@@ -676,7 +676,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 <div class="sect1">
 <h2 id="_the_uber_message_model">3. The UBER Message Model</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The UBER message model is very minimal. There are three elements, eleven possible attributes, and seven reserved string values.</p></div>
+<div class="paragraph"><p>The UBER message model is very minimal. There are three elements, eleven possible properties, and seven reserved string values.</p></div>
 <div class="sect2">
 <h3 id="_elements">3.1. Elements</h3>
 <div class="paragraph"><p>There are only three elements in the UBER message model:</p></div>
@@ -708,8 +708,8 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="_attributes">3.2. Attributes</h3>
-<div class="paragraph"><p>There are eleven attributes in the UBER design:</p></div>
+<h3 id="_properties">3.2. Properties</h3>
+<div class="paragraph"><p>There are eleven properties in the UBER design:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>id</tt>
@@ -764,7 +764,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  Contains a template to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute.
+  Contains a template to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> property.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -788,7 +788,7 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </dt>
 <dd>
 <p>
-  In the XML variant of the UBER mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> attribute that contains the associated value.
+  In the XML variant of the UBER mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element. In the JSON variant there is a <tt>value</tt> property that contains the associated value.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -803,10 +803,10 @@ Maintain fidelity for more than one base message format (XML, JSON, etc.)
 </div>
 <div class="sect2">
 <h3 id="_reserved_strings">3.3. Reserved Strings</h3>
-<div class="paragraph"><p>There are three reserved strings used as possible values for UBER attributes.</p></div>
+<div class="paragraph"><p>There are seven reserved strings used as possible values for UBER properties.</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-Reserved values for the <tt>action</tt> attribute
+Reserved strings for the <tt>action</tt> property
 </dt>
 <dd>
 <div class="ulist"><ul>
@@ -838,7 +838,7 @@ Reserved values for the <tt>action</tt> attribute
 </ul></div>
 </dd>
 <dt class="hdlist1">
-Reserved values for the <tt>transclude</tt> attribute
+Reserved strings for the <tt>transclude</tt> property
 </dt>
 <dd>
 <div class="ulist"><ul>
@@ -879,7 +879,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_message_map">3.5. Message Map</h3>
-<div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the UBER message format (XML variant). Along with the three elements, there are ten attributes (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
+<div class="paragraph"><p>Below is a simple &#8216;map&#8217; of the UBER message format (XML variant). Along with the three elements, there are ten properties (indicated by the &#8216;@&#8217; character). The <tt>&lt;data&gt;</tt> element can appear as a child element of <tt>&lt;uber&gt;</tt> and <tt>&lt;error&gt;</tt> and may be nested as many times as needed.</p></div>
 <div class="listingblock">
 <div class="title">UBER Message Model (XML)</div>
 <div class="content">
@@ -899,7 +899,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_uber_gt_tt_element">3.6. The <tt>&lt;uber&gt;</tt> Element</h3>
-<div class="paragraph"><p>This is the root element of an UBER message. Every UBER message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional attribute: <tt>version</tt> which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the <tt>version</tt> attribute is missing, it SHOULD be assumed to be set to "1.0".</p></div>
+<div class="paragraph"><p>This is the root element of an UBER message. Every UBER message MUST have this as it&#8217;s root. The <tt>&lt;uber&gt;</tt> element has one optional property: <tt>version</tt> which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the <tt>version</tt> property is missing, it SHOULD be assumed to be set to "1.0".</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;uber&gt;</tt> Elements</div>
 <div class="content">
@@ -914,14 +914,14 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_data_gt_tt_element">3.7. The <tt>&lt;data&gt;</tt> Element</h3>
-<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid UBER message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following attributes (all attributes are OPTIONAL):</p></div>
+<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid UBER message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following property (all propertyies are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>id</tt>
 </dt>
 <dd>
 <p>
-  The document-wide unique identifier for this element. The value of <tt>id</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>id</tt> attribute is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <a href="#rfc3986">[RFC3986]</a>.
+  The document-wide unique identifier for this element. The value of <tt>id</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>id</tt> property is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <a href="#rfc3986">[RFC3986]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -929,7 +929,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> attribute is present it MAY be used as a variable in the UBER <tt>model</tt> attribute as described in <a href="#rfc6570">[RFC6570]</a>.
+  A document-wide non-unique identifer for this element. The value of <tt>name</tt> must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the <tt>name</tt> property is present it MAY be used as a variable in the UBER <tt>model</tt> property as described in <a href="#rfc6570">[RFC6570]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -982,14 +982,14 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>When the <tt>&lt;data&gt;</tt> element has a <tt>url</tt> attribute but no <tt>action</tt> attribute, it SHOULD be assumed the <tt>action</tt> attribute is set to <tt>read</tt>. Any value other than those listed here SHOULD be treated as <tt>read</tt>.</p></div>
+<div class="paragraph"><p>When the <tt>&lt;data&gt;</tt> element has a <tt>url</tt> property but no <tt>action</tt> property, it SHOULD be assumed the <tt>action</tt> property is set to <tt>read</tt>. Any value other than those listed here SHOULD be treated as <tt>read</tt>.</p></div>
 </dd>
 <dt class="hdlist1">
 <tt>transclude</tt>
 </dt>
 <dd>
 <p>
-  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (<tt>transclude="true"</tt>) or treated as a <em>navigation</em> to a new document (<tt>transclude="false"</tt>). If the attribute is missing, it SHOULD be assumed to be set to <tt>false</tt> (e.g. <em>navigation</em>).
+  Indicates whether the content that is returned from the URL should be embedded within the currently loaded document (<tt>transclude="true"</tt>) or treated as a <em>navigation</em> to a new document (<tt>transclude="false"</tt>). If the property is missing, it SHOULD be assumed to be set to <tt>false</tt> (e.g. <em>navigation</em>).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -997,7 +997,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> attribute. Variables in UBER <tt>model</tt> strings SHOULD be resolved using the values from <tt>name</tt> attributes, but MAY come from any source available to the client application. If the <tt>action</tt> attribute is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>partial</tt>, or <tt>replace</tt> then the <tt>model</tt> is applied to the request body.
+  Contains a RFC6570-compliant <a href="#rfc6570">[RFC6570]</a> string to be used to construct URL query strings or request bodies depending on the value in the <tt>action</tt> property. Variables in UBER <tt>model</tt> strings SHOULD be resolved using the values from <tt>name</tt> properties, but MAY come from any source available to the client application. If the <tt>action</tt> property is set to <tt>read</tt> or <tt>remove</tt> then the <tt>model</tt> is applied to the query string. If the <tt>action</tt> value is set to <tt>append</tt>, <tt>partial</tt>, or <tt>replace</tt> then the <tt>model</tt> is applied to the request body.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1005,7 +1005,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the <tt>Content-Type</tt> header. If this attribute is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
+  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the <tt>Content-Type</tt> header. If this property is missing the setting should be assumed to be <tt>application/x-www-form-urlencoded</tt> as described in RFC1867 <a href="#rfc1867">[RFC1867]</a>.
 </p>
 <div class="paragraph"><p>In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.</p></div>
 </dd>
@@ -1014,7 +1014,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this attribute SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this attribute SHOULD be used as the value for the <tt>Accept</tt> header. If this attribute is missing, the setting should be assumed to be <tt>application/vnd.uber-amundsen+xml</tt>.
+  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this property SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this property SHOULD be used as the value for the <tt>Accept</tt> header. If this property is missing, the setting should be assumed to be set tgo the same value as that of the currently loaded representation (<tt>application/vnd.uber-amundsen+xml</tt> or <tt>application/vnd.uber-amundsen+json</tt>).
 </p>
 <div class="paragraph"><p>In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.</p></div>
 </dd>
@@ -1025,7 +1025,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 <p>
   In the XML variant of the UBER mesage format, inner text of the <tt>&lt;data&gt;</tt> element contains the value associated with that element.
 </p>
-<div class="paragraph"><p>In the JSON variant there is a <tt>value</tt> attribute that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <a href="#rfc4627">[RFC4627]</a>):</p></div>
+<div class="paragraph"><p>In the JSON variant there is a <tt>value</tt> property that contains the associated value. Note that the content of this field MUST NOT be a JSON object or array and MUST be one of the following scalar values (listed in Section 2.1 of RFC4627 <a href="#rfc4627">[RFC4627]</a>):</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1053,7 +1053,7 @@ string
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the <tt>value</tt> attribute are properly escaped as needed (per Section 2.4 of <a href="#REC-XML">[REC-XML]</a> and Section 2.5 of <a href="#rfc4627">[RFC4627]</a>).</p></div>
+<div class="paragraph"><p>For both the XML and JSON variants, it is the responsibility of the document author to make sure the contents of the <tt>value</tt> property are properly escaped as needed (per Section 2.4 of <a href="#REC-XML">[REC-XML]</a> and Section 2.5 of <a href="#rfc4627">[RFC4627]</a>).</p></div>
 </dd>
 </dl></div>
 <div class="listingblock">
@@ -1124,7 +1124,7 @@ string
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_error_gt_tt_element">3.8. The <tt>&lt;error&gt;</tt> Element</h3>
-<div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no attributes. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
+<div class="paragraph"><p>The <tt>&lt;error&gt;</tt> element contains any error information returned by the server regarding the previous request. The <tt>&lt;error&gt;</tt> element has no properties. This is an OPTIONAL element. When present, it SHOULD contain one or more <tt>&lt;data&gt;</tt> child elements. It is the <tt>&lt;data&gt;</tt> child elements that contains error details.</p></div>
 <div class="listingblock">
 <div class="title">Example <tt>&lt;error&gt;</tt> Element (XML)</div>
 <div class="content">
@@ -1165,7 +1165,7 @@ string
 <div class="paragraph"><p>This section decribes the details of implementing UBER support over HTTP.</p></div>
 <div class="sect3">
 <h4 id="_mapping_uber_tt_action_tt_values_to_http_methods">4.1.1. Mapping UBER <tt>action</tt> Values to HTTP Methods</h4>
-<div class="paragraph"><p>When implementating support for UBER documents over HTTP one of the key details is to map the value of UBER&#8217;s <tt>action</tt> attribute to HTTP methods. Table #1 below provides this mapping:</p></div>
+<div class="paragraph"><p>When implementating support for UBER documents over HTTP one of the key details is to map the value of UBER&#8217;s <tt>action</tt> property to HTTP methods. Table #1 below provides this mapping:</p></div>
 <div class="tableblock">
 <table rules="rows"
 width="100%"
@@ -1214,7 +1214,7 @@ cellspacing="0" cellpadding="4">
 </div>
 <div class="sect3">
 <h4 id="_using_uber_tt_model_tt_values_to_create_http_query_strings">4.1.2. Using UBER <tt>model</tt> Values to create HTTP Query Strings</h4>
-<div class="paragraph"><p>When applied to HTTP, any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>read</tt> or <tt>remove</tt> MUST be converted into a valid query string. The follwing example shows how an UBER message snippet is converted into a valid HTTP query string:</p></div>
+<div class="paragraph"><p>When applied to HTTP, any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> property set to <tt>read</tt> or <tt>remove</tt> MUST be converted into a valid query string. The follwing example shows how an UBER message snippet is converted into a valid HTTP query string:</p></div>
 <div class="listingblock">
 <div class="title">Converting an UBER <tt>read</tt> Action into an HTTP Query String</div>
 <div class="content">
@@ -1237,7 +1237,7 @@ Accept-Type: application/vnd.amundsen-uber+xml</tt></pre>
 </div>
 <div class="sect3">
 <h4 id="_using_uber_tt_model_tt_values_to_create_http_request_bodies">4.1.3. Using UBER <tt>model</tt> Values to create HTTP Request Bodies</h4>
-<div class="paragraph"><p>Any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> attribute set to <tt>append</tt>, <tt>partial</tt>, or <tt>replace</tt> MUST be convereted into a valid HTTP request body. The follwing example shows how an UBER message snippet is converted into a valid HTTP request body:</p></div>
+<div class="paragraph"><p>Any <tt>model</tt> value associated with a <tt>data</tt> element with the <tt>action</tt> property set to <tt>append</tt>, <tt>partial</tt>, or <tt>replace</tt> MUST be convereted into a valid HTTP request body. The follwing example shows how an UBER message snippet is converted into a valid HTTP request body:</p></div>
 <div class="listingblock">
 <div class="title">Converting an UBER <tt>append</tt> Action into an HTTP Request</div>
 <div class="content">
@@ -1259,7 +1259,7 @@ POST /people/ HTTP/1.1
 Host: example.org
 Accept-Type: application/vnd.amundsen-uber+xml
 Content-Type: application/x-www-form-urlencoded
-Content-Lengt: xxx
+Content-Length: xxx
 
 g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2Favatars%2Fmike.png</tt></pre>
 </div></div>
@@ -1300,13 +1300,15 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
       &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
       &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
       &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
-      &lt;data name="avatarUrl" transclude="true" accepting="image/*"&gt;http://example.org/avatars/1&lt;/data&gt;
+      &lt;data name="avatarUrl" url="http://example.org/avatars/1"
+        transclude="true" accepting="image/*"&gt;User Photo&lt;/data&gt;
     &lt;/data&gt;
     &lt;data name="person" rel="item http://example.org/rels/person" url="http://example.org/people/2"&gt;
       &lt;data name="givenName"&gt;Mildred&lt;/data&gt;
       &lt;data name="familyName"&gt;Amundsen&lt;/data&gt;
       &lt;data name="email"&gt;mildred@example.org&lt;/data&gt;
-      &lt;data name="avatarUrl" transclude="true" accepting="image/*"&gt;http://example.org/avatars/2&lt;/data&gt;
+      &lt;data name="avatarUrl" url="http://example.org/avatars/2"
+        transclude="true" accepting="image/*"&gt;User Photo&lt;/data&gt;
     &lt;/data&gt;
   &lt;/data&gt;
 
@@ -1386,7 +1388,8 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mike@example.org"},
                   {"name" : "avatarUrl", "transclude" : "true",
-                      "value" : "http://example.org/avatars/1",
+                      "url" : "http://example.org/avatars/1",
+                      "value" : "User Photo",
                       "accepting" : ["image/*"]
                   }
                 ]
@@ -1401,7 +1404,8 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
                   {"name" : "familyName", "value" : "Amundsen"},
                   {"name" : "email", "value" : "mildred@example.org"},
                   {"name" : "avatarUrl", "transclude" : "true",
-                      "value" : "http://example.org/avatars/2",
+                      "url" : "http://example.org/avatars/2",
+                      "value" : "User Photo",
                       "accepting" : ["image/*"]
                   }
                 ]
@@ -1429,7 +1433,10 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
                 [
                   {
                     "name" : "name",
-                    "value" : "Home",
+                    "value" : "Home"
+                  },
+                  {
+                    "name" : "address",
                     "data" :
                     [
                       {"name" : "streetAddress", "value" : "123 Main Street"},
@@ -1448,7 +1455,10 @@ g=Mike&amp;f=Amundsen&amp;e=mike%40example.org&amp;a=http%3A%2F%2Fexample.org%2F
                 [
                   {
                     "name" : "name",
-                    "value" : "Work",
+                    "value" : "Work"
+                  },
+                  {
+                    "name" : "address",
                     "data" :
                     [
                       {"name" : "streetAddress", "value" : "1456 Grand Ave."},
@@ -1615,7 +1625,7 @@ Irakli Nadareishvili.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-10 11:17:23 EDT
+Last updated 2014-03-16 12:55:05 EDT
 </div>
 </div>
 </body>
