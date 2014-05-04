@@ -17,7 +17,7 @@
         "name" : "search", 
         "rel" : ["search","collection"],
         "url" : "http://example.org/search",
-        "model" : "{&title}"
+        "model" : "{?title}"
       },
       {
         "name" : "todo",
