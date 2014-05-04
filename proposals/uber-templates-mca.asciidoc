@@ -52,7 +52,7 @@ The +url+ property MAY contain a URI Template. Client applications MUST treat th
 ----
 <uber version="1.0">
   <data rel="collection" url="http://example.org/customers" />
-  <data rel="search" url="http://example.org/search?{givenname,familyname}" />
+  <data rel="search" url="http://example.org/search{?givenname,familyname}" />
   <data rel="item" url="http://example.org/1">
     <data name="givenName">Mike</data>
     <data name="familyName">Amundsen</data>
