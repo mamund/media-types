@@ -67,7 +67,13 @@ The +url+ property MAY contain a URI Template. Client applications MUST treat th
 ----
 
 === Change the +model+ Property
-The +model+ property only describes at payload (not a URL). If a client application sees a +model+ property, the client MUST use that as a guide for creating a payload. The +model+ still uses RFC570 (URI Template).
+The +model+ property defines expected field names contained in a payload of the default type x-www-form-urlencoded by listing the valid names to include into the request body. If a client application sees a +model+ property, the client MUST use that as a guide for creating a payload. The +model+ no longer uses RFC570 (URI Template), but is only a list of names. 
+
+If a +model+ property is present, a possible template MUST NOT contain a body property. 
+
+If the mime type of the request is not x-www-form-urlencoded but +sending+ defines other structured data formats, there SHOULD be templates available for all mimetypes defined by the +sending+ property.
+
+In the XML variant the list of field names appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.
 
 .The +model+ property is applies only to the body 
 ----
@@ -75,7 +81,7 @@ The +model+ property only describes at payload (not a URL). If a client applicat
 <uber version="1.0">
   <data rel="item" 
       url="http://example.org/1" 
-      model="{givenname,familyname,hatsize}"
+      model="givenname familyname hatsize}"
       action="idempotent">
     <data name="givenName">Mike</data>
     <data name="familyName">Amundsen</data>
