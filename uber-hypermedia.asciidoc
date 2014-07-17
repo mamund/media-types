@@ -135,7 +135,7 @@ The +<data>+ element is the key element in the model. A valid UBER message SHOUL
   A document-wide non-unique identifer for this element. The value of +name+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +name+ property is present it MAY be used as a variable in the UBER +model+ property as described in <<rfc6570,[RFC6570]>>.
 
 +rel+::
-  Contains a list of link relation values. These values SHOULD conform to the guidance provided in RFC5988 <<rfc5988, [RFC5988]>>. In the XML variant the list of link relation values appears as a space-separated list. In the JSON variant the list of link realtion values appears as an array. 
+  Contains a list of link relation values. These values SHOULD conform to the guidance provided in RFC5988 <<rfc5988, [RFC5988]>>. In the XML variant the list of link relation values appears as a space-separated list. In the JSON variant the list of link realtion values appears as an array.
 
 +url+::
   A resolvable URL associated with this element. The value SHOULD conform to that described in RFC3986 <<rfc3986,[RFC3986]>>.
@@ -159,14 +159,14 @@ When the +<data>+ element has a +url+ property but no +action+ property, it SHOU
   Contains a RFC6570-compliant <<rfc6570,[RFC6570]>> string to be used to construct URL query strings or request bodies depending on the value in the +action+ property. Variables in UBER +model+ strings SHOULD be resolved using the values from +name+ properties, but MAY come from any source available to the client application. If the +action+ property is set to +read+ or +remove+ then the +model+ is applied to the query string. If the +action+ value is set to +append+, +partial+, or +replace+ then the +model+ is applied to the request body.
 
 +sending+::
-  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this property is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>. 
+  Contains one or more media type identifiers for use when sending request bodies. One of the supplied identifiers SHOULD be selected as a guide when formatting the request body. For HTTP implementations, the selected identifier SHOULD be used as the value for the +Content-Type+ header. If this property is missing the setting should be assumed to be +application/x-www-form-urlencoded+ as described in RFC1867 <<rfc1867,[RFC1867]>>.
 +
-In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array. 
+In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.
 
 +accepting+::
-  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this property SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this property SHOULD be used as the value for the +Accept+ header. If this property is missing, the setting should be assumed to be set tgo the same value as that of the currently loaded representation (+application/vnd.uber-amundsen+xml+ or +application/vnd.uber-amundsen+json+).
+  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this property SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this property SHOULD be used as the value for the +Accept+ header. If this property is missing, the setting should be assumed to be set to the same value as that of the currently loaded representation (+application/vnd.uber-amundsen+xml+ or +application/vnd.uber-amundsen+json+).
 +
-In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array. 
+In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.
 
 +value+::
   In the XML variant of the UBER mesage format, inner text of the +<data>+ element contains the value associated with that element.
@@ -315,11 +315,11 @@ Below are the references used in this document.
 == Acknowledgements
 The author would like to thank everyone who commented upon,
 encouraged, and gave feedback to this specification,
-especially 
-Cédric Brancourt, 
-Mark W. Foster, 
+especially
+Cédric Brancourt,
+Mark W. Foster,
 Steve Klabnik,
-Matthew McClure, 
+Matthew McClure,
 Stephen Mizell,
 Irakli Nadareishvili.
 
