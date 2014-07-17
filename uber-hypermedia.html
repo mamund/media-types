@@ -914,7 +914,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </div>
 <div class="sect2">
 <h3 id="_the_tt_lt_data_gt_tt_element">3.7. The <tt>&lt;data&gt;</tt> Element</h3>
-<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid UBER message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following property (all propertyies are OPTIONAL):</p></div>
+<div class="paragraph"><p>The <tt>&lt;data&gt;</tt> element is the key element in the model. A valid UBER message SHOULD contain at least one <tt>&lt;data&gt;</tt> element. If it does appear, the <tt>&lt;data&gt;</tt> element appears as a child of the <tt>&lt;uber&gt;</tt> or <tt>&lt;error&gt;</tt> elements. The <tt>&lt;data&gt;</tt> element MAY be nested as many times as needed. The <tt>&lt;data&gt;</tt> element has the following property (all properties are OPTIONAL):</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 <tt>id</tt>
@@ -1014,7 +1014,7 @@ Dublin Core Metadata Element Set, Version 1.1 <a href="#dc-rel">[DC-REL]</a>
 </dt>
 <dd>
 <p>
-  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this property SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this property SHOULD be used as the value for the <tt>Accept</tt> header. If this property is missing, the setting should be assumed to be set tgo the same value as that of the currently loaded representation (<tt>application/vnd.uber-amundsen+xml</tt> or <tt>application/vnd.uber-amundsen+json</tt>).
+  Contains one or more media type identifiers to expect when recieving request bodies. The contents of this property SHOULD indicate the formats in which the server is able to return a response body. For HTTP implementations the contents of this property SHOULD be used as the value for the <tt>Accept</tt> header. If this property is missing, the setting should be assumed to be set to the same value as that of the currently loaded representation (<tt>application/vnd.uber-amundsen+xml</tt> or <tt>application/vnd.uber-amundsen+json</tt>).
 </p>
 <div class="paragraph"><p>In the XML variant the list of media-type identifiers appears as a space-separated list. In the JSON variant the list of media-type identifiers appears as an array.</p></div>
 </dd>
