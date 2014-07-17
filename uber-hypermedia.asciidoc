@@ -126,7 +126,7 @@ This is the root element of an UBER message. Every UBER message MUST have this a
 ----
 
 === The +<data>+ Element
-The +<data>+ element is the key element in the model. A valid UBER message SHOULD contain at least one +<data>+ element. If it does appear, the +<data>+ element appears as a child of the +<uber>+ or +<error>+ elements. The +<data>+ element MAY be nested as many times as needed. The +<data>+ element has the following property (all propertyies are OPTIONAL):
+The +<data>+ element is the key element in the model. A valid UBER message SHOULD contain at least one +<data>+ element. If it does appear, the +<data>+ element appears as a child of the +<uber>+ or +<error>+ elements. The +<data>+ element MAY be nested as many times as needed. The +<data>+ element has the following property (all properties are OPTIONAL):
 
 +id+::
   The document-wide unique identifier for this element. The value of +id+ must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods ("."). If the +id+ property is present, it SHOULD be treated as an in-document reference as described in section 3.5 of RFC3986 <<rfc3986,[RFC3986]>>.
