@@ -1,6 +1,6 @@
 # Media Types
 
-### *This Repo has been forked and the pimrary activity is now on mamund/UBER* 
+### *This repo has been forked and the pimrary activity is now on mamund/UBER* 
 
 A collection of media-type designs
 
