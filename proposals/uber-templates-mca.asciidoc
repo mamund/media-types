@@ -142,6 +142,9 @@ Below is a list of proposed base-level constraints that MUST be supported if an 
 +<data name="pattern">+::
   The contents of the +value+ property contains a <<poxisre, [POSIX-RE]>> regular expression that SHOULD be applied to the field.
 
++<data name="range">+::
+  The contents of the +value+ property contains a range expression: a number followed by a - followed by a number. Ranges are always inclusive. For instance, +12-15+ would be satisfied by any of: 12, 13, 14 or 15.
+
 ==== Constraint Extensibility
 Since constraints are established using reserved words for the +name+ property of a +data+ element, extending the list of supported constraints is done by registering a new reserved word and documenting how implementors can author and interpret that element and any possible child elements.
 
