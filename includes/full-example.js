@@ -34,7 +34,7 @@
               {"name" : "givenName", "value" : "Mike"},
               {"name" : "familyName", "value" : "Amundsen"},
               {"name" : "email", "value" : "mike@example.org"},
-              {"name" : "avatarUrl", "transclude" : "true", 
+              {"name" : "avatarUrl", "transclude" : true, 
                   "url" : "http://example.org/avatars/1", 
                   "value" : "User Photo",
                   "accepting" : ["image/*"]
@@ -50,7 +50,7 @@
               {"name" : "givenName", "value" : "Mildred"},
               {"name" : "familyName", "value" : "Amundsen"},
               {"name" : "email", "value" : "mildred@example.org"},
-              {"name" : "avatarUrl", "transclude" : "true", 
+              {"name" : "avatarUrl", "transclude" : true, 
                   "url" : "http://example.org/avatars/2", 
                   "value" : "User Photo",
                   "accepting" : ["image/*"]
