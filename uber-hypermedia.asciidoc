@@ -112,7 +112,7 @@ include::includes/message-model.xml[]
 ----
 
 === The +<uber>+ Element
-This is the root element of an UBER message. Every UBER message MUST have this as it's root. The +<uber>+ element has one optional property: +version+ which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the +version+ property is missing, it SHOULD be assumed to be set to "1.0".
+This is the root element of an UBER message. Every UBER message MUST have this as its root. The +<uber>+ element has one optional property: +version+ which carries the UBER message version information. For this release, all UBER messages SHOULD be set to the value of "1.0". If the +version+ property is missing, it SHOULD be assumed to be set to "1.0".
 
 .Example +<uber>+ Elements
 ----
