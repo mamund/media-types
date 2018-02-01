@@ -227,7 +227,7 @@ UBER Action,HTTP Method, UBER Model Modifies
 |====
 
 ==== Using UBER +model+ Values to create HTTP Query Strings
-When applied to HTTP, any +model+ value associated with a +data+ element with the +action+ property set to +read+ or +remove+ MUST be converted into a valid query string. The follwing example shows how an UBER message snippet is converted into a valid HTTP query string:
+When applied to HTTP, any +model+ value associated with a +data+ element with the +action+ property set to +read+ or +remove+ MUST be converted into a valid query string. The following example shows how an UBER message snippet is converted into a valid HTTP query string:
 
 .Converting an UBER +read+ Action into an HTTP Query String
 ----
@@ -235,7 +235,7 @@ include::includes/uber-query-string.txt[]
 ----
 
 ==== Using UBER +model+ Values to create HTTP Request Bodies
-Any +model+ value associated with a +data+ element with the +action+ property set to +append+, +partial+, or +replace+ MUST be convereted into a valid HTTP request body. The follwing example shows how an UBER message snippet is converted into a valid HTTP request body:
+Any +model+ value associated with a +data+ element with the +action+ property set to +append+, +partial+, or +replace+ MUST be convereted into a valid HTTP request body. The following example shows how an UBER message snippet is converted into a valid HTTP request body:
 
 .Converting an UBER +append+ Action into an HTTP Request
 ----
